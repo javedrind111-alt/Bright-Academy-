@@ -198,6 +198,48 @@ button.btn.sm{padding:6px 12px; font-size:12.5px;}
 button.btn:disabled{opacity:.5; cursor:not-allowed;}
 .btnbar{display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;}
 
+/* ===== Colourful button variants ===== */
+button.btn.blue{background:linear-gradient(135deg,#2464c9,#1c4c9c); color:#fff;}
+button.btn.purple{background:linear-gradient(135deg,#7c4fd1,#5a34a8); color:#fff;}
+button.btn.rose{background:linear-gradient(135deg,#c1436a,#9c2f52); color:#fff;}
+button.btn.orange{background:linear-gradient(135deg,#e08a2e,#c96f14); color:#fff;}
+button.btn.indigo{background:linear-gradient(135deg,#3b4fb0,#2a3980); color:#fff;}
+button.btn.green{background:linear-gradient(135deg,#3E6E4F,#28502f); color:#fff;}
+button.btn.amber{background:linear-gradient(135deg,#d9a12a,#b5810f); color:#fff;}
+button.btn.whatsapp{background:linear-gradient(135deg,#25D366,#128C4A); color:#fff; box-shadow:0 2px 8px rgba(37,211,102,.35);}
+button.btn.whatsapp svg{width:14px; height:14px; flex:0 0 auto;}
+
+/* ===== Phone chip ===== */
+.phone-chip{display:inline-flex; align-items:center; gap:6px; white-space:nowrap;}
+.phone-chip svg{width:14px; height:14px; color:var(--ok); flex:0 0 auto;}
+
+/* ===== Monthly Attendance Day Grid ===== */
+table.daygrid{border-collapse:collapse; font-size:11px;}
+table.daygrid th, table.daygrid td{padding:5px 6px; text-align:center; border-bottom:1px solid #ece4d2; white-space:nowrap;}
+table.daygrid thead th{font-size:10px; color:var(--ink-soft); border-bottom:2px solid var(--line); text-transform:none; letter-spacing:0;}
+table.daygrid td.dg-name{text-align:left; font-weight:600;}
+table.daygrid td.dg-id{text-align:left; color:var(--ink-soft); font-size:10.5px;}
+.dg-cell{display:inline-block; min-width:18px; height:18px; line-height:18px; border-radius:4px; font-weight:700; font-size:9.5px; padding:0 1px;}
+.dg-cell.P{background:var(--ok-bg); color:var(--ok);}
+.dg-cell.A{background:var(--due-bg); color:var(--due);}
+.dg-cell.L{background:rgba(217,161,42,.18); color:#b5810f;}
+.dg-cell.dash{color:var(--line); background:transparent;}
+.dg-sum.P{color:var(--ok); font-weight:700;}
+.dg-sum.A{color:var(--due); font-weight:700;}
+.dg-sum.L{color:#b5810f; font-weight:700;}
+
+/* ===== File-style admission modal ===== */
+.modal.file-modal{max-width:660px; position:relative;}
+.file-modal .modal-close{position:absolute; top:16px; right:20px; color:#fff; font-size:22px; z-index:5;}
+.file-modal .file-ribbon{background:linear-gradient(120deg,var(--teal-deep),var(--teal)); margin:-26px -28px 18px; padding:18px 46px 18px 28px; border-radius:12px 12px 0 0; color:#fff; display:flex; align-items:center; gap:12px;}
+.file-modal .file-ribbon .tab-icon{width:36px; height:36px; border-radius:8px; background:rgba(255,255,255,.15); display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+.file-modal .file-ribbon .tab-icon svg{width:20px; height:20px;}
+.file-modal .file-ribbon h3{margin:0; color:#fff; font-size:18px;}
+.file-modal .file-ribbon p{margin:2px 0 0; font-size:11.5px; color:#cfe3dc;}
+.file-section{border:1px dashed var(--line); border-radius:10px; padding:14px 16px; margin-bottom:14px; background:#fffdf8;}
+.file-section .file-section-title{display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; color:var(--teal); text-transform:uppercase; letter-spacing:.4px; margin-bottom:10px;}
+.file-section .file-section-title svg{width:15px; height:15px; flex:0 0 auto;}
+
 /* ===== Tables ===== */
 table{width:100%; border-collapse:collapse; font-size:13.5px;}
 thead th{
@@ -292,9 +334,9 @@ tbody tr:hover{background:#fbf8f0;}
 .pbar-fill{height:100%; background:var(--ok); border-radius:6px;}
 .pbar-fill.low{background:var(--due);}
 .pbar-fill.mid{background:var(--gold);}
-.tabbar{display:flex; gap:8px; margin-bottom:16px;}
-.tabbar button{cursor:pointer; border:1px solid var(--line); background:#fff; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:600; color:var(--ink-soft);}
-.tabbar button.active{background:var(--teal); color:#fff; border-color:var(--teal);}
+.tabbar{display:inline-flex; gap:4px; margin-bottom:16px; background:#fff; padding:4px; border-radius:999px; border:1px solid var(--line);}
+.tabbar button{cursor:pointer; border:none; background:transparent; padding:8px 18px; border-radius:999px; font-size:13px; font-weight:600; color:var(--ink-soft); transition:background .15s ease,color .15s ease;}
+.tabbar button.active{background:var(--teal-deep); color:#fff;}
 
 /* ===== misc ===== */
 .empty-state{padding:30px; text-align:center; color:var(--ink-soft); font-size:13.5px;}
@@ -569,7 +611,7 @@ tbody tr:hover{background:#fbf8f0;}
       <div class="searchbar no-print">
         <input type="text" id="studentSearch" placeholder="Naam, walid ka naam ya ID se dhoondein...">
         <select id="studentSectionFilter"><option value="">Tamam Sections</option></select>
-        <button class="btn gold" id="addStudentBtn">+ Naya Talib-e-Ilm</button>
+        <button class="btn green" id="addStudentBtn">&#10133; Naya Talib-e-Ilm</button>
       </div>
       <div class="card">
         <h3>Talaba Fehrist <span class="tag" id="studentCountTag"></span></h3>
@@ -580,7 +622,7 @@ tbody tr:hover{background:#fbf8f0;}
     <!-- ---------- TEACHERS ---------- -->
     <section id="page-teachers" class="page section-hidden">
       <div class="searchbar no-print">
-        <button class="btn gold" id="addTeacherBtn">+ Naya Teacher</button>
+        <button class="btn blue" id="addTeacherBtn">&#10133; Naya Teacher</button>
       </div>
       <div class="card">
         <h3>Teachers Fehrist <span class="tag" id="teacherCountTag"></span></h3>
@@ -633,8 +675,8 @@ tbody tr:hover{background:#fbf8f0;}
     <!-- ---------- ATTENDANCE ---------- -->
     <section id="page-attendance" class="page section-hidden">
       <div class="tabbar no-print" id="attTabbar">
-        <button type="button" class="active" data-att-tab="daily">&#128197; Daily Attendance</button>
-        <button type="button" data-att-tab="monthly">&#128202; Monthly Attendance</button>
+        <button type="button" class="active" data-att-tab="daily">&#128197; Daily / Rozana</button>
+        <button type="button" data-att-tab="monthly">&#128202; Monthly / Mahana</button>
       </div>
 
       <div class="att-tab-panel" data-att-panel="daily">
@@ -661,7 +703,7 @@ tbody tr:hover{background:#fbf8f0;}
             <input type="month" id="attReportMonth">
             <button class="btn ghost sm" id="attReportExportBtn">&#11015; Export CSV</button>
           </div>
-          <div class="table-wrap"><table id="attReportTable"></table></div>
+          <div class="table-wrap"><table id="attReportTable" class="daygrid"></table></div>
         </div>
       </div>
     </section>
@@ -673,10 +715,10 @@ tbody tr:hover{background:#fbf8f0;}
         <div class="field">
           <label>Quick Templates</label>
           <div class="btnbar" id="bwaTemplateBar">
-            <button type="button" class="btn ghost sm" data-tpl="fee">&#128176; Fee Yaad Dahani</button>
-            <button type="button" class="btn ghost sm" data-tpl="event">&#127881; Taqreeb / Announcement</button>
-            <button type="button" class="btn ghost sm" data-tpl="holiday">&#128197; Chutti ka Notice</button>
-            <button type="button" class="btn ghost sm" data-tpl="general">&#128172; Khali Paigham</button>
+            <button type="button" class="btn amber sm" data-tpl="fee">&#128176; Fee Yaad Dahani</button>
+            <button type="button" class="btn purple sm" data-tpl="event">&#127881; Taqreeb / Announcement</button>
+            <button type="button" class="btn blue sm" data-tpl="holiday">&#128197; Chutti ka Notice</button>
+            <button type="button" class="btn rose sm" data-tpl="general">&#128172; Khali Paigham</button>
           </div>
         </div>
         <div class="field">
@@ -695,8 +737,8 @@ tbody tr:hover{background:#fbf8f0;}
           <select id="bwaSectionFilter"></select>
         </div>
         <div class="btnbar" style="margin-bottom:10px;">
-          <button type="button" class="btn ghost sm" id="bwaSelectAllBtn">&#9745; Sab Muntakhib Karein</button>
-          <button type="button" class="btn ghost sm" id="bwaClearBtn">&#9744; Sab Hatayein</button>
+          <button type="button" class="btn green sm" id="bwaSelectAllBtn">&#9745; Sab Muntakhib Karein</button>
+          <button type="button" class="btn danger sm" id="bwaClearBtn">&#9744; Sab Hatayein</button>
         </div>
         <div class="table-wrap"><table id="bwaStudentTable"></table></div>
       </div>
@@ -705,13 +747,13 @@ tbody tr:hover{background:#fbf8f0;}
         <h3>Bhejne ki Qatar (Sending Queue) <span class="tag" id="bwaProgressTag"></span></h3>
         <div id="bwaCurrentBox" class="dashboard-hero" style="margin:0 0 14px;"></div>
         <div class="btnbar">
-          <button type="button" class="btn gold" id="bwaSendBtn">&#128172; WhatsApp Kholein aur Bhejein</button>
+          <button type="button" class="btn whatsapp" id="bwaSendBtn"><svg viewBox="0 0 32 32" fill="currentColor" style="width:14px;height:14px;vertical-align:-2px;"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.34.64 4.53 1.75 6.4L4 29l7.78-1.7A11.94 11.94 0 0016.004 27C22.63 27 28 21.63 28 15S22.63 3 16.004 3zm0 21.8c-1.98 0-3.83-.55-5.4-1.5l-.39-.23-4.62 1 1.02-4.5-.25-.4A9.75 9.75 0 016.2 15c0-5.4 4.4-9.8 9.8-9.8s9.8 4.4 9.8 9.8-4.4 9.8-9.8 9.8zm5.37-7.34c-.29-.15-1.73-.86-2-.96-.27-.1-.46-.15-.66.14-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.08-.29-.15-1.24-.46-2.36-1.47-.87-.78-1.46-1.74-1.63-2.03-.17-.3-.02-.46.13-.6.13-.13.29-.34.44-.51.15-.17.2-.3.29-.5.1-.2.05-.37-.02-.51-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.51.07-.78.37-.27.3-1.02 1-1.02 2.44s1.05 2.83 1.2 3.03c.14.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.11.56-.08 1.73-.7 1.97-1.39.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.34z"/></svg> WhatsApp Kholein aur Bhejein</button>
           <button type="button" class="btn ghost" id="bwaSkipBtn">Chhorein / Next</button>
-          <button type="button" class="btn ghost" id="bwaStopBtn">Rokein</button>
+          <button type="button" class="btn danger" id="bwaStopBtn">Rokein</button>
         </div>
       </div>
       <div class="btnbar no-print" id="bwaStartBar">
-        <button type="button" class="btn gold" id="bwaStartBtn">&#128172; Muntakhib Logon ko Bulk Paigham Bhejna Shuru Karein</button>
+        <button type="button" class="btn whatsapp" id="bwaStartBtn"><svg viewBox="0 0 32 32" fill="currentColor" style="width:14px;height:14px;vertical-align:-2px;"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.34.64 4.53 1.75 6.4L4 29l7.78-1.7A11.94 11.94 0 0016.004 27C22.63 27 28 21.63 28 15S22.63 3 16.004 3zm0 21.8c-1.98 0-3.83-.55-5.4-1.5l-.39-.23-4.62 1 1.02-4.5-.25-.4A9.75 9.75 0 016.2 15c0-5.4 4.4-9.8 9.8-9.8s9.8 4.4 9.8 9.8-4.4 9.8-9.8 9.8zm5.37-7.34c-.29-.15-1.73-.86-2-.96-.27-.1-.46-.15-.66.14-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.08-.29-.15-1.24-.46-2.36-1.47-.87-.78-1.46-1.74-1.63-2.03-.17-.3-.02-.46.13-.6.13-.13.29-.34.44-.51.15-.17.2-.3.29-.5.1-.2.05-.37-.02-.51-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.51.07-.78.37-.27.3-1.02 1-1.02 2.44s1.05 2.83 1.2 3.03c.14.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.11.56-.08 1.73-.7 1.97-1.39.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.34z"/></svg> Muntakhib Logon ko Bulk Paigham Bhejna Shuru Karein</button>
       </div>
     </section>
 
@@ -739,7 +781,7 @@ tbody tr:hover{background:#fbf8f0;}
           <div class="field"><label>Poore Number (Total Marks)</label><input type="number" id="newTestTotal" placeholder="e.g. 20" min="1"></div>
           <div class="field"><label>Tareekh</label><input type="date" id="newTestDate"></div>
         </div>
-        <div class="btnbar"><button class="btn gold" id="addTestBtn">+ Test Banayein</button></div>
+        <div class="btnbar"><button class="btn purple" id="addTestBtn">&#10133; Test Banayein</button></div>
       </div>
       <div class="card">
         <h3>Maujooda Tests <span class="tag" id="testListTag"></span></h3>
@@ -808,45 +850,59 @@ tbody tr:hover{background:#fbf8f0;}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal-backdrop" id="studentModalBackdrop">
-  <div class="modal">
+  <div class="modal file-modal">
     <button class="modal-close" data-close>&times;</button>
-    <h3 id="studentModalTitle">Naya Talib-e-Ilm</h3>
+    <div class="file-ribbon">
+      <div class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4.5A2.5 2.5 0 016.5 2H19v18H6.5A2.5 2.5 0 004 17.5v-13z"/><path d="M8 8h8M8 12h6"/></svg></div>
+      <div>
+        <h3 id="studentModalTitle">Naya Talib-e-Ilm</h3>
+        <p>Talib-e-Ilm ki mukammal file darj karein</p>
+      </div>
+    </div>
     <form id="studentForm">
       <input type="hidden" id="sf_id">
-      <div class="row">
-        <div class="field"><label>Naam (Name)</label><input id="sf_name" required></div>
-        <div class="field"><label>Walid ka Naam (Father's Name)</label><input id="sf_father"></div>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label>Section</label>
-          <select id="sf_section" required></select>
+
+      <div class="file-section">
+        <div class="file-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>Shakhsi Maloomat</div>
+        <div class="row">
+          <div class="field"><label>Naam (Name)</label><input id="sf_name" required></div>
+          <div class="field"><label>Walid ka Naam (Father's Name)</label><input id="sf_father"></div>
         </div>
-        <div class="field"><label>Jins (Gender)</label><select id="sf_gender" required><option value="">Select karein</option><option value="male">Male / Larka</option><option value="female">Female / Larki</option></select></div>
+        <div class="row">
+          <div class="field"><label>Jins (Gender)</label><select id="sf_gender" required><option value="">Select karein</option><option value="male">Male / Larka</option><option value="female">Female / Larki</option></select></div>
+          <div class="field"><label>Tareekh-e-Paidaish (DOB)</label><input id="sf_dob" placeholder="DD/MM/YYYY"></div>
+        </div>
+        <div class="field"><label>Pata (Address)</label><input id="sf_address"></div>
       </div>
-      <div class="row">
-        <div class="field"><label>Maasi Fee (Rs.)</label><input type="number" id="sf_fee"></div>
-        <div class="field"><label>Rabta Number (Contact)</label><input id="sf_contact"></div>
+
+      <div class="file-section">
+        <div class="file-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>Taleemi &amp; Fee Maloomat</div>
+        <div class="row">
+          <div class="field"><label>Section</label><select id="sf_section" required></select></div>
+          <div class="field"><label>Maasi Fee (Rs.)</label><input type="number" id="sf_fee"></div>
+        </div>
+        <div class="field checkbox-field">
+          <label><input type="checkbox" id="sf_fisabilillah"> Fi Sabilillah (Free/Charity Talib-e-Ilm)</label>
+        </div>
+        <div class="field">
+          <label>Dakhla Mahina (Admission Month) &mdash; is se pehle fees ka koi hisaab nahi hoga</label>
+          <input type="month" id="sf_join">
+        </div>
       </div>
-      <div class="field checkbox-field">
-        <label><input type="checkbox" id="sf_fisabilillah"> Fi Sabilillah (Free/Charity Talib-e-Ilm)</label>
+
+      <div class="file-section">
+        <div class="file-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.68 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0122 16.92z"/></svg>Rabta &amp; Tasveer</div>
+        <div class="field"><label>Rabta Number (Contact)</label><input id="sf_contact" placeholder="03XX-XXXXXXX"></div>
+        <div class="field">
+          <label>Tasveer (Photo &mdash; Gallery se chunein)</label>
+          <input type="file" id="sf_photo" accept="image/*">
+          <input type="hidden" id="sf_photo_data">
+          <div style="margin-top:8px;"><img id="sf_photo_preview" src="" style="width:64px;height:64px;border-radius:10px;object-fit:cover;border:1px solid var(--line); display:none;"></div>
+        </div>
       </div>
-      <div class="field"><label>Pata (Address)</label><input id="sf_address"></div>
-      <div class="row">
-        <div class="field"><label>Tareekh-e-Paidaish (DOB)</label><input id="sf_dob" placeholder="DD/MM/YYYY"></div>
-      </div>
-      <div class="field">
-        <label>Dakhla Mahina (Admission Month) &mdash; is se pehle fees ka koi hisaab nahi hoga</label>
-        <input type="month" id="sf_join">
-      </div>
-      <div class="field">
-        <label>Tasveer (Photo &mdash; Gallery se chunein)</label>
-        <input type="file" id="sf_photo" accept="image/*">
-        <input type="hidden" id="sf_photo_data">
-        <div style="margin-top:8px;"><img id="sf_photo_preview" src="" style="width:64px;height:64px;border-radius:10px;object-fit:cover;border:1px solid var(--line); display:none;"></div>
-      </div>
+
       <div class="btnbar">
-        <button type="submit" class="btn gold">Save Karein</button>
+        <button type="submit" class="btn green">&#10003; Save Karein</button>
         <button type="button" class="btn ghost" data-close>Cancel</button>
       </div>
     </form>
@@ -975,7 +1031,7 @@ tbody tr:hover{background:#fbf8f0;}
     </div>
     <div class="btnbar" style="margin-top:16px;">
       <button class="btn gold" onclick="printElement('receiptBox')">&#128424; Print Receipt</button>
-      <button class="btn ghost" id="receiptWhatsAppBtn">&#128172; WhatsApp Text</button>
+      <button class="btn whatsapp" id="receiptWhatsAppBtn"><svg viewBox="0 0 32 32" fill="currentColor" style="width:14px;height:14px;vertical-align:-2px;"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.34.64 4.53 1.75 6.4L4 29l7.78-1.7A11.94 11.94 0 0016.004 27C22.63 27 28 21.63 28 15S22.63 3 16.004 3zm0 21.8c-1.98 0-3.83-.55-5.4-1.5l-.39-.23-4.62 1 1.02-4.5-.25-.4A9.75 9.75 0 016.2 15c0-5.4 4.4-9.8 9.8-9.8s9.8 4.4 9.8 9.8-4.4 9.8-9.8 9.8zm5.37-7.34c-.29-.15-1.73-.86-2-.96-.27-.1-.46-.15-.66.14-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.08-.29-.15-1.24-.46-2.36-1.47-.87-.78-1.46-1.74-1.63-2.03-.17-.3-.02-.46.13-.6.13-.13.29-.34.44-.51.15-.17.2-.3.29-.5.1-.2.05-.37-.02-.51-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.51.07-.78.37-.27.3-1.02 1-1.02 2.44s1.05 2.83 1.2 3.03c.14.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.11.56-.08 1.73-.7 1.97-1.39.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.34z"/></svg> WhatsApp Text</button>
     </div>
   </div>
 </div>
@@ -1243,9 +1299,13 @@ function printElement(id){
 }
 function studentById(id){ return DB.students.find(s=>s.id===id); }
 function sectionOptionsHTML(includeAll){
-  let h = includeAll ? '' : '';
+  let h = includeAll ? '<option value="">Tamam Sections</option>' : '';
   SECTION_KEYS.forEach(k=>{ h += `<option value="${k}">${SECTION_META[k].label}</option>`; });
   return h;
+}
+function daysInMonthCount(mKey){
+  const [y,m] = mKey.split('-').map(Number);
+  return new Date(y, m, 0).getDate();
 }
 
 function karachiMonthKey(){
@@ -1349,6 +1409,19 @@ function resetPayment(studentId, mKey){
   saveDB(DB);
 }
 
+/* ---------------- Icons (phone / WhatsApp) ---------------- */
+const PHONE_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.68 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0122 16.92z"/></svg>';
+const WA_ICON_SVG = '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.34.64 4.53 1.75 6.4L4 29l7.78-1.7A11.94 11.94 0 0016.004 27C22.63 27 28 21.63 28 15S22.63 3 16.004 3zm0 21.8c-1.98 0-3.83-.55-5.4-1.5l-.39-.23-4.62 1 1.02-4.5-.25-.4A9.75 9.75 0 016.2 15c0-5.4 4.4-9.8 9.8-9.8s9.8 4.4 9.8 9.8-4.4 9.8-9.8 9.8zm5.37-7.34c-.29-.15-1.73-.86-2-.96-.27-.1-.46-.15-.66.14-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.08-.29-.15-1.24-.46-2.36-1.47-.87-.78-1.46-1.74-1.63-2.03-.17-.3-.02-.46.13-.6.13-.13.29-.34.44-.51.15-.17.2-.3.29-.5.1-.2.05-.37-.02-.51-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.51.07-.78.37-.27.3-1.02 1-1.02 2.44s1.05 2.83 1.2 3.03c.14.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.11.56-.08 1.73-.7 1.97-1.39.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.34z"/></svg>';
+function phoneChip(number){
+  return `<span class="phone-chip">${PHONE_ICON_SVG}<span>${number}</span></span>`;
+}
+function waBtn(label, onclick, opts){
+  opts = opts || {};
+  const cls = 'btn sm whatsapp' + (opts.extraClass ? ' '+opts.extraClass : '');
+  const title = opts.title ? ` title="${opts.title}"` : '';
+  return `<button type="button" class="${cls}"${title} onclick="${onclick}">${WA_ICON_SVG}${label ? ' '+label : ''}</button>`;
+}
+
 /* ---------------- WhatsApp messaging ---------------- */
 function toWaNumber(contact){
   if(!contact) return null;
@@ -1401,7 +1474,7 @@ function sabaqReportText(s){
 function monthlyAttendanceText(s, mKey, stats){
   const r = stats.find(x=>x.student.id===s.id);
   const pct = r ? r.pct : 0;
-  return `السلام علیکم!\n${childPhrase(s)} ${s.name} کی ${monthLabel(mKey)} کی حاضری رپورٹ:\nحاضری کے دن: ${r?r.present:0}\nغیر حاضری کے دن: ${r?r.absent:0}\nحاضری کا تناسب: ${pct}%\nبراہ کرم باقاعدگی سے مدرسہ بھیجنے میں تعاون فرمائیں۔\nجزاک اللہ خیر\n- ${DB.meta.instituteName}`;
+  return `السلام علیکم!\n${childPhrase(s)} ${s.name} کی ${monthLabel(mKey)} کی حاضری رپورٹ:\nحاضری کے دن: ${r?r.present:0}\nغیر حاضری کے دن: ${r?r.absent:0}\nرخصت کے دن: ${r?r.leave:0}\nحاضری کا تناسب: ${pct}%\nبراہ کرم باقاعدگی سے مدرسہ بھیجنے میں تعاون فرمائیں۔\nجزاک اللہ خیر\n- ${DB.meta.instituteName}`;
 }
 function sendMonthlyAttendanceReport(section, mKey, id){
   const s = studentById(id);
@@ -1735,10 +1808,10 @@ function renderTeachers(){
       <td>${t.username||'-'}</td>
       <td><span class="pill section">${t.role==='admin'?'Admin':'Teacher'}</span></td>
       <td>${classesHTML}</td>
-      <td>${t.phone||'-'}</td>
+      <td>${t.phone ? phoneChip(t.phone) : '-'}</td>
       <td class="no-print" style="white-space:nowrap;">
-        <button class="btn ghost sm" onclick="openTeacherModal('${t.id}')">Edit</button>
-        <button class="btn danger sm" onclick="deleteTeacher('${t.id}')">Delete</button>
+        <button class="btn blue sm" onclick="openTeacherModal('${t.id}')">&#9998; Edit</button>
+        <button class="btn danger sm" onclick="deleteTeacher('${t.id}')">&#128465; Delete</button>
       </td>
     </tr>`;
   }).join('');
@@ -1860,12 +1933,12 @@ function renderStudents(){
        <td>${s.father||'-'}</td>
        <td><span class="pill section">${s.gender==='female'?'Female':s.gender==='male'?'Male':'-'}</span></td>
       <td><span class="pill section">${SECTION_META[s.section].label}</span></td>
-      <td>${s.contact||'-'}</td>
+      <td>${s.contact ? phoneChip(s.contact) : '-'}</td>
       <td>${fmtMoney(s.fee)}</td>
       <td class="no-print" style="white-space:nowrap;">
-        <button class="btn ghost sm" onclick="openIdCard('${s.id}')">ID Card</button>
-        <button class="btn ghost sm" onclick="openStudentModal('${s.id}')">Edit</button>
-        <button class="btn danger sm" onclick="deleteStudent('${s.id}')">Delete</button>
+        <button class="btn purple sm" onclick="openIdCard('${s.id}')">&#128712; ID Card</button>
+        <button class="btn blue sm" onclick="openStudentModal('${s.id}')">&#9998; Edit</button>
+        <button class="btn danger sm" onclick="deleteStudent('${s.id}')">&#128465; Delete</button>
       </td>
     </tr>
   `).join('');
@@ -2019,10 +2092,10 @@ function renderFees(){
       <td>${bal>0 ? '<span class="pill due">'+fmtMoney(bal)+'</span>' : '<span class="pill paid">0</span>'}</td>
       <td class="no-print" style="white-space:nowrap;">
         ${due>0
-          ? `<button class="btn sm gold" onclick="openPaymentModal('${s.id}','${currentMonth}')">Fees Wasool Karein</button>`
+          ? `<button class="btn sm gold" onclick="openPaymentModal('${s.id}','${currentMonth}')">&#128176; Fees Wasool Karein</button>`
           : `<button class="btn sm ghost" onclick="if(confirm('Is mahine ki adaigi reset karein?')){resetPayment('${s.id}','${currentMonth}'); renderFees(); renderDashboard();}">Reset</button>`}
-        ${rec.paidAmount>0 ? `<button class="btn sm ghost" onclick="openReceipt('${s.id}','${currentMonth}')">Receipt</button>` : ''}
-        ${bal>0 ? `<button class="btn sm ghost" title="WhatsApp par Urdu mein yaad dahani bhejein" onclick="sendFeeReminder('${s.id}')">&#128172; Yaad Dahani</button>` : ''}
+        ${rec.paidAmount>0 ? `<button class="btn sm indigo" onclick="openReceipt('${s.id}','${currentMonth}')">&#128196; Receipt</button>` : ''}
+        ${bal>0 ? waBtn('Yaad Dahani', `sendFeeReminder('${s.id}')`, {title:'WhatsApp par Urdu mein yaad dahani bhejein'}) : ''}
       </td>
     </tr>`;
   }).join('');
@@ -2138,7 +2211,7 @@ function showScanResult(studentId){
     box.innerHTML = `${photoHTML}<div class="icon">&#9989;</div><div class="name">${s.name}</div><div class="status">Fees Ada Shuda Hain</div><div class="meta">${SECTION_META[s.section].label} &middot; ${monthLabel(currentMonth)}</div><div class="meta">Amount: ${fmtMoney(rec.amount)} &middot; Paid on ${rec.paidDate||'-'}</div>`;
   } else {
     box.className = 'scan-result due';
-    box.innerHTML = `${photoHTML}<div class="icon">&#10060;</div><div class="name">${s.name}</div><div class="status">Fees Bakaya Hain</div><div class="meta">${SECTION_META[s.section].label} &middot; ${monthLabel(currentMonth)}</div><div class="meta">Bakaya Raqam: ${fmtMoney(bal)}</div><div class="btnbar" style="justify-content:center;margin-top:10px;"><button class="btn gold sm" onclick="openPaymentModal('${s.id}','${currentMonth}')">Abhi Fees Wasool Karein</button><button class="btn ghost sm" onclick="sendFeeReminder('${s.id}')">&#128172; WhatsApp Yaad Dahani</button></div>`;
+    box.innerHTML = `${photoHTML}<div class="icon">&#10060;</div><div class="name">${s.name}</div><div class="status">Fees Bakaya Hain</div><div class="meta">${SECTION_META[s.section].label} &middot; ${monthLabel(currentMonth)}</div><div class="meta">Bakaya Raqam: ${fmtMoney(bal)}</div><div class="btnbar" style="justify-content:center;margin-top:10px;"><button class="btn gold sm" onclick="openPaymentModal('${s.id}','${currentMonth}')">&#128176; Abhi Fees Wasool Karein</button>${waBtn('WhatsApp Yaad Dahani', `sendFeeReminder('${s.id}')`)}</div>`;
   }
 }
 document.getElementById('manualLookupBtn').onclick = ()=>{
@@ -2184,20 +2257,21 @@ function renderAttendance(){
   if(!DB.attendance[sec][date]) DB.attendance[sec][date] = {};
   const dayRec = DB.attendance[sec][date];
 
-  let present=0;
+  let present=0, absent=0, leave=0;
   const rows = list.map(s=>{
     const status = dayRec[s.id] || 'unmarked';
-    if(status==='P') present++;
+    if(status==='P') present++; else if(status==='A') absent++; else if(status==='L') leave++;
     return `<tr>
       <td><b>${s.id}</b></td><td>${s.name}</td><td>${s.father||'-'}</td>
       <td class="no-print" style="white-space:nowrap;">
-        <button class="btn sm ${status==='P'?'gold':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','P')">Present</button>
-        <button class="btn sm ${status==='A'?'danger':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','A')">Absent</button>
-        ${status==='A' && CURRENT_ROLE==='admin' ? `<button class="btn sm ghost" title="Walidain ko WhatsApp par ghair hazri ki khabar bhejein" onclick="sendAbsentMessage('${sec}','${date}','${s.id}')">&#128172; Walidain ko Batayen</button>` : ''}
+        <button class="btn sm ${status==='P'?'green':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','P')">&#10003; Present</button>
+        <button class="btn sm ${status==='A'?'danger':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','A')">&#10007; Absent</button>
+        <button class="btn sm ${status==='L'?'amber':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','L')">&#128197; Leave</button>
+        ${status==='A' && CURRENT_ROLE==='admin' ? waBtn('Walidain ko Batayen', `sendAbsentMessage('${sec}','${date}','${s.id}')`, {title:'Walidain ko WhatsApp par ghair hazri ki khabar bhejein'}) : ''}
       </td>
     </tr>`;
   }).join('');
-  document.getElementById('attSummaryTag').textContent = `${present}/${list.length} present`;
+  document.getElementById('attSummaryTag').textContent = `${present} Present · ${absent} Absent · ${leave} Leave`;
   document.getElementById('attendanceTable').innerHTML = `<thead><tr><th>ID</th><th>Naam</th><th>Walid</th><th class="no-print">Hazri</th></tr></thead><tbody>${rows || '<tr><td colspan=4 class="empty-state">Is section mein koi talib-e-ilm nahi</td></tr>'}</tbody>`;
 }
 function setAttendance(sec,date,studentId,status){
@@ -2221,24 +2295,31 @@ document.getElementById('attTabbar').addEventListener('click', e=>{
 
 /* ---- Monthly Attendance Report ---- */
 function monthlyAttendanceStats(section, mKey){
-  const records = DB.attendance[section] || {};
-  const daysInMonth = Object.keys(records).filter(d=>d.startsWith(mKey));
-  const list = DB.students.filter(s=>s.section===section);
-  return list.map(s=>{
-    let present=0, absent=0;
-    daysInMonth.forEach(d=>{
-      const st = records[d][s.id];
-      if(st==='P') present++; else if(st==='A') absent++;
-    });
-    const totalMarked = present+absent;
-    const pct = totalMarked ? Math.round(present/totalMarked*100) : 0;
-    return {student:s, present, absent, totalMarked, pct};
+  const daysTotal = daysInMonthCount(mKey);
+  const sections = section ? [section] : SECTION_KEYS;
+  const list = [];
+  sections.forEach(sec=>{
+    DB.students.filter(s=>s.section===sec).forEach(s=>list.push({student:s, section:sec}));
+  });
+  return list.map(({student:s, section:sec})=>{
+    const records = DB.attendance[sec] || {};
+    let present=0, absent=0, leave=0;
+    const days = [];
+    for(let d=1; d<=daysTotal; d++){
+      const dateStr = mKey+'-'+String(d).padStart(2,'0');
+      const st = (records[dateStr]||{})[s.id] || '';
+      if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++;
+      days.push(st);
+    }
+    const totalMarked = present+absent+leave;
+    const pct = (present+absent) ? Math.round(present/(present+absent)*100) : 0;
+    return {student:s, section:sec, present, absent, leave, totalMarked, pct, days};
   });
 }
 function renderAttendanceReport(){
   const secSel = document.getElementById('attReportSection');
   if(!secSel.dataset.built){
-    secSel.innerHTML = sectionOptionsHTML();
+    secSel.innerHTML = sectionOptionsHTML(true);
     secSel.value = document.getElementById('attSectionFilter').value || SECTION_KEYS[0];
     secSel.dataset.built = '1';
     secSel.addEventListener('change', renderAttendanceReport);
@@ -2249,35 +2330,47 @@ function renderAttendanceReport(){
 
   const sec = secSel.value;
   const mKey = monthInput.value;
+  const daysTotal = daysInMonthCount(mKey);
   const stats = monthlyAttendanceStats(sec, mKey);
   const presentTotal = stats.reduce((n,r)=>n+r.present,0);
   const absentTotal = stats.reduce((n,r)=>n+r.absent,0);
+  const leaveTotal = stats.reduce((n,r)=>n+r.leave,0);
   const markedTotal = presentTotal + absentTotal;
   const overallPct = markedTotal ? Math.round(presentTotal/markedTotal*100) : 0;
   document.getElementById('attendanceOverviewCards').innerHTML = `
     <div class="metric"><div class="metric-value">${overallPct}%</div><div class="metric-label">Overall hazri</div></div>
     <div class="metric"><div class="metric-value">${presentTotal}</div><div class="metric-label">Kul present days</div></div>
-    <div class="metric"><div class="metric-value">${absentTotal}</div><div class="metric-label">Kul absent days</div></div>`;
-  document.getElementById('attReportTag').textContent = monthLabel(mKey)+' · '+SECTION_META[sec].label;
+    <div class="metric"><div class="metric-value">${absentTotal}</div><div class="metric-label">Kul absent days</div></div>
+    <div class="metric"><div class="metric-value">${leaveTotal}</div><div class="metric-label">Kul leave days</div></div>`;
+  document.getElementById('attReportTag').textContent = monthLabel(mKey)+' · '+(sec?SECTION_META[sec].label:'Tamam Sections');
 
-  const rows = stats.map(r=>`
-    <tr>
-      <td><span class="mini-avatar">${(r.student.name||'?').split(/\s|\//)[0].slice(0,2).toUpperCase()}</span>${r.student.name}</td>
-      <td><span class="count-pill present">${r.present}</span></td>
-      <td><span class="count-pill absent">${r.absent}</span></td>
-      <td>${r.totalMarked}</td>
-      <td><div class="progress-cell"><div class="progress-track"><div class="progress-fill ${r.pct===0?'zero':''}" style="width:${r.pct}%"></div></div>${r.pct}%</div></td>
-      <td class="no-print" style="white-space:nowrap;">${CURRENT_ROLE==='admin' ? `<button class="btn sm ghost" title="Walidain ko Urdu attendance report WhatsApp par bhejein" onclick="sendMonthlyAttendanceReport('${sec}','${mKey}','${r.student.id}')">&#128172;</button>` : ''}</td>
-    </tr>`).join('');
-  document.getElementById('attReportTable').innerHTML = `<thead><tr><th>Student</th><th>Present Days</th><th>Absent Days</th><th>Total Marked</th><th>Attendance %</th><th class="no-print">Walidain</th></tr></thead><tbody>${rows || '<tr><td colspan=6 class="empty-state">Is section/mahine mein koi hazri record nahi</td></tr>'}</tbody>`;
+  const dayHeaders = Array.from({length:daysTotal}, (_,i)=>`<th>${i+1}</th>`).join('');
+  const rows = stats.map(r=>{
+    const dayCells = r.days.map(st=>{
+      const cls = st==='P'?'P':st==='A'?'A':st==='L'?'L':'dash';
+      const label = st || '-';
+      return `<td><span class="dg-cell ${cls}">${label}</span></td>`;
+    }).join('');
+    return `<tr>
+      <td class="dg-name">${r.student.name}</td>
+      <td class="dg-id">${r.student.id}</td>
+      ${dayCells}
+      <td class="dg-sum P">${r.present}</td>
+      <td class="dg-sum A">${r.absent}</td>
+      <td class="dg-sum L">${r.leave}</td>
+      <td>${r.pct}%</td>
+      <td class="no-print" style="white-space:nowrap;">${CURRENT_ROLE==='admin' ? waBtn('', `sendMonthlyAttendanceReport('${r.section}','${mKey}','${r.student.id}')`, {title:'Walidain ko Urdu attendance report WhatsApp par bhejein'}) : ''}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('attReportTable').innerHTML = `<thead><tr><th>Student</th><th>ID</th>${dayHeaders}<th>P</th><th>A</th><th>L</th><th>%</th><th class="no-print">Walidain</th></tr></thead><tbody>${rows || `<tr><td colspan=${daysTotal+7} class="empty-state">Is section/mahine mein koi hazri record nahi</td></tr>`}</tbody>`;
 }
 document.getElementById('attReportExportBtn').addEventListener('click', ()=>{
   const sec = document.getElementById('attReportSection').value;
   const mKey = document.getElementById('attReportMonth').value;
   const stats = monthlyAttendanceStats(sec, mKey);
-  const lines = ['Student,Present Days,Absent Days,Total Marked,Attendance %'];
-  stats.forEach(r=>lines.push([r.student.name, r.present, r.absent, r.totalMarked, r.pct+'%'].map(csvEscape).join(',')));
-  downloadCSV(lines.join('\n'), `attendance_report_${sec}_${mKey}.csv`);
+  const lines = ['Student,ID,Present Days,Absent Days,Leave Days,Attendance %'];
+  stats.forEach(r=>lines.push([r.student.name, r.student.id, r.present, r.absent, r.leave, r.pct+'%'].map(csvEscape).join(',')));
+  downloadCSV(lines.join('\n'), `attendance_report_${sec||'all'}_${mKey}.csv`);
 });
 document.getElementById('attReportPrintBtn').addEventListener('click', ()=>{
   printElement('attReportTable');
@@ -2307,7 +2400,7 @@ function renderSabaq(){
       <td><select onchange="updateSabaq('${s.id}','dua',this.value)">${yadOpt(rec.dua)}</select></td>
       <td><input type="number" value="${rec.absences}" style="width:60px" onchange="updateSabaq('${s.id}','absences',this.value)"></td>
       <td><input type="text" value="${rec.remarks}" onchange="updateSabaq('${s.id}','remarks',this.value)" placeholder="Remarks"></td>
-      <td class="no-print">${CURRENT_ROLE==='admin' ? `<button class="btn sm ghost" title="Walidain ko WhatsApp par report bhejein" onclick="sendSabaqReport('${s.id}')">&#128172; Report Bhejein</button>` : ''}</td>
+      <td class="no-print">${CURRENT_ROLE==='admin' ? waBtn('Report Bhejein', `sendSabaqReport('${s.id}')`, {title:'Walidain ko WhatsApp par report bhejein'}) : ''}</td>
     </tr>`;
   }).join('');
   document.getElementById('sabaqTable').innerHTML = `<thead><tr><th>Naam</th><th>Sabaq Ibtida</th><th>Sabaq Ikhtitam</th><th>Kalma</th><th>Namaz</th><th>Masail</th><th>Dua</th><th>Ghair Hazri</th><th>Remarks</th><th class="no-print">Amal</th></tr></thead><tbody>${rows || '<tr><td colspan=10 class="empty-state">Is section mein koi talib-e-ilm nahi</td></tr>'}</tbody>`;
