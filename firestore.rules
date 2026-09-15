@@ -12,8 +12,12 @@ service cloud.firestore {
       return request.auth.token.email.split('@')[0];
     }
 
+    // Hardened: check the doc exists before reading it, so a missing
+    // roles doc fails safely (returns null) instead of erroring out.
     function myRole() {
-      return get(/databases/$(database)/documents/roles/$(myUsername())).data.role;
+      return exists(/databases/$(database)/documents/roles/$(myUsername()))
+        ? get(/databases/$(database)/documents/roles/$(myUsername())).data.role
+        : null;
     }
 
     function isAdmin() {
