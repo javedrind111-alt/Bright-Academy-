@@ -764,7 +764,7 @@ tbody tr:hover{background:#fbf8f0;}
         <input type="text" id="sabaqSearch" placeholder="Naam se dhoondein...">
       </div>
       <div class="card">
-        <h3>Sabaq / Nazira Progress Report</h3>
+        <h3>Sabaq / Nazira Progress Report <span class="tag" id="sabaqMonthTag"></span></h3>
         <div class="table-wrap"><table id="sabaqTable"></table></div>
       </div>
     </section>
@@ -1227,6 +1227,7 @@ function applyRoleAccess(role){
     b.style.display = allowed.includes(b.dataset.page) ? '' : 'none';
   });
   document.getElementById('sideRoleLabel').textContent = role==='admin' ? 'Admin' : 'Teacher';
+  populateSectionFilters();
   showPage(allowed[0] || 'dashboard');
 }
 function doLogin(){
@@ -1281,6 +1282,11 @@ function todayISO(){
   return `${get('year')}-${get('month')}-${get('day')}`;
 }
 function fmtMoney(n){ return 'Rs. '+ (n||0).toLocaleString(); }
+function fisabilillahPill(){ return '<span class="pill gold urdu" style="direction:rtl;">فی سبیل اللہ</span>'; }
+function dueCell(amount, student){
+  if(student && student.fisabilillah) return fisabilillahPill();
+  return amount>0 ? '<span class="pill due">'+fmtMoney(amount)+'</span>' : '<span class="pill paid">0</span>';
+}
 function csvEscape(v){ v=String(v??''); return /[",\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
 function downloadCSV(csvText, filename){
   const blob = new Blob(['\uFEFF'+csvText], {type:'text/csv;charset=utf-8;'});
@@ -1298,9 +1304,21 @@ function printElement(id){
   setTimeout(()=>el.classList.remove('print-target'),800);
 }
 function studentById(id){ return DB.students.find(s=>s.id===id); }
+// A "Teacher (Class Only)" login only ever sees/edits the section(s) they were
+// assigned in their Teacher profile — this powers every section dropdown below.
+function myTeacherSections(){
+  if(CURRENT_ROLE !== 'teacher') return null; // null = no restriction (admin sees everything)
+  const t = (DB.teachers||[]).find(t=>t.username===CURRENT_USER);
+  return (t && t.sections) ? t.sections : [];
+}
+function allowedSectionKeys(){
+  const mine = myTeacherSections();
+  return mine === null ? SECTION_KEYS : SECTION_KEYS.filter(k=>mine.includes(k));
+}
 function sectionOptionsHTML(includeAll){
+  const keys = allowedSectionKeys();
   let h = includeAll ? '<option value="">Tamam Sections</option>' : '';
-  SECTION_KEYS.forEach(k=>{ h += `<option value="${k}">${SECTION_META[k].label}</option>`; });
+  keys.forEach(k=>{ h += `<option value="${k}">${SECTION_META[k].label}</option>`; });
   return h;
 }
 function daysInMonthCount(mKey){
@@ -1335,9 +1353,9 @@ function isEnrolled(student, mKey){
 }
 function getFeeRecord(studentId, mKey){
   if(!DB.fees[mKey]) DB.fees[mKey] = {};
+  const s = studentById(studentId);
   if(!DB.fees[mKey][studentId]){
-    const s = studentById(studentId);
-    DB.fees[mKey][studentId] = { amount: s? s.fee : 0, paidAmount:0, paidDate:null, method:null };
+    DB.fees[mKey][studentId] = { amount: (s && !s.fisabilillah) ? s.fee : 0, paidAmount:0, paidDate:null, method:null };
   } else {
     // migrate legacy records that used a boolean "paid" flag
     const rec = DB.fees[mKey][studentId];
@@ -1346,38 +1364,46 @@ function getFeeRecord(studentId, mKey){
       rec.method = rec.method || null;
       delete rec.paid;
     }
+    // Fi Sabilillah students are exempt — always zero out any previously-set amount
+    if(s && s.fisabilillah && rec.amount){ rec.amount = 0; }
   }
   return DB.fees[mKey][studentId];
 }
-function feeDue(rec){ return Math.max((rec.amount||0)-(rec.paidAmount||0), 0); }
-function feeIsPaid(rec){ return feeDue(rec)<=0; }
+function feeDue(rec, student){
+  const amt = (student && student.fisabilillah) ? 0 : (rec.amount||0);
+  return Math.max(amt-(rec.paidAmount||0), 0);
+}
+function feeIsPaid(rec, student){ return feeDue(rec, student)<=0; }
 // running balance = sum of unpaid (amount - paidAmount) for all enrolled months up to and including mKey
 function runningBalance(studentId, mKey){
   const student = studentById(studentId);
   if(!student) return 0;
+  if(student.fisabilillah) return 0;
   const months = Object.keys(DB.fees).filter(k=>k<=mKey && (!student.joinMonth || k>=student.joinMonth)).sort();
   let bal = 0;
   months.forEach(mk=>{
     const rec = DB.fees[mk] && DB.fees[mk][studentId];
-    if(rec) bal += feeDue(rec);
+    if(rec) bal += feeDue(rec, student);
   });
   if(!months.includes(mKey) && isEnrolled(student, mKey)){
     const rec = getFeeRecord(studentId, mKey);
-    bal += feeDue(rec);
+    bal += feeDue(rec, student);
   }
   return bal;
 }
 function previousBalance(studentId, mKey){
   const student = studentById(studentId);
   if(!student) return 0;
+  if(student.fisabilillah) return 0;
   return Object.keys(DB.fees).filter(k=>k<mKey && (!student.joinMonth || k>=student.joinMonth)).sort().reduce((bal,mk)=>{
     const rec = DB.fees[mk] && DB.fees[mk][studentId];
-    return bal + (rec ? feeDue(rec) : 0);
+    return bal + (rec ? feeDue(rec, student) : 0);
   },0);
 }
 function feeBreakdown(studentId, mKey){
+  const student = studentById(studentId);
   const rec = getFeeRecord(studentId, mKey);
-  const thisMonthDue = feeDue(rec);
+  const thisMonthDue = feeDue(rec, student);
   const previousDue = previousBalance(studentId, mKey);
   return {rec, thisMonthDue, previousDue, totalDue:previousDue+thisMonthDue};
 }
@@ -1390,7 +1416,7 @@ function collectPayment(studentId, mKey, amount, method){
   [...prevMonths, mKey].forEach(mk=>{
     if(remaining<=0) return;
     const rec = getFeeRecord(studentId, mk);
-    const due = feeDue(rec);
+    const due = feeDue(rec, student);
     if(due<=0) return;
     const applied = Math.min(remaining, due);
     rec.paidAmount = (rec.paidAmount||0) + applied;
@@ -1467,8 +1493,9 @@ function sendSabaqReport(id){
 }
 function sabaqReportText(s){
   const rec = getSabaq(s.id);
+  const absentCount = sabaqAbsentCount(s.section, s.id, currentMonth);
   const yadTxt = v => v==='yad' ? 'یاد ہے' : (v==='nahi' ? 'یاد نہیں' : 'درج نہیں');
-  return `السلام علیکم!\n${s.name} کی آج کی سبق رپورٹ:\n\nسبق (ابتدا سے اختتام): ${rec.lessonStart||'-'} سے ${rec.lessonEnd||'-'}\nکلمہ: ${yadTxt(rec.kalma)}\nنماز: ${yadTxt(rec.namaz)}\nمسائل: ${yadTxt(rec.masail)}\nدعا: ${yadTxt(rec.dua)}\nغیر حاضری: ${rec.absences||0}\nریمارکس: ${rec.remarks||'-'}\n\nجزاک اللہ خیر\n- ${DB.meta.instituteName}`;
+  return `السلام علیکم!\n${s.name} کی آج کی سبق رپورٹ:\n\nسبق (ابتدا سے اختتام): ${rec.lessonStart||'-'} سے ${rec.lessonEnd||'-'}\nکلمہ: ${yadTxt(rec.kalma)}\nنماز: ${yadTxt(rec.namaz)}\nمسائل: ${yadTxt(rec.masail)}\nدعا: ${yadTxt(rec.dua)}\nغیر حاضری (${monthLabel(currentMonth)}): ${absentCount}\nریمارکس: ${rec.remarks||'-'}\n\nجزاک اللہ خیر\n- ${DB.meta.instituteName}`;
 }
 
 function monthlyAttendanceText(s, mKey, stats){
@@ -1747,7 +1774,7 @@ function renderDashboard(){
   active.forEach(s=>{
     const rec = getFeeRecord(s.id, mKey);
     collected += (rec.paidAmount||0);
-    if(feeIsPaid(rec)) paidCount++; else due += runningBalance(s.id, mKey);
+    if(feeIsPaid(rec, s)) paidCount++; else due += runningBalance(s.id, mKey);
   });
 
   const statHTML = `
@@ -1762,12 +1789,12 @@ function renderDashboard(){
     const list = active.filter(s=>s.section===k);
     if(!list.length) return '';
     let paid=0, tot=0;
-    list.forEach(s=>{ const r=getFeeRecord(s.id,mKey); tot+=r.amount; if(feeIsPaid(r)) paid++; });
+    list.forEach(s=>{ const r=getFeeRecord(s.id,mKey); tot+=r.amount; if(feeIsPaid(r, s)) paid++; });
     return `<tr><td><span class="pill section">${SECTION_META[k].label}</span></td><td>${SECTION_META[k].teacher}</td><td>${list.length} talaba</td><td>${paid}/${list.length} paid</td><td>${fmtMoney(tot)} total</td></tr>`;
   }).join('');
   document.getElementById('sectionSummaryTable').innerHTML = `<thead><tr><th>Section</th><th>Teacher</th><th>Talaba</th><th>Adaigi</th><th>Total Fee</th></tr></thead><tbody>${rows||'<tr><td colspan=5 class="empty-state">Koi data nahi</td></tr>'}</tbody>`;
 
-  const dueStudents = active.filter(s=>!feeIsPaid(getFeeRecord(s.id,mKey)));
+  const dueStudents = active.filter(s=>!feeIsPaid(getFeeRecord(s.id,mKey), s));
   document.getElementById('dueCountBadge').textContent = dueStudents.length+' talaba';
   const dueRows = dueStudents.slice(0,50).map(s=>`
     <tr><td>${s.name}</td><td class="urdu" style="direction:ltr;font-family:'Inter'">${s.father||'-'}</td><td><span class="pill section">${SECTION_META[s.section].label}</span></td><td>${s.contact||'-'}</td><td><span class="pill due">${fmtMoney(runningBalance(s.id,mKey))}</span></td></tr>
@@ -1929,7 +1956,7 @@ function renderStudents(){
     <tr>
       <td>${s.photo ? `<img src="${s.photo}" style="width:34px;height:34px;border-radius:8px;object-fit:cover;">` : `<div style="width:34px;height:34px;border-radius:8px;background:var(--teal-soft);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">${(s.name||'?').charAt(0)}</div>`}</td>
       <td><b>${s.id}</b></td>
-      <td>${s.name}${s.fisabilillah ? ' <span class="pill gold">Fi Sabilillah</span>' : ''}</td>
+      <td>${s.name}${s.fisabilillah ? ' '+fisabilillahPill() : ''}</td>
        <td>${s.father||'-'}</td>
        <td><span class="pill section">${s.gender==='female'?'Female':s.gender==='male'?'Male':'-'}</span></td>
       <td><span class="pill section">${SECTION_META[s.section].label}</span></td>
@@ -2081,19 +2108,19 @@ function renderFees(){
     return `<tr>
       <td>${s.photo ? `<img src="${s.photo}" style="width:30px;height:30px;border-radius:7px;object-fit:cover;">` : ''}</td>
       <td><b>${s.id}</b></td>
-      <td>${s.name}${s.fisabilillah ? ' <span class="pill gold">Fi Sabilillah</span>' : ''}</td>
+      <td>${s.name}${s.fisabilillah ? ' '+fisabilillahPill() : ''}</td>
       <td><span class="pill section">${SECTION_META[s.section].label}</span></td>
       <td>${fmtMoney(rec.amount)}</td>
       <td>${fmtMoney(rec.paidAmount||0)}${rec.method?` <small style="color:var(--ink-soft)">(${rec.method})</small>`:''}</td>
       <td><div class="progress-cell"><div class="progress-track"><div class="progress-fill ${pct===0?'zero':''}" style="width:${pct}%"></div></div>${pct}%</div></td>
-      <td>${due<=0 ? '<span class="pill paid">&#10003; Paid '+(rec.paidDate?('&middot; '+rec.paidDate):'')+'</span>' : (rec.paidAmount>0 ? '<span class="pill due">Jama Ho Raha Hai</span>' : '<span class="pill due">Bakaya</span>')}</td>
-       <td>${due>0 ? '<span class="pill due">'+fmtMoney(due)+'</span>' : '<span class="pill paid">0</span>'}</td>
-       <td>${details.previousDue>0 ? '<span class="pill due">'+fmtMoney(details.previousDue)+'</span>' : '<span class="pill paid">0</span>'}</td>
-      <td>${bal>0 ? '<span class="pill due">'+fmtMoney(bal)+'</span>' : '<span class="pill paid">0</span>'}</td>
+      <td>${due<=0 ? (s.fisabilillah ? fisabilillahPill() : '<span class="pill paid">&#10003; Paid '+(rec.paidDate?('&middot; '+rec.paidDate):'')+'</span>') : (rec.paidAmount>0 ? '<span class="pill due">Jama Ho Raha Hai</span>' : '<span class="pill due">Bakaya</span>')}</td>
+       <td>${dueCell(due, s)}</td>
+       <td>${dueCell(details.previousDue, s)}</td>
+      <td>${dueCell(bal, s)}</td>
       <td class="no-print" style="white-space:nowrap;">
         ${due>0
           ? `<button class="btn sm gold" onclick="openPaymentModal('${s.id}','${currentMonth}')">&#128176; Fees Wasool Karein</button>`
-          : `<button class="btn sm ghost" onclick="if(confirm('Is mahine ki adaigi reset karein?')){resetPayment('${s.id}','${currentMonth}'); renderFees(); renderDashboard();}">Reset</button>`}
+          : (s.fisabilillah ? '' : `<button class="btn sm ghost" onclick="if(confirm('Is mahine ki adaigi reset karein?')){resetPayment('${s.id}','${currentMonth}'); renderFees(); renderDashboard();}">Reset</button>`)}
         ${rec.paidAmount>0 ? `<button class="btn sm indigo" onclick="openReceipt('${s.id}','${currentMonth}')">&#128196; Receipt</button>` : ''}
         ${bal>0 ? waBtn('Yaad Dahani', `sendFeeReminder('${s.id}')`, {title:'WhatsApp par Urdu mein yaad dahani bhejein'}) : ''}
       </td>
@@ -2119,7 +2146,7 @@ document.getElementById('feeExportBtn').addEventListener('click', ()=>{
      const details = feeBreakdown(s.id, currentMonth);
      const rec = details.rec;
     const pct = rec.amount>0 ? Math.round((rec.paidAmount||0)/rec.amount*100) : 0;
-     lines.push([s.id, s.name, SECTION_META[s.section].label, rec.amount, rec.paidAmount||0, pct+'%', details.thisMonthDue, details.previousDue, details.totalDue, feeDue(rec)<=0?'Paid':'Due'].map(csvEscape).join(','));
+     lines.push([s.id, s.name, SECTION_META[s.section].label, rec.amount, rec.paidAmount||0, pct+'%', details.thisMonthDue, details.previousDue, details.totalDue, s.fisabilillah?'Fi Sabilillah':(feeDue(rec, s)<=0?'Paid':'Due')].map(csvEscape).join(','));
   });
   downloadCSV(lines.join('\n'), `fee_report_${secF||'all'}_${currentMonth}.csv`);
 });
@@ -2173,9 +2200,9 @@ function openReceipt(studentId, mKey){
   document.getElementById('rc_method').textContent = rec.method||'-';
   document.getElementById('rc_date').textContent = rec.paidDate||todayISO();
   document.getElementById('rc_total_paid').textContent = fmtMoney(rec.paidAmount||0);
-  document.getElementById('rc_this_due').textContent = details.thisMonthDue>0 ? fmtMoney(details.thisMonthDue) : 'Nil';
-  document.getElementById('rc_previous_due').textContent = details.previousDue>0 ? fmtMoney(details.previousDue) : 'Nil';
-  document.getElementById('rc_balance').textContent = details.totalDue>0 ? fmtMoney(details.totalDue)+' (Bakaya)' : 'Nil — Poori Fees Ada';
+  document.getElementById('rc_this_due').textContent = s.fisabilillah ? 'فی سبیل اللہ' : (details.thisMonthDue>0 ? fmtMoney(details.thisMonthDue) : 'Nil');
+  document.getElementById('rc_previous_due').textContent = s.fisabilillah ? 'فی سبیل اللہ' : (details.previousDue>0 ? fmtMoney(details.previousDue) : 'Nil');
+  document.getElementById('rc_balance').textContent = s.fisabilillah ? 'فی سبیل اللہ' : (details.totalDue>0 ? fmtMoney(details.totalDue)+' (Bakaya)' : 'Nil — Poori Fees Ada');
   document.getElementById('receiptModalBackdrop').classList.add('open');
 }
 document.getElementById('receiptWhatsAppBtn').onclick = ()=>{
@@ -2184,7 +2211,7 @@ document.getElementById('receiptWhatsAppBtn').onclick = ()=>{
   const s = studentById(studentId);
   const details = feeBreakdown(studentId, mKey);
   const rec = details.rec;
-  const msg = `${DB.meta.instituteName}\nFees Receipt\n\nTalib-e-Ilm: ${s.name} (${s.id})\nSection: ${SECTION_META[s.section].label}\nMahina: ${monthLabel(mKey)}\nMaasi Fee: Rs. ${rec.amount||0}\nWasool Shuda (is dafa): Rs. ${rec.lastPaidAmount||rec.paidAmount||0}\nZariya: ${rec.method||'-'}\nTareekh: ${rec.paidDate||todayISO()}\nKul Jama Shuda (is mahine): Rs. ${rec.paidAmount||0}\nIs Mahine ka Baqi: Rs. ${details.thisMonthDue}\nPichle Mahinon ka Baqi: Rs. ${details.previousDue}\nKul Bakaya: ${details.totalDue>0?('Rs. '+details.totalDue):'Nil - Poori Fees Ada Shuda'}\n\nShukriya!\n- ${DB.meta.instituteName}`;
+  const msg = `${DB.meta.instituteName}\nFees Receipt\n\nTalib-e-Ilm: ${s.name} (${s.id})\nSection: ${SECTION_META[s.section].label}\nMahina: ${monthLabel(mKey)}\nMaasi Fee: Rs. ${rec.amount||0}\nWasool Shuda (is dafa): Rs. ${rec.lastPaidAmount||rec.paidAmount||0}\nZariya: ${rec.method||'-'}\nTareekh: ${rec.paidDate||todayISO()}\nKul Jama Shuda (is mahine): Rs. ${rec.paidAmount||0}\nIs Mahine ka Baqi: ${s.fisabilillah?'فی سبیل اللہ':('Rs. '+details.thisMonthDue)}\nPichle Mahinon ka Baqi: ${s.fisabilillah?'فی سبیل اللہ':('Rs. '+details.previousDue)}\nKul Bakaya: ${s.fisabilillah?'فی سبیل اللہ':(details.totalDue>0?('Rs. '+details.totalDue):'Nil - Poori Fees Ada Shuda')}\n\nShukriya!\n- ${DB.meta.instituteName}`;
   openWhatsApp(s.contact, msg);
 };
 
@@ -2249,7 +2276,7 @@ function renderAttendance(){
   const date = dateInput.value;
   document.getElementById('attDateLabel').textContent = new Date(date+'T00:00:00').toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-  if(!document.getElementById('attSectionFilter').value) document.getElementById('attSectionFilter').value = SECTION_KEYS[0];
+  if(!document.getElementById('attSectionFilter').value) document.getElementById('attSectionFilter').value = allowedSectionKeys()[0] || SECTION_KEYS[0];
   const sec = document.getElementById('attSectionFilter').value;
   const list = DB.students.filter(s=>s.section===sec);
 
@@ -2296,7 +2323,7 @@ document.getElementById('attTabbar').addEventListener('click', e=>{
 /* ---- Monthly Attendance Report ---- */
 function monthlyAttendanceStats(section, mKey){
   const daysTotal = daysInMonthCount(mKey);
-  const sections = section ? [section] : SECTION_KEYS;
+  const sections = section ? [section] : allowedSectionKeys();
   const list = [];
   sections.forEach(sec=>{
     DB.students.filter(s=>s.section===sec).forEach(s=>list.push({student:s, section:sec}));
@@ -2320,7 +2347,7 @@ function renderAttendanceReport(){
   const secSel = document.getElementById('attReportSection');
   if(!secSel.dataset.built){
     secSel.innerHTML = sectionOptionsHTML(true);
-    secSel.value = document.getElementById('attSectionFilter').value || SECTION_KEYS[0];
+    secSel.value = document.getElementById('attSectionFilter').value || allowedSectionKeys()[0] || SECTION_KEYS[0];
     secSel.dataset.built = '1';
     secSel.addEventListener('change', renderAttendanceReport);
   }
@@ -2378,18 +2405,30 @@ document.getElementById('attReportPrintBtn').addEventListener('click', ()=>{
 
 /* ================= SABAQ REPORT ================= */
 function getSabaq(id){
-  if(!DB.sabaq[id]) DB.sabaq[id] = {lessonStart:'',lessonEnd:'',kalma:'',namaz:'',masail:'',dua:'',absences:0,remarks:''};
+  if(!DB.sabaq[id]) DB.sabaq[id] = {lessonStart:'',lessonEnd:'',kalma:'',namaz:'',masail:'',dua:'',remarks:''};
   return DB.sabaq[id];
 }
+// Ghair Hazri is pulled live from the Attendance module — not entered by hand —
+// so marking a student Absent there automatically reflects here.
+function sabaqAbsentCount(section, studentId, mKey){
+  const records = DB.attendance[section] || {};
+  let count = 0;
+  Object.keys(records).forEach(dateStr=>{
+    if(dateStr.startsWith(mKey) && records[dateStr][studentId]==='A') count++;
+  });
+  return count;
+}
 function renderSabaq(){
-  if(!document.getElementById('sabaqSectionFilter').value) document.getElementById('sabaqSectionFilter').value = SECTION_KEYS[0];
+  if(!document.getElementById('sabaqSectionFilter').value) document.getElementById('sabaqSectionFilter').value = allowedSectionKeys()[0] || SECTION_KEYS[0];
   const sec = document.getElementById('sabaqSectionFilter').value;
   const q = document.getElementById('sabaqSearch').value.trim().toLowerCase();
   const list = DB.students.filter(s=>s.section===sec && (!q || s.name.toLowerCase().includes(q)));
+  document.getElementById('sabaqMonthTag').textContent = monthLabel(currentMonth);
 
   const yadOpt = v=>`<option value="yad" ${v==='yad'?'selected':''}>Yaad</option><option value="nahi" ${v==='nahi'?'selected':''}>Nahi</option>`;
   const rows = list.map(s=>{
     const rec = getSabaq(s.id);
+    const absentCount = sabaqAbsentCount(sec, s.id, currentMonth);
     return `<tr>
       <td><b>${s.name}</b><br><small>${s.father||''}</small></td>
       <td><input type="text" value="${rec.lessonStart}" style="width:80px" onchange="updateSabaq('${s.id}','lessonStart',this.value)" placeholder="Start"></td>
@@ -2398,7 +2437,7 @@ function renderSabaq(){
       <td><select onchange="updateSabaq('${s.id}','namaz',this.value)">${yadOpt(rec.namaz)}</select></td>
       <td><select onchange="updateSabaq('${s.id}','masail',this.value)">${yadOpt(rec.masail)}</select></td>
       <td><select onchange="updateSabaq('${s.id}','dua',this.value)">${yadOpt(rec.dua)}</select></td>
-      <td><input type="number" value="${rec.absences}" style="width:60px" onchange="updateSabaq('${s.id}','absences',this.value)"></td>
+      <td>${absentCount>0 ? `<span class="pill due" title="Attendance se — is mahine ki ghair hazriyan">${absentCount}</span>` : '<span class="pill paid">0</span>'}</td>
       <td><input type="text" value="${rec.remarks}" onchange="updateSabaq('${s.id}','remarks',this.value)" placeholder="Remarks"></td>
       <td class="no-print">${CURRENT_ROLE==='admin' ? waBtn('Report Bhejein', `sendSabaqReport('${s.id}')`, {title:'Walidain ko WhatsApp par report bhejein'}) : ''}</td>
     </tr>`;
@@ -2416,7 +2455,7 @@ document.getElementById('sabaqSearch').addEventListener('input', renderSabaq);
 let ACTIVE_TEST_ID = null;
 function ensureTestSection(sec){ if(!DB.tests[sec]) DB.tests[sec] = []; return DB.tests[sec]; }
 function currentTestSection(){
-  if(!document.getElementById('testSectionFilter').value) document.getElementById('testSectionFilter').value = SECTION_KEYS[0];
+  if(!document.getElementById('testSectionFilter').value) document.getElementById('testSectionFilter').value = allowedSectionKeys()[0] || SECTION_KEYS[0];
   return document.getElementById('testSectionFilter').value;
 }
 function renderTestList(){

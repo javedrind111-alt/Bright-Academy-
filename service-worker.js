@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bright-academy-cache-v2';
+const CACHE_NAME = 'bright-academy-cache-v3';
 const FILES_TO_CACHE = [
   './',
   './index.html',
