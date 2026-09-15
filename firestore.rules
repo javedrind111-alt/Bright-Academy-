@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // The app signs everyone in as "<username>@app.local", so the part
+    // before the @ is always that user's username / roles doc id.
+    function myUsername() {
+      return request.auth.token.email.split('@')[0];
+    }
+
+    function myRole() {
+      return get(/databases/$(database)/documents/roles/$(myUsername())).data.role;
+    }
+
+    function isAdmin() {
+      return signedIn() && myRole() == 'admin';
+    }
+
+    // Shared school data (students, fees, attendance, sabaq, tests, teachers...).
+    // Any signed-in user (admin OR teacher) can read/write it — the app itself
+    // already hides pages/actions a teacher shouldn't see.
+    match /appdata/{docId} {
+      allow read, write: if signedIn();
+    }
+
+    // roles/{username} tells the app whether that login is "admin" or "teacher".
+    // - Any signed-in user may READ roles (needed right after login, before we
+    //   know if they're an admin).
+    // - Only an admin may CREATE/UPDATE/DELETE a role (i.e. add or edit a
+    //   teacher account, or promote/demote someone).
+    match /roles/{username} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
