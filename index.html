@@ -840,6 +840,60 @@ tbody tr:hover{background:#fbf8f0;}
 .doc-table{width:100%; border-collapse:collapse; margin-top:14px; font-size:13px;}
 .doc-table td{border:1px solid #d9dfea; padding:9px 11px;}
 .doc-table td:first-child{background:#f5f8fd; font-weight:700; width:34%; letter-spacing:.6px; text-transform:uppercase; font-size:11.5px; color:#5c6a86;}
+
+/* ===== Islamic-themed print documents (Admission Form / Certificate) ===== */
+.doc-sheet.islamic{
+  position:relative; border:3px solid var(--gold); outline:1px solid var(--teal-deep); outline-offset:-9px;
+  background:
+    radial-gradient(circle at 8% 6%, rgba(199,154,60,.12), transparent 20%),
+    radial-gradient(circle at 94% 94%, rgba(199,154,60,.12), transparent 20%),
+    #fffdf7;
+}
+.doc-sheet.islamic .bismillah{
+  text-align:center; font-family:'Noto Nastaliq Urdu',serif; direction:rtl; unicode-bidi:isolate;
+  font-size:21px; color:var(--teal-deep); margin-bottom:8px;
+}
+.doc-sheet.islamic .doc-head{border-bottom:3px double var(--gold); padding-bottom:14px;}
+.doc-sheet.islamic .doc-head h2{color:var(--teal-deep); font-style:normal;}
+.doc-sheet.islamic .doc-title{color:var(--teal-deep); margin-top:14px;}
+.doc-sheet.islamic .doc-title-urdu{
+  font-family:'Noto Nastaliq Urdu',serif; direction:rtl; unicode-bidi:isolate;
+  text-align:center; font-size:24px; color:var(--gold); margin-top:22px; margin-bottom:0;
+}
+.doc-sheet.islamic .doc-motif{text-align:center; color:var(--gold); font-size:18px; letter-spacing:12px; margin:4px 0 4px;}
+.doc-sheet.islamic .doc-photo{
+  width:100px; height:118px; object-fit:cover; border:3px solid var(--gold); border-radius:6px;
+  float:left; margin:0 20px 10px 0; background:#fff;
+}
+.doc-sheet.islamic .doc-table td:first-child{color:var(--teal-deep); background:var(--teal-soft);}
+.doc-sheet.islamic .doc-sign div{border-top:1.5px solid var(--teal-deep); color:var(--teal-deep);}
+.doc-sheet.islamic .doc-corner{position:absolute; font:26px 'Amiri',serif; color:var(--gold); opacity:.5;}
+.doc-sheet.islamic .doc-corner.tl{top:10px; left:16px;} .doc-sheet.islamic .doc-corner.tr{top:10px; right:16px;}
+.doc-sheet.islamic .doc-corner.bl{bottom:10px; left:16px;} .doc-sheet.islamic .doc-corner.br{bottom:10px; right:16px;}
+.doc-sheet.islamic .cert-seal{
+  width:120px; height:120px; border-radius:50%; border:4px double var(--gold); margin:22px auto 4px;
+  display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.3;
+  font-family:'Amiri',serif; color:var(--teal-deep); font-size:13px;
+  background:radial-gradient(circle, var(--teal-soft), #fff);
+}
+
+/* ===== Islamic-themed ID card ===== */
+.idcard-islamic{width:400px; margin:0 auto; border-radius:16px; overflow:hidden; border:3px solid var(--gold); box-shadow:0 6px 20px rgba(18,56,50,.18);}
+.idcard-islamic .ic-top{background:linear-gradient(120deg,var(--teal-deep),var(--teal) 70%); color:#fff; padding:14px 16px 10px; position:relative; text-align:center;}
+.idcard-islamic .ic-top:after{content:'\06DE'; position:absolute; right:10px; top:0px; color:rgba(255,255,255,.16); font:48px 'Amiri',serif;}
+.idcard-islamic .ic-inst{font-family:'Amiri',serif; font-size:16px; margin:0;}
+.idcard-islamic .ic-inst-urdu{font-family:'Noto Nastaliq Urdu',serif; direction:rtl; unicode-bidi:isolate; font-size:14px; color:#e9d59c; margin-top:2px;}
+.idcard-islamic .ic-chip{position:absolute; left:12px; top:12px; background:var(--gold); color:#173018; font-size:9px; font-weight:700; padding:3px 9px; border-radius:999px; letter-spacing:.5px;}
+.idcard-islamic .ic-body{display:flex; gap:12px; padding:16px; align-items:flex-start; background:linear-gradient(160deg,#fff,#f6f1e2);}
+.idcard-islamic .ic-photo{width:76px; height:90px; object-fit:cover; border:3px solid var(--gold); border-radius:8px; background:#fff; flex:0 0 auto;}
+.idcard-islamic .ic-photo.fallback{display:flex; align-items:center; justify-content:center; font-family:'Amiri',serif; font-size:28px; color:var(--teal-deep); background:var(--teal-soft);}
+.idcard-islamic .ic-info{flex:1; min-width:0;}
+.idcard-islamic .ic-name{font-size:16px; font-weight:800; color:var(--teal-deep); margin:0 0 3px;}
+.idcard-islamic .ic-row{font-size:11.5px; color:var(--ink-soft); margin-bottom:2px;}
+.idcard-islamic .ic-row b{color:var(--ink);}
+.idcard-islamic .ic-qr{width:68px; height:68px; flex:0 0 auto; background:#fff; border:1px solid var(--line); border-radius:6px; display:flex; align-items:center; justify-content:center;}
+.idcard-islamic .ic-foot{display:flex; justify-content:space-between; align-items:center; gap:8px; background:var(--teal-deep); color:#cfe3dc; font-size:10.5px; padding:7px 16px;}
+.idcard-islamic .ic-foot b{color:#fff;}
 .attendance-progress-wrap {
   margin-top: 8px;
 }
@@ -1161,9 +1215,28 @@ tbody tr:hover{background:#fbf8f0;}
     <!-- ---------- BULK WHATSAPP ---------- -->
     <section id="page-bulkwa" class="page section-hidden">
       <div class="card islamic-card">
-        <h3>Paigham Likhein <span class="tag">Bulk WhatsApp</span></h3>
+        <h3>Wusool Kunanda &amp; Paigham <span class="tag">Bulk WhatsApp</span> <span class="tag" id="bwaModeTag" style="display:none;"></span></h3>
+
         <div class="field">
-          <label>Quick Templates</label>
+          <label>&#9889; Fori Amal &mdash; muntakhib karein aur neeche list mein dekh kar tabdeel bhi kar sakte hain</label>
+          <div class="btnbar" id="bwaQuickActionBar">
+            <button type="button" class="btn danger sm" id="bwaSelectAbsentBtn">&#128308; Aaj Ghair Hazir Muntakhib Karein</button>
+            <button type="button" class="btn amber sm" id="bwaSelectDueBtn">&#128176; Fee Bakaya Muntakhib Karein</button>
+            <button type="button" class="btn green sm" id="bwaSelectAllBtn">&#9745; Sab Muntakhib Karein</button>
+            <button type="button" class="btn ghost sm" id="bwaClearBtn">&#9744; Sab Hatayein</button>
+          </div>
+          <p class="note">Ghair Hazir / Fee Bakaya button dabane se sirf woh talaba select honge, aur list mein unke aage tag nazar aayega. Aap kisi ko bhi check/uncheck karke apni marzi se qatar tabdeel kar sakte hain &mdash; har walid ko <b>unki apni</b> asal tareekh / asal bakaya raqam ke sath alag paigham jayega.</p>
+        </div>
+
+        <div class="searchbar no-print">
+          <input type="text" id="bwaSearch" placeholder="Naam se dhoondein...">
+          <select id="bwaSectionFilter"></select>
+          <span class="tag" id="bwaCountTag">0 muntakhib</span>
+        </div>
+        <div class="table-wrap"><table id="bwaStudentTable"></table></div>
+
+        <div class="field" style="margin-top:16px;">
+          <label>Quick Templates (Fori Amal ke ilawa custom paigham ke liye)</label>
           <div class="btnbar" id="bwaTemplateBar">
             <button type="button" class="btn amber sm" data-tpl="fee">&#128176; Fee Yaad Dahani</button>
             <button type="button" class="btn purple sm" data-tpl="event">&#127881; Taqreeb / Announcement</button>
@@ -1176,21 +1249,6 @@ tbody tr:hover{background:#fbf8f0;}
           <textarea id="bwaMessage" rows="6" placeholder="السلام علیکم! {name} کے والدین کے لیے پیغام..."></textarea>
         </div>
         <p class="note">Yeh feature har muntakhib (selected) talib-e-ilm ke walidain ke liye WhatsApp chat ek ek karke khulta hai &mdash; aap sirf "Send" par click karke paigham bhejein, phir "Next" dabayein. (WhatsApp ki policy ki wajah se ek sath tamam logon ko khud-b-khud nahi bheja ja sakta.)</p>
-      </div>
-
-      <div class="card islamic-card">
-        <div class="report-toolbar">
-          <div class="report-title">Wusool Kunanda Muntakhib Karein <span class="tag" id="bwaCountTag">0 muntakhib</span></div>
-        </div>
-        <div class="searchbar no-print">
-          <input type="text" id="bwaSearch" placeholder="Naam se dhoondein...">
-          <select id="bwaSectionFilter"></select>
-        </div>
-        <div class="btnbar" style="margin-bottom:10px;">
-          <button type="button" class="btn green sm" id="bwaSelectAllBtn">&#9745; Sab Muntakhib Karein</button>
-          <button type="button" class="btn danger sm" id="bwaClearBtn">&#9744; Sab Hatayein</button>
-        </div>
-        <div class="table-wrap"><table id="bwaStudentTable"></table></div>
       </div>
 
       <div class="card islamic-card" id="bwaQueueCard" style="display:none;">
@@ -1445,20 +1503,29 @@ tbody tr:hover{background:#fbf8f0;}
 </div>
 
 <div class="modal-backdrop" id="idCardBackdrop">
-  <div class="modal" style="max-width:440px;">
+  <div class="modal" style="max-width:460px;">
     <button class="modal-close" data-close>&times;</button>
     <h3>Talib-e-Ilm ID Card</h3>
-    <div class="idcard" id="idCardBox">
-      <div class="hd"><b id="idc_institute">Bright Academy Nazra</b><span style="font-size:11px;color:#7a7a68;">2026</span></div>
-      <div class="body">
-        <img id="idc_photo" src="" style="width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid var(--line); display:none;">
-        <div class="qrbox" id="idCardQr"></div>
-        <div class="info">
-          <b id="idc_name"></b>
-          <div id="idc_father"></div>
-          <div id="idc_section"></div>
-          <div id="idc_id"></div>
+    <div class="idcard-islamic" id="idCardBox">
+      <div class="ic-top">
+        <span class="ic-chip">STUDENT ID</span>
+        <div class="ic-inst" id="idc_institute">Bright Academy Nazra</div>
+        <div class="ic-inst-urdu" id="idc_institute_urdu"></div>
+      </div>
+      <div class="ic-body">
+        <div id="idc_photo_wrap"></div>
+        <div class="ic-info">
+          <div class="ic-name" id="idc_name"></div>
+          <div class="ic-row" id="idc_father"></div>
+          <div class="ic-row" id="idc_section"></div>
+          <div class="ic-row" id="idc_id"></div>
+          <div class="ic-row" id="idc_dob"></div>
         </div>
+        <div class="ic-qr" id="idCardQr"></div>
+      </div>
+      <div class="ic-foot">
+        <span id="idc_addr">-</span>
+        <b id="idc_phone">-</b>
       </div>
     </div>
     <div class="btnbar" style="margin-top:16px;">
@@ -2022,6 +2089,30 @@ const BWA_TEMPLATES = {
 let BWA_SELECTED = new Set();
 let BWA_QUEUE = [];
 let BWA_QUEUE_INDEX = 0;
+let BWA_MODE = 'custom'; /* 'custom' | 'absent' | 'fee' */
+
+function bwaSetMode(mode, label){
+  BWA_MODE = mode;
+  const tag = document.getElementById('bwaModeTag');
+  if(mode==='custom'){ tag.style.display='none'; tag.textContent=''; }
+  else { tag.style.display=''; tag.textContent = label; }
+}
+/* IDs of students marked Absent ('A') anywhere today, across every section */
+function bwaTodaysAbsentIds(){
+  const today = todayISO();
+  const ids = [];
+  SECTION_KEYS.forEach(sec=>{
+    const rec = (DB.attendance[sec] && DB.attendance[sec][today]) || {};
+    Object.keys(rec).forEach(id=>{ if(rec[id]==='A') ids.push(id); });
+  });
+  return ids;
+}
+/* IDs of active, non-fisabilillah students who still owe fee this month */
+function bwaFeeDueIds(){
+  return DB.students.filter(s=>s.active!==false && !s.fisabilillah)
+    .filter(s=> feeBreakdown(s.id, currentMonth).totalDue > 0)
+    .map(s=>s.id);
+}
 
 function bwaFillSectionFilter(){
   const sel = document.getElementById('bwaSectionFilter');
@@ -2039,17 +2130,24 @@ function bwaFilteredStudents(){
 function renderBulkWA(){
   bwaFillSectionFilter();
   const list = bwaFilteredStudents();
+  const absentToday = new Set(bwaTodaysAbsentIds());
+  const feeDue = new Set(bwaFeeDueIds());
   const rows = list.map(s=>{
     const hasNum = !!toWaNumber(s.contact);
+    const tags = [
+      absentToday.has(s.id) ? '<span class="pill due" style="background:#f7e6e1;color:#a8412b;">\u{1F534} Ghair Hazir</span>' : '',
+      feeDue.has(s.id) ? '<span class="pill due" style="background:#faf1de;color:#8a6116;">\u{1F4B0} Fee Bakaya</span>' : ''
+    ].filter(Boolean).join(' ');
     return `<tr>
       <td><input type="checkbox" class="bwa-check" data-id="${s.id}" ${BWA_SELECTED.has(s.id)?'checked':''} ${hasNum?'':'disabled'}></td>
       <td>${s.name}</td>
       <td>${s.father||'-'}</td>
       <td><span class="pill section">${SECTION_META[s.section]?SECTION_META[s.section].label:s.section}</span></td>
       <td>${hasNum ? (s.contact||'-') : '<span class="pill due">No Number</span>'}</td>
+      <td>${tags || '-'}</td>
     </tr>`;
   }).join('');
-  document.getElementById('bwaStudentTable').innerHTML = `<thead><tr><th></th><th>Naam</th><th>Walid</th><th>Section</th><th>Rabta Number</th></tr></thead><tbody>${rows || '<tr><td colspan=5 class="empty-state">Koi talib-e-ilm nahi mila</td></tr>'}</tbody>`;
+  document.getElementById('bwaStudentTable').innerHTML = `<thead><tr><th></th><th>Naam</th><th>Walid</th><th>Section</th><th>Rabta Number</th><th>Aaj ki Status</th></tr></thead><tbody>${rows || '<tr><td colspan=6 class="empty-state">Koi talib-e-ilm nahi mila</td></tr>'}</tbody>`;
   document.getElementById('bwaCountTag').textContent = BWA_SELECTED.size + ' muntakhib';
 }
 document.getElementById('bwaSearch').addEventListener('input', renderBulkWA);
@@ -2062,18 +2160,45 @@ document.getElementById('bwaStudentTable').addEventListener('change', e=>{
 });
 document.getElementById('bwaSelectAllBtn').addEventListener('click', ()=>{
   bwaFilteredStudents().forEach(s=>{ if(toWaNumber(s.contact)) BWA_SELECTED.add(s.id); });
+  bwaSetMode('custom');
   renderBulkWA();
 });
 document.getElementById('bwaClearBtn').addEventListener('click', ()=>{
   BWA_SELECTED.clear();
+  bwaSetMode('custom');
+  renderBulkWA();
+});
+document.getElementById('bwaSelectAbsentBtn').addEventListener('click', ()=>{
+  const ids = bwaTodaysAbsentIds().filter(id=>{ const s=studentById(id); return s && toWaNumber(s.contact); });
+  if(!ids.length){ alert('Aaj koi talib-e-ilm ghair hazir darj nahi hai (ya unka WhatsApp number darj nahi hai).'); return; }
+  BWA_SELECTED = new Set(ids);
+  bwaSetMode('absent', '\u{1F534} Mode: Aaj Ghair Hazir \u2014 har walid ko alag paigham');
+  document.getElementById('bwaMessage').value = '';
+  document.getElementById('bwaMessage').placeholder = 'Har ghair hazir talib-e-ilm ke walid ko khud-b-khud aaj ki tareekh ke sath paigham jayega...';
+  renderBulkWA();
+});
+document.getElementById('bwaSelectDueBtn').addEventListener('click', ()=>{
+  const ids = bwaFeeDueIds().filter(id=>{ const s=studentById(id); return s && toWaNumber(s.contact); });
+  if(!ids.length){ alert('Is mahine kisi ka fee bakaya nahi hai \u2014 mubarak!'); return; }
+  BWA_SELECTED = new Set(ids);
+  bwaSetMode('fee', '\u{1F4B0} Mode: Fee Bakaya \u2014 har walid ko asal raqam ke sath paigham');
+  document.getElementById('bwaMessage').value = '';
+  document.getElementById('bwaMessage').placeholder = 'Har walid ko khud-b-khud unki asal bakaya fee ki tafseel ke sath paigham jayega...';
   renderBulkWA();
 });
 document.getElementById('bwaTemplateBar').addEventListener('click', e=>{
   const btn = e.target.closest('button[data-tpl]');
   if(!btn) return;
+  bwaSetMode('custom');
   document.getElementById('bwaMessage').value = BWA_TEMPLATES[btn.dataset.tpl].replace('${DB.meta.instituteName}', DB.meta.instituteName);
 });
+document.getElementById('bwaMessage').addEventListener('input', ()=> bwaSetMode('custom'));
+document.getElementById('bwaStudentTable').addEventListener('change', e=>{
+  if(e.target.closest('.bwa-check')) bwaSetMode('custom');
+});
 function bwaMessageFor(s){
+  if(BWA_MODE==='absent') return absentMessageText(s, todayISO());
+  if(BWA_MODE==='fee') return feeReminderText(s);
   const tpl = document.getElementById('bwaMessage').value || '';
   return tpl
     .replaceAll('{name}', s.name)
@@ -2092,11 +2217,12 @@ function bwaRenderCurrent(){
   }
   const s = BWA_QUEUE[BWA_QUEUE_INDEX];
   progressTag.textContent = (BWA_QUEUE_INDEX+1) + ' / ' + BWA_QUEUE.length;
-  box.innerHTML = `<div><h3>${s.name}</h3><p>${SECTION_META[s.section]?SECTION_META[s.section].label:s.section} &middot; Walid: ${s.father||'-'} &middot; ${s.contact||'-'}</p></div>`;
+  const preview = bwaMessageFor(s);
+  box.innerHTML = `<div><h3>${s.name}</h3><p>${SECTION_META[s.section]?SECTION_META[s.section].label:s.section} &middot; Walid: ${s.father||'-'} &middot; ${s.contact||'-'}</p><p style="white-space:pre-line; font-size:12px; opacity:.85; margin-top:8px; max-height:120px; overflow-y:auto;">${esc(preview)}</p></div>`;
 }
 document.getElementById('bwaStartBtn').addEventListener('click', ()=>{
   const msg = document.getElementById('bwaMessage').value.trim();
-  if(!msg){ alert('Pehle paigham likhein.'); return; }
+  if(BWA_MODE==='custom' && !msg){ alert('Pehle paigham likhein.'); return; }
   BWA_QUEUE = DB.students.filter(s=>BWA_SELECTED.has(s.id) && toWaNumber(s.contact));
   if(!BWA_QUEUE.length){ alert('Koi muntakhib talib-e-ilm nahi jis ka WhatsApp number darj ho.'); return; }
   BWA_QUEUE_INDEX = 0;
@@ -2671,9 +2797,10 @@ function openStudentDossier(id){
 
   /* ---- hazri (live) ---- */
   let p=0,a=0,l=0;
-  Object.keys(DB.attendance||{}).forEach(d=>{
-    const r = DB.attendance[d] && DB.attendance[d][s.id];
-    if(r==='p') p++; else if(r==='a') a++; else if(r==='l') l++;
+  const secAttRec = (DB.attendance && DB.attendance[s.section]) || {};
+  Object.keys(secAttRec).forEach(d=>{
+    const r = secAttRec[d] && secAttRec[d][s.id];
+    if(r==='P') p++; else if(r==='A') a++; else if(r==='L') l++;
   });
   const marked = p+a+l;
   const pct = marked ? Math.round(p/marked*100) : 100;
@@ -2738,51 +2865,73 @@ function docHead(title){
     </div>
     <div class="doc-title">${esc(title)}</div>`;
 }
-function renderPrintDoc(html){
+function docHeadIslamic(titleEn, titleUr){
+  const M = DB.meta;
+  return `
+    <div class="doc-corner tl">\u06DE</div><div class="doc-corner tr">\u06DE</div>
+    <div class="bismillah">\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u0647 \u0627\u0644\u0631\u0651\u062d\u0652\u0645\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u062d\u0650\u064a\u0645\u0650</div>
+    <div class="doc-head">
+      <img src="${M.logo || DEFAULT_LOGO_SRC}" alt="logo">
+      <div>
+        <h2>${esc(M.instituteName)}</h2>
+        <div class="l">${esc(M.instituteSub||'Nazra Academy')}</div>
+        <div class="l">${esc(M.instituteLine||'')}${M.institutePhone?(' \u00b7 \u260E '+esc(M.institutePhone)):''}</div>
+      </div>
+    </div>
+    <div class="doc-title-urdu">${esc(titleUr)}</div>
+    <div class="doc-title">${esc(titleEn)}</div>
+    <div class="doc-motif">\u06DE \u06DE \u06DE</div>`;
+}
+function renderPrintDoc(html, cls){
   const box = document.getElementById('printDocBox');
-  box.innerHTML = `<div class="doc-sheet">${html}</div>`;
+  box.innerHTML = `<div class="doc-sheet ${cls||''}">${html}${cls==='islamic' ? '<div class="doc-corner bl">\u06DE</div><div class="doc-corner br">\u06DE</div>' : ''}</div>`;
   printElement('printDocBox');
 }
 function printCertificate(){
   const s = studentById(activeDossierId); if(!s) return;
   const today = new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'});
-  renderPrintDoc(docHead('Certificate') + `
-    <p class="doc-line" style="text-align:center; margin-top:20px;">Yeh sanad tasdeeq karti hai ke</p>
-    <p style="text-align:center; font-size:30px; font-weight:800; margin:12px 0; color:#1b2f5e;">${esc(s.name)}</p>
-    <p class="doc-line" style="text-align:center;">S/D/O <b>${esc(s.father||'-')}</b>, Serial No. <b>#${profileSerial(s)}</b>, ID <b>${esc(s.id)}</b></p>
-    <p class="doc-line" style="text-align:center;">Class / Section <b>${esc(sectionLabel(s))}</b> mein zer-e-taleem hai/thi aur uska kirdar aur hazri <b>itminan bakhsh</b> rahi.</p>
-    <p class="doc-line" style="text-align:center;">Fee Status: <b>${feeTextPlain(s)}</b></p>
-    <p class="doc-line" style="text-align:center; margin-top:18px;">Tareekh: <b>${today}</b></p>
-    <div class="doc-sign"><div>Ustad / Teacher</div><div>Nazim / Principal</div></div>`);
+  renderPrintDoc(docHeadIslamic('Certificate of Good Conduct', '\u0633\u0646\u062f \u062d\u0633\u0646\u0650 \u0627\u062e\u0644\u0627\u0642') + `
+    <p class="doc-line urdu" style="text-align:center; margin-top:18px; font-size:17px;">\u06cc\u06c1 \u0633\u0646\u062f \u0627\u0633 \u0628\u0627\u062a \u06a9\u06cc \u062a\u0635\u062f\u06cc\u0642 \u06a9\u0631\u062a\u06cc \u06c1\u06d2 \u06a9\u06c1</p>
+    <p style="text-align:center; font-size:30px; font-weight:800; margin:10px 0; color:var(--teal-deep); font-family:'Amiri',serif;">${esc(s.name)}</p>
+    <p class="doc-line urdu" style="text-align:center;">\u0648\u0644\u062f <b>${esc(s.father||'-')}</b>\u060c \u0631\u062c\u0633\u0679\u0631\u06cc\u0634\u0646 \u0646\u0645\u0628\u0631 <b>#${profileSerial(s)}</b>\u060c \u0634\u0646\u0627\u062e\u062a\u06cc \u0646\u0645\u0628\u0631 <b>${esc(s.id)}</b></p>
+    <p class="doc-line urdu" style="text-align:center;">\u062c\u0645\u0627\u0639\u062a <b>${esc(sectionLabel(s))}</b> \u0645\u06cc\u06ba \u0632\u06cc\u0631\u0650 \u062a\u0639\u0644\u06cc\u0645 \u0631\u06c1\u0627/\u0631\u06c1\u06cc\u060c \u0627\u0648\u0631 \u0627\u0633 \u06a9\u0627 \u0627\u062e\u0644\u0627\u0642 \u0648 \u062d\u0627\u0636\u0631\u06cc \u062a\u0633\u0644\u06cc \u0628\u062e\u0634 \u0631\u06c1\u06cc\u0654</p>
+    <p class="doc-line urdu" style="text-align:center;">\u0641\u06cc\u0633 \u06a9\u06cc \u0635\u0648\u0631\u062a\u062d\u0627\u0644: <b>${feeTextPlain(s)}</b></p>
+    <div class="cert-seal">\u0645\u06c1\u0631<br>\u0627\u062f\u0627\u0631\u06c1</div>
+    <p class="doc-line" style="text-align:center; margin-top:6px;">Date: <b>${today}</b></p>
+    <div class="doc-sign"><div>\u0627\u0633\u062a\u0627\u062f<br>Teacher</div><div>\u0645\u06c1\u062a\u0645\u0645<br>Principal</div></div>`, 'islamic');
 }
 function printAdmissionForm(){
   const s = studentById(activeDossierId); if(!s) return;
   const rows = [
-    ['Serial No.', '#'+profileSerial(s)+'  (ID: '+s.id+')'],
-    ['Naam / Name', s.name],
-    ['Walid ka Naam', s.father],
-    ['Jins / Gender', s.gender==='female'?'Female':'Male'],
-    ['Tareekh-e-Paidaish', s.dob],
-    ['Class / Section', sectionLabel(s)],
-    ['Mahana Fee', feeTextPlain(s)],
-    ['B-Form / CNIC', s.bform],
-    ['Mazhab', s.religion || 'Islam'],
-    ['Zaat / Qabeela', s.cast],
-    ['Maazoori', s.disability || 'None'],
-    ['Walid ka CNIC', s.fatherCnic],
-    ['Walid ka Pesha', s.fatherOccupation],
-    ['Walida ka Naam', s.motherName],
-    ['Zila / Tehsil', [s.district||'Quetta', s.tehsil].filter(Boolean).join(' / ')],
-    ['Mukammal Pata', s.address],
-    ['Rabta Number', s.contact],
-    ['WhatsApp', s.whatsapp || s.contact],
-    ['Blood Group', s.blood],
-    ['Dakhla Tareekh', s.admissionDate || s.joinMonth],
-    ['Dakhla Class', s.admissionClass || sectionLabel(s)],
-    ['Pichla Madrassa', s.prevSchool || 'None']
-  ].map(([k,v])=>`<tr><td>${esc(k)}</td><td>${(v==null||String(v).trim()==='')?'N/A':(k==='Mahana Fee'?v:esc(v))}</td></tr>`).join('');
-  renderPrintDoc(docHead('Admission Form') + `<table class="doc-table">${rows}</table>
-    <div class="doc-sign"><div>Walid ke Dastkhat</div><div>Nazim / Principal</div></div>`);
+    ['\u0633\u06cc\u0631\u06cc\u0644 \u0646\u0645\u0628\u0631 / Serial', '#'+profileSerial(s)+'  (ID: '+s.id+')'],
+    ['\u0637\u0627\u0644\u0628 \u0639\u0644\u0645 \u06a9\u0627 \u0646\u0627\u0645', s.name],
+    ['\u0648\u0627\u0644\u062f \u06a9\u0627 \u0646\u0627\u0645', s.father],
+    ['\u062c\u0646\u0633', s.gender==='female'?'\u0645\u0624\u0646\u062b':'\u0645\u0630\u06a9\u0631'],
+    ['\u062a\u0627\u0631\u06cc\u062e \u067e\u06cc\u062f\u0627\u0626\u0634', s.dob],
+    ['\u062c\u0645\u0627\u0639\u062a / \u0633\u06cc\u06a9\u0634\u0646', sectionLabel(s)],
+    ['\u0645\u0627\u06c1\u0627\u0646\u06c1 \u0641\u06cc\u0633', feeTextPlain(s)],
+    ['\u0628\u06cc-\u0641\u0627\u0631\u0645 / \u0634\u0646\u0627\u062e\u062a\u06cc \u06a9\u0627\u0631\u0688', s.bform],
+    ['\u0645\u0630\u06c1\u0628', s.religion || '\u0627\u0633\u0644\u0627\u0645'],
+    ['\u0630\u0627\u062a / \u0642\u0628\u06cc\u0644\u06c1', s.cast],
+    ['\u0645\u0639\u0630\u0648\u0631\u06cc', s.disability || '\u06a9\u0648\u0626\u06cc \u0646\u06c1\u06cc\u06ba'],
+    ['\u0648\u0627\u0644\u062f \u06a9\u0627 \u0634\u0646\u0627\u062e\u062a\u06cc \u0646\u0645\u0628\u0631', s.fatherCnic],
+    ['\u0648\u0627\u0644\u062f \u06a9\u0627 \u067e\u06cc\u0634\u06c1', s.fatherOccupation],
+    ['\u0648\u0627\u0644\u062f\u06c1 \u06a9\u0627 \u0646\u0627\u0645', s.motherName],
+    ['\u0636\u0644\u0639 / \u062a\u062d\u0635\u06cc\u0644', [s.district||'Quetta', s.tehsil].filter(Boolean).join(' / ')],
+    ['\u0645\u06a9\u0645\u0644 \u067e\u062a\u06c1', s.address],
+    ['\u0631\u0627\u0628\u0637\u06c1 \u0646\u0645\u0628\u0631', s.contact],
+    ['\u0648\u0627\u0679\u0633 \u0627\u06cc\u067e', s.whatsapp || s.contact],
+    ['\u0628\u0644\u0688 \u06af\u0631\u0648\u067e', s.blood],
+    ['\u062f\u0627\u062e\u0644\u06c1 \u062a\u0627\u0631\u06cc\u062e', s.admissionDate || s.joinMonth],
+    ['\u062f\u0627\u062e\u0644\u06c1 \u062c\u0645\u0627\u0639\u062a', s.admissionClass || sectionLabel(s)],
+    ['\u0633\u0627\u0628\u0642\u06c1 \u0645\u062f\u0631\u0633\u06c1', s.prevSchool || '\u06a9\u0648\u0626\u06cc \u0646\u06c1\u06cc\u06ba']
+  ].map(([k,v])=>`<tr><td class="urdu">${esc(k)}</td><td>${(v==null||String(v).trim()==='')?'N/A':esc(v)}</td></tr>`).join('');
+  const photoHtml = s.photo ? `<img src="${s.photo}" class="doc-photo" alt="${esc(s.name)}">` : '';
+  renderPrintDoc(docHeadIslamic('Admission Form', '\u062f\u0627\u062e\u0644\u06c1 \u0641\u0627\u0631\u0645') + `
+    ${photoHtml}
+    <table class="doc-table">${rows}</table>
+    <div style="clear:both;"></div>
+    <div class="doc-sign"><div>\u0648\u0627\u0644\u062f \u06a9\u06d2 \u062f\u0633\u062a\u062e\u0637<br>Guardian Signature</div><div>\u0645\u06c1\u062a\u0645\u0645<br>Principal</div></div>`, 'islamic');
 }
 /* purana naam bhi kaam karta rahe */
 function printDossier(){ printProfile(); }
@@ -2912,16 +3061,23 @@ function deleteStudent(id){
 /* ---- ID Card / QR ---- */
 function openIdCard(id){
   const s = studentById(id);
-  document.getElementById('idc_institute').textContent = DB.meta.instituteName;
+  const M = DB.meta;
+  document.getElementById('idc_institute').textContent = M.instituteName;
+  document.getElementById('idc_institute_urdu').textContent = M.instituteSub || '\u0646\u0638\u0631\u06c1 \u0627\u06a9\u06cc\u0688\u0645\u06cc';
   document.getElementById('idc_name').textContent = s.name;
-  document.getElementById('idc_father').textContent = 'S/D/O: '+(s.father||'-');
-  document.getElementById('idc_section').textContent = SECTION_META[s.section].label;
-  document.getElementById('idc_id').textContent = 'ID: '+s.id;
-  const photoEl = document.getElementById('idc_photo');
-  if(s.photo){ photoEl.src = s.photo; photoEl.style.display='block'; } else { photoEl.style.display='none'; }
+  document.getElementById('idc_father').innerHTML = '<b>S/D/O:</b> '+esc(s.father||'-');
+  document.getElementById('idc_section').innerHTML = '<b>Class:</b> '+esc(SECTION_META[s.section].label);
+  document.getElementById('idc_id').innerHTML = '<b>ID:</b> '+esc(s.id);
+  document.getElementById('idc_dob').innerHTML = '<b>DOB:</b> '+esc(s.dob||'N/A');
+  document.getElementById('idc_addr').textContent = M.instituteLine || '';
+  document.getElementById('idc_phone').textContent = M.institutePhone ? ('\u260E '+M.institutePhone) : '';
+  const wrap = document.getElementById('idc_photo_wrap');
+  wrap.innerHTML = s.photo
+    ? `<img src="${s.photo}" class="ic-photo" alt="${esc(s.name)}">`
+    : `<div class="ic-photo fallback">${esc((s.name||'?').charAt(0).toUpperCase())}</div>`;
   const box = document.getElementById('idCardQr');
   box.innerHTML = '';
-  new QRCode(box, { text: s.id, width:88, height:88, colorDark:'#123832', colorLight:'#ffffff' });
+  new QRCode(box, { text: s.id, width:64, height:64, colorDark:'#123832', colorLight:'#ffffff' });
   document.getElementById('idCardBackdrop').classList.add('open');
 }
 
