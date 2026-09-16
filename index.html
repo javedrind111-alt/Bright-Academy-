@@ -1139,12 +1139,58 @@ tbody tr:hover{background:#fbf8f0;}
 
     <!-- ---------- TEACHERS ---------- -->
     <section id="page-teachers" class="page section-hidden">
-      <div class="searchbar no-print">
-        <button class="btn blue" id="addTeacherBtn">&#10133; Naya Teacher</button>
+      <div class="tabbar no-print" id="tchTabbar">
+        <button type="button" class="active" data-tch-tab="list">&#128100; Fehrist</button>
+        <button type="button" data-tch-tab="attendance">&#128197; Teacher Hazri</button>
+        <button type="button" data-tch-tab="payslip">&#128176; Pay Slip</button>
       </div>
-      <div class="card">
-        <h3>Teachers Fehrist <span class="tag" id="teacherCountTag"></span></h3>
-        <div class="table-wrap"><table id="teachersTable"></table></div>
+
+      <div class="tch-tab-panel" data-tch-panel="list">
+        <div class="searchbar no-print">
+          <button class="btn blue" id="addTeacherBtn">&#10133; Naya Teacher</button>
+          <input type="text" id="teacherSearch" placeholder="Naam / username se dhoondein...">
+          <select id="teacherStatusFilter">
+            <option value="">Tamam</option>
+            <option value="active">Active</option>
+            <option value="inactive">Un-Active</option>
+          </select>
+        </div>
+        <div class="card">
+          <h3>Teachers Fehrist <span class="tag" id="teacherCountTag"></span></h3>
+          <div class="table-wrap"><table id="teachersTable"></table></div>
+        </div>
+      </div>
+
+      <div class="tch-tab-panel" data-tch-panel="attendance" style="display:none;">
+        <div class="searchbar no-print">
+          <input type="date" id="tchAttDate">
+          <input type="month" id="tchAttMonth">
+          <button class="btn ghost sm" id="tchAttExportBtn">&#11015; Export CSV</button>
+          <button class="btn ghost sm" id="tchAttPrintBtn">&#128424; Print Sheet</button>
+        </div>
+        <div class="card islamic-card">
+          <h3>Teacher Hazri &mdash; <span id="tchAttDateLabel"></span> <span class="tag" id="tchAttSummaryTag"></span></h3>
+          <div class="table-wrap"><table id="tchAttendanceTable"></table></div>
+          <p class="note">Sirf <b>Active</b> teachers yahan nazar aate hain. Har teacher ke aage Present / Absent / Leave darj karein.</p>
+        </div>
+        <div class="card islamic-card">
+          <div class="report-toolbar">
+            <div class="report-title">Mahana Teacher Attendance Sheet <span class="tag" id="tchAttReportTag"></span></div>
+          </div>
+          <div class="table-wrap"><table id="tchAttReportTable" class="daygrid"></table></div>
+        </div>
+      </div>
+
+      <div class="tch-tab-panel" data-tch-panel="payslip" style="display:none;">
+        <div class="searchbar no-print">
+          <input type="month" id="tchPayMonth">
+          <button class="btn ghost sm" id="tchPayExportBtn">&#11015; Export CSV</button>
+        </div>
+        <div class="card islamic-card">
+          <h3>Tankhwah / Pay Slip &mdash; <span id="tchPayMonthLabel"></span></h3>
+          <div class="table-wrap"><table id="tchPayTable"></table></div>
+          <p class="note">Pay slip hazri ke mutabiq banti hai: <b>Fi-din tankhwah = Monthly Salary &divide; Marked Days (P+A+L)</b>. Har Absent din ki kitoti (deduction) ho jati hai, Leave aur Present din poore shumar hote hain.</p>
+        </div>
       </div>
     </section>
 
@@ -1498,7 +1544,44 @@ tbody tr:hover{background:#fbf8f0;}
         <div class="checkbox-grid" id="tf_classesContainer"></div>
       </div>
       <div class="row">
-        <div class="field"><label>Contact / Mobile</label><input id="tf_phone" placeholder="03XX-XXXXXXX"></div>
+        <div class="field"><label>Full Name (dobara tasdeeq)</label><input id="tf_fullname" placeholder="Mukammal naam"></div>
+        <div class="field"><label>Father&rsquo;s Name</label><input id="tf_father" placeholder="Walid ka naam"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Date of Birth</label><input type="date" id="tf_dob"></div>
+        <div class="field">
+          <label>Gender</label>
+          <select id="tf_gender">
+            <option value="male">Male / Mard</option>
+            <option value="female">Female / Khatoon</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label>CNIC / B-Form No. (Optional)</label><input id="tf_cnic" placeholder="XXXXX-XXXXXXX-X"></div>
+        <div class="field"><label>Alternate Contact No. (Optional)</label><input id="tf_altphone" placeholder="03XX-XXXXXXX"></div>
+      </div>
+      <div class="field"><label>Complete Residential Address</label><textarea id="tf_address" rows="2" placeholder="Mukammal pata"></textarea></div>
+      <div class="row">
+        <div class="field"><label>Qualification / Degree</label><input id="tf_qualification" placeholder="e.g. Shahadat-ul-Aalamiyah / BA"></div>
+        <div class="field"><label>Field / Subject of Qualification</label><input id="tf_qualfield" placeholder="e.g. Tajweed, Islamiyat"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Qualified From (University / College / Madrasa)</label><input id="tf_qualfrom" placeholder="Idare ka naam"></div>
+        <div class="field"><label>Date of Joining</label><input type="date" id="tf_joining"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Monthly Salary (Rs.)</label><input type="number" id="tf_salary" min="0" step="100" placeholder="e.g. 15000"></div>
+        <div class="field">
+          <label>Status</label>
+          <select id="tf_active">
+            <option value="1">Active</option>
+            <option value="0">Un-Active</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label>WhatsApp / Contact No.</label><input id="tf_phone" placeholder="03XX-XXXXXXX"></div>
         <div class="field">
           <label>Photo</label>
           <input type="file" id="tf_photo" accept="image/*">
@@ -1759,11 +1842,12 @@ function loadDB(){
       else db.meta = {...DEFAULT_META, ...db.meta};
       if(!db.tests) db.tests = {};
       if(!db.teachers) db.teachers = [];
+      if(!db.teacherAttendance) db.teacherAttendance = {};
       db.students.forEach(s=>{ if(s.joinMonth===undefined) s.joinMonth=null; if(s.photo===undefined) s.photo=''; if(s.gender===undefined) s.gender=''; if(!SECTION_META[s.section]) s.section = 'iqra'; });
       return db;
     }catch(e){ /* fall through to reseed */ }
   }
-  const db = { students: seedStudents(), fees:{}, attendance:{}, sabaq:{}, tests:{}, teachers:[], meta:{...DEFAULT_META} };
+  const db = { students: seedStudents(), fees:{}, attendance:{}, sabaq:{}, tests:{}, teachers:[], teacherAttendance:{}, meta:{...DEFAULT_META} };
   saveDB(db);
   return db;
 }
@@ -1812,6 +1896,7 @@ function initCloudSync(){
       DB = snap.data();
       if(!DB.tests) DB.tests = {};
       if(!DB.teachers) DB.teachers = [];
+      if(!DB.teacherAttendance) DB.teacherAttendance = {};
       localStorage.setItem(DB_KEY, JSON.stringify(DB));
       refreshAllUI();
     } else {
@@ -1822,6 +1907,7 @@ function initCloudSync(){
       DB = snap.data();
       if(!DB.tests) DB.tests = {};
       if(!DB.teachers) DB.teachers = [];
+      if(!DB.teacherAttendance) DB.teacherAttendance = {};
       localStorage.setItem(DB_KEY, JSON.stringify(DB));
       refreshAllUI();
     });
@@ -2510,8 +2596,20 @@ function classesCheckboxHTML(selected){
 
 function renderTeachers(){
   if(!DB.teachers) DB.teachers = [];
-  document.getElementById('teacherCountTag').textContent = DB.teachers.length+' teachers';
-  const rows = DB.teachers.map(t=>{
+  const qEl = document.getElementById('teacherSearch');
+  const stEl = document.getElementById('teacherStatusFilter');
+  const q = (qEl ? qEl.value : '').trim().toLowerCase();
+  const stFilter = stEl ? stEl.value : '';
+  const listT = DB.teachers.filter(t=>{
+    const isActive = t.active !== false;
+    if(stFilter==='active' && !isActive) return false;
+    if(stFilter==='inactive' && isActive) return false;
+    if(q && !((t.name||'')+' '+(t.username||'')+' '+(t.father||'')).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const activeCount = DB.teachers.filter(t=>t.active!==false).length;
+  document.getElementById('teacherCountTag').textContent = listT.length+' teachers \u00b7 '+activeCount+' active';
+  const rows = listT.map(t=>{
     const classesHTML = (t.sections||[]).map(k=>`<span class="pill section">${SECTION_META[k]?SECTION_META[k].label:k}</span>`).join(' ') || '-';
     return `
     <tr>
@@ -2521,18 +2619,22 @@ function renderTeachers(){
       <td><span class="pill section">${t.role==='admin'?'Admin':'Teacher'}</span></td>
       <td>${classesHTML}</td>
       <td>${t.phone ? phoneChip(t.phone) : '-'}</td>
+      <td><span class="pill ${t.active===false?'due':'paid'}">${t.active===false?'Un-Active':'Active'}</span></td>
       <td class="no-print" style="white-space:nowrap;">
         <button class="btn blue sm" onclick="openTeacherModal('${t.id}')">&#9998; Edit</button>
+        <button class="btn ghost sm" onclick="printTeacherProfile('${t.id}')">&#128424; Profile</button>
+        <button class="btn gold sm" onclick="printTeacherPayslip('${t.id}')">&#128176; Pay Slip</button>
+        <button class="btn ${t.active===false?'green':'amber'} sm" onclick="toggleTeacherActive('${t.id}')">${t.active===false?'Activate':'De-Activate'}</button>
         <button class="btn danger sm" onclick="deleteTeacher('${t.id}')">&#128465; Delete</button>
       </td>
     </tr>`;
   }).join('');
-  document.getElementById('teachersTable').innerHTML = `<thead><tr><th></th><th>Naam</th><th>Username</th><th>Role</th><th>Assigned Classes</th><th>Rabta</th><th class="no-print">Amal</th></tr></thead><tbody>${rows || '<tr><td colspan=7 class="empty-state">Abhi tak koi teacher add nahi hua</td></tr>'}</tbody>`;
+  document.getElementById('teachersTable').innerHTML = `<thead><tr><th></th><th>Naam</th><th>Username</th><th>Role</th><th>Assigned Classes</th><th>Rabta</th><th>Status</th><th class="no-print">Amal</th></tr></thead><tbody>${rows || '<tr><td colspan=8 class="empty-state">Abhi tak koi teacher add nahi hua</td></tr>'}</tbody>`;
 }
 
 function openTeacherModal(id){
   const isEdit = !!id;
-  const t = isEdit ? DB.teachers.find(x=>x.id===id) : {id:'',name:'',username:'',role:'teacher',sections:[],phone:'',photo:''};
+  const t = isEdit ? DB.teachers.find(x=>x.id===id) : {id:'',name:'',username:'',role:'teacher',sections:[],phone:'',photo:'',active:true};
   document.getElementById('teacherModalTitle').textContent = isEdit ? 'Teacher Update Karein' : 'Naya Teacher';
   document.getElementById('tf_id').value = t.id||'';
   document.getElementById('tf_name').value = t.name||'';
@@ -2545,6 +2647,19 @@ function openTeacherModal(id){
   document.getElementById('tf_role').value = t.role||'teacher';
   document.getElementById('tf_classesContainer').innerHTML = classesCheckboxHTML(t.sections);
   document.getElementById('tf_phone').value = t.phone||'';
+  document.getElementById('tf_fullname').value = t.fullName || t.name || '';
+  document.getElementById('tf_father').value = t.father||'';
+  document.getElementById('tf_dob').value = t.dob||'';
+  document.getElementById('tf_gender').value = t.gender||'male';
+  document.getElementById('tf_cnic').value = t.cnic||'';
+  document.getElementById('tf_altphone').value = t.altPhone||'';
+  document.getElementById('tf_address').value = t.address||'';
+  document.getElementById('tf_qualification').value = t.qualification||'';
+  document.getElementById('tf_qualfield').value = t.qualField||'';
+  document.getElementById('tf_qualfrom').value = t.qualFrom||'';
+  document.getElementById('tf_joining').value = t.joiningDate||'';
+  document.getElementById('tf_salary').value = t.salary||'';
+  document.getElementById('tf_active').value = (t.active===false) ? '0' : '1';
   document.getElementById('tf_photo').value = '';
   document.getElementById('tf_photo_data').value = t.photo||'';
   const prev = document.getElementById('tf_photo_preview');
@@ -2579,6 +2694,21 @@ document.getElementById('teacherForm').addEventListener('submit', async e=>{
   const sections = Array.from(document.querySelectorAll('.tf-class-chk:checked')).map(c=>c.value);
   const phone = document.getElementById('tf_phone').value.trim();
   const photo = document.getElementById('tf_photo_data').value || '';
+  const extra = {
+    fullName: document.getElementById('tf_fullname').value.trim() || name,
+    father: document.getElementById('tf_father').value.trim(),
+    dob: document.getElementById('tf_dob').value,
+    gender: document.getElementById('tf_gender').value,
+    cnic: document.getElementById('tf_cnic').value.trim(),
+    altPhone: document.getElementById('tf_altphone').value.trim(),
+    address: document.getElementById('tf_address').value.trim(),
+    qualification: document.getElementById('tf_qualification').value.trim(),
+    qualField: document.getElementById('tf_qualfield').value.trim(),
+    qualFrom: document.getElementById('tf_qualfrom').value.trim(),
+    joiningDate: document.getElementById('tf_joining').value,
+    salary: Number(document.getElementById('tf_salary').value||0),
+    active: document.getElementById('tf_active').value === '1'
+  };
   if(!name || !username){ errBox.textContent = 'Naam aur Username zaroori hain.'; return; }
   if(!DB.teachers) DB.teachers = [];
   if(!isEdit){
@@ -2600,10 +2730,10 @@ document.getElementById('teacherForm').addEventListener('submit', async e=>{
         await secondary.delete();
       }
       await fbStore.collection('roles').doc(username).set({role});
-      DB.teachers.push({id:'TCH-'+Date.now().toString().slice(-6), name, username, role, sections, phone, photo, active:true});
+      DB.teachers.push(Object.assign({id:'TCH-'+Date.now().toString().slice(-6), name, username, role, sections, phone, photo}, extra));
     } else {
       const teacher = DB.teachers.find(t=>t.id===id);
-      Object.assign(teacher, {name, role, sections, phone, photo});
+      Object.assign(teacher, {name, role, sections, phone, photo}, extra);
       await fbStore.collection('roles').doc(teacher.username).set({role});
     }
     saveDB(DB);
@@ -2627,6 +2757,215 @@ function deleteTeacher(id){
     fbStore.collection('roles').doc(t.username).delete().catch(err=>console.error('Role delete nakaam', err));
   }
 }
+
+/* ================= TEACHER STATUS / ATTENDANCE / PAY SLIP ================= */
+function teacherById(id){ return (DB.teachers||[]).find(t=>t.id===id); }
+function activeTeachers(){ return (DB.teachers||[]).filter(t=>t.active!==false); }
+
+function toggleTeacherActive(id){
+  const t = teacherById(id); if(!t) return;
+  t.active = (t.active===false);
+  saveDB(DB);
+  renderTeachers();
+}
+
+/* ---- Teacher daily attendance ---- */
+function tchAttRec(date){
+  if(!DB.teacherAttendance) DB.teacherAttendance = {};
+  if(!DB.teacherAttendance[date]) DB.teacherAttendance[date] = {};
+  return DB.teacherAttendance[date];
+}
+function setTeacherAttendance(date, tid, status){
+  const rec = tchAttRec(date);
+  rec[tid] = status;
+  saveDB(DB);
+  renderTeacherAttendance();
+}
+function renderTeacherAttendance(){
+  const dateInput = document.getElementById('tchAttDate');
+  if(!dateInput.value) dateInput.value = todayISO();
+  const date = dateInput.value;
+  const monthInput = document.getElementById('tchAttMonth');
+  if(!monthInput.value) monthInput.value = date.slice(0,7);
+  document.getElementById('tchAttDateLabel').textContent = new Date(date+'T00:00:00').toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const rec = tchAttRec(date);
+  const list = activeTeachers();
+  let present=0, absent=0, leave=0;
+  const rows = list.map(t=>{
+    const st = rec[t.id] || '';
+    if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++;
+    return `<tr>
+      <td><b>${t.id}</b></td>
+      <td>${esc(t.name)}</td>
+      <td>${esc(t.father||'-')}</td>
+      <td>${t.phone ? phoneChip(t.phone) : '-'}</td>
+      <td class="no-print" style="white-space:nowrap;">
+        <button class="btn sm ${st==='P'?'green':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','P')">&#10003; Present</button>
+        <button class="btn sm ${st==='A'?'danger':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','A')">&#10007; Absent</button>
+        <button class="btn sm ${st==='L'?'amber':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','L')">&#128197; Leave</button>
+      </td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tchAttSummaryTag').textContent = `${present} Present \u00b7 ${absent} Absent \u00b7 ${leave} Leave`;
+  document.getElementById('tchAttendanceTable').innerHTML = `<thead><tr><th>ID</th><th>Naam</th><th>Walid</th><th>Rabta</th><th class="no-print">Hazri</th></tr></thead><tbody>${rows || '<tr><td colspan=5 class="empty-state">Koi active teacher nahi</td></tr>'}</tbody>`;
+  renderTeacherAttendanceSheet();
+}
+function teacherMonthStats(t, mKey){
+  const daysTotal = daysInMonthCount(mKey);
+  let present=0, absent=0, leave=0;
+  const days = [];
+  for(let d=1; d<=daysTotal; d++){
+    const dateStr = mKey+'-'+String(d).padStart(2,'0');
+    const st = ((DB.teacherAttendance||{})[dateStr]||{})[t.id] || '';
+    if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++;
+    days.push(st);
+  }
+  const marked = present+absent+leave;
+  const pct = (present+absent) ? Math.round(present/(present+absent)*100) : 0;
+  const salary = Number(t.salary||0);
+  const perDay = marked ? salary/marked : 0;
+  const deduction = Math.round(perDay*absent);
+  const payable = Math.max(0, salary - deduction);
+  return {teacher:t, present, absent, leave, marked, pct, days, salary, perDay:Math.round(perDay), deduction, payable};
+}
+function renderTeacherAttendanceSheet(){
+  const mKey = document.getElementById('tchAttMonth').value || currentMonth;
+  const daysTotal = daysInMonthCount(mKey);
+  document.getElementById('tchAttReportTag').textContent = monthLabel(mKey);
+  const dayHeaders = Array.from({length:daysTotal}, (_,i)=>`<th>${i+1}</th>`).join('');
+  const rows = activeTeachers().map(t=>{
+    const r = teacherMonthStats(t, mKey);
+    const dayCells = r.days.map(st=>{
+      const cls = st==='P'?'P':st==='A'?'A':st==='L'?'L':'dash';
+      return `<td><span class="dg-cell ${cls}">${st || '-'}</span></td>`;
+    }).join('');
+    return `<tr>
+      <td class="dg-name">${esc(t.name)}</td>
+      <td class="dg-id">${t.id}</td>
+      ${dayCells}
+      <td class="dg-sum P">${r.present}</td>
+      <td class="dg-sum A">${r.absent}</td>
+      <td class="dg-sum L">${r.leave}</td>
+      <td>${r.pct}%</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tchAttReportTable').innerHTML = `<thead><tr><th>Teacher</th><th>ID</th>${dayHeaders}<th>P</th><th>A</th><th>L</th><th>%</th></tr></thead><tbody>${rows || `<tr><td colspan=${daysTotal+6} class="empty-state">Koi record nahi</td></tr>`}</tbody>`;
+}
+
+/* ---- Pay slip ---- */
+function renderTeacherPayslips(){
+  const monthInput = document.getElementById('tchPayMonth');
+  if(!monthInput.value) monthInput.value = currentMonth;
+  const mKey = monthInput.value;
+  document.getElementById('tchPayMonthLabel').textContent = monthLabel(mKey);
+  const rows = activeTeachers().map(t=>{
+    const r = teacherMonthStats(t, mKey);
+    return `<tr>
+      <td><b>${esc(t.name)}</b><div style="font-size:11px;color:var(--ink-soft);">${t.id}</div></td>
+      <td>${fmtMoney(r.salary)}</td>
+      <td>${r.marked}</td>
+      <td><span class="dg-cell P">${r.present}</span></td>
+      <td><span class="dg-cell A">${r.absent}</span></td>
+      <td><span class="dg-cell L">${r.leave}</span></td>
+      <td>${fmtMoney(r.perDay)}</td>
+      <td><span class="pill due">${fmtMoney(r.deduction)}</span></td>
+      <td><span class="pill paid">${fmtMoney(r.payable)}</span></td>
+      <td class="no-print" style="white-space:nowrap;">
+        <button class="btn gold sm" onclick="printTeacherPayslip('${t.id}')">&#128424; Pay Slip</button>
+      </td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tchPayTable').innerHTML = `<thead><tr><th>Teacher</th><th>Salary</th><th>Marked Days</th><th>P</th><th>A</th><th>L</th><th>Fi-din</th><th>Kitoti</th><th>Qabil-e-Adaigi</th><th class="no-print">Amal</th></tr></thead><tbody>${rows || '<tr><td colspan=10 class="empty-state">Koi active teacher nahi</td></tr>'}</tbody>`;
+}
+function printTeacherPayslip(id){
+  const t = teacherById(id); if(!t) return;
+  const mKey = (document.getElementById('tchPayMonth').value) || currentMonth;
+  const r = teacherMonthStats(t, mKey);
+  const rows = [
+    ['\u0627\u0633\u062a\u0627\u062f \u06a9\u0627 \u0646\u0627\u0645 / Teacher', t.name],
+    ['\u0648\u0627\u0644\u062f \u06a9\u0627 \u0646\u0627\u0645 / Father', t.father],
+    ['\u0634\u0646\u0627\u062e\u062a\u06cc \u0646\u0645\u0628\u0631 / CNIC', t.cnic],
+    ['\u0634\u0645\u0648\u0644\u06cc\u062a / Date of Joining', t.joiningDate],
+    ['\u0645\u0627\u06c1 / Month', monthLabel(mKey)],
+    ['\u0645\u0627\u06c1\u0627\u0646\u06c1 \u062a\u0646\u062e\u0648\u0627\u06c1 / Monthly Salary', fmtMoney(r.salary)],
+    ['\u06a9\u0644 \u062f\u0631\u062c \u0634\u062f\u06c1 \u062f\u0646 / Marked Days', r.marked],
+    ['\u062d\u0627\u0636\u0631 / Present', r.present],
+    ['\u0631\u062e\u0635\u062a / Leave', r.leave],
+    ['\u063a\u06cc\u0631 \u062d\u0627\u0636\u0631 / Absent', r.absent],
+    ['\u062d\u0627\u0636\u0631\u06cc \u0641\u06cc\u0635\u062f / Attendance %', r.pct+'%'],
+    ['\u0641\u06cc \u062f\u0646 \u062a\u0646\u062e\u0648\u0627\u06c1 / Per Day', fmtMoney(r.perDay)],
+    ['\u06a9\u0679\u0648\u062a\u06cc / Deduction', fmtMoney(r.deduction)]
+  ].map(([k,v])=>`<tr><td class="urdu">${esc(k)}</td><td>${(v==null||String(v).trim()==='')?'N/A':esc(v)}</td></tr>`).join('');
+  const photoHtml = t.photo ? `<img src="${t.photo}" class="doc-photo" alt="${esc(t.name)}">` : '';
+  renderPrintDoc(docHeadIslamic('Teacher Pay Slip', '\u062a\u0646\u062e\u0648\u0627\u06c1 \u0631\u0633\u06cc\u062f') + `
+    ${photoHtml}
+    <table class="doc-table">${rows}</table>
+    <div style="clear:both;"></div>
+    <p style="text-align:center; font-size:22px; font-weight:800; margin:14px 0; color:var(--teal-deep); font-family:'Amiri',serif;">Qabil-e-Adaigi / \u0642\u0627\u0628\u0644\u0650 \u0627\u062f\u0627\u0626\u06cc\u06af\u06cc: ${fmtMoney(r.payable)}</p>
+    <div class="doc-sign"><div>\u0627\u0633\u062a\u0627\u062f \u06a9\u06d2 \u062f\u0633\u062a\u062e\u0637<br>Teacher Signature</div><div>\u0645\u06c1\u062a\u0645\u0645<br>Principal</div></div>`, 'islamic');
+}
+function printTeacherProfile(id){
+  const t = teacherById(id); if(!t) return;
+  const rows = [
+    ['\u0645\u06a9\u0645\u0644 \u0646\u0627\u0645 / Full Name', t.fullName || t.name],
+    ['\u0648\u0627\u0644\u062f \u06a9\u0627 \u0646\u0627\u0645 / Father\u2019s Name', t.father],
+    ['\u062a\u0627\u0631\u06cc\u062e \u067e\u06cc\u062f\u0627\u0626\u0634 / Date of Birth', t.dob],
+    ['\u062c\u0646\u0633 / Gender', t.gender==='female' ? 'Female' : 'Male'],
+    ['CNIC / B-Form', t.cnic],
+    ['WhatsApp / Contact', t.phone],
+    ['Alternate Contact', t.altPhone],
+    ['\u0645\u06a9\u0645\u0644 \u067e\u062a\u06c1 / Address', t.address],
+    ['Qualification / Degree', t.qualification],
+    ['Field / Subject', t.qualField],
+    ['Qualified From', t.qualFrom],
+    ['\u062a\u0627\u0631\u06cc\u062e \u0634\u0645\u0648\u0644\u06cc\u062a / Date of Joining', t.joiningDate],
+    ['\u0645\u0627\u06c1\u0627\u0646\u06c1 \u062a\u0646\u062e\u0648\u0627\u06c1 / Monthly Salary', t.salary ? fmtMoney(t.salary) : ''],
+    ['Assigned Classes', (t.sections||[]).map(k=>SECTION_META[k]?SECTION_META[k].label:k).join(', ')],
+    ['Status', t.active===false ? 'Un-Active' : 'Active']
+  ].map(([k,v])=>`<tr><td class="urdu">${esc(k)}</td><td>${(v==null||String(v).trim()==='')?'N/A':esc(v)}</td></tr>`).join('');
+  const photoHtml = t.photo ? `<img src="${t.photo}" class="doc-photo" alt="${esc(t.name)}">` : '';
+  renderPrintDoc(docHeadIslamic('Teacher Profile', '\u0627\u0633\u062a\u0627\u062f \u06a9\u0627 \u06a9\u0648\u0627\u0626\u0641') + `
+    ${photoHtml}
+    <table class="doc-table">${rows}</table>
+    <div style="clear:both;"></div>
+    <div class="doc-sign"><div>\u0627\u0633\u062a\u0627\u062f<br>Teacher</div><div>\u0645\u06c1\u062a\u0645\u0645<br>Principal</div></div>`, 'islamic');
+}
+
+/* ---- Teachers page tabs + listeners ---- */
+document.getElementById('tchTabbar').addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-tch-tab]');
+  if(!btn) return;
+  const tab = btn.dataset.tchTab;
+  document.querySelectorAll('#tchTabbar button').forEach(b=>b.classList.toggle('active', b===btn));
+  document.querySelectorAll('.tch-tab-panel').forEach(p=>{ p.style.display = (p.dataset.tchPanel===tab) ? '' : 'none'; });
+  if(tab==='list') renderTeachers();
+  if(tab==='attendance') renderTeacherAttendance();
+  if(tab==='payslip') renderTeacherPayslips();
+});
+document.getElementById('teacherSearch').addEventListener('input', renderTeachers);
+document.getElementById('teacherStatusFilter').addEventListener('change', renderTeachers);
+document.getElementById('tchAttDate').addEventListener('change', renderTeacherAttendance);
+document.getElementById('tchAttMonth').addEventListener('change', renderTeacherAttendanceSheet);
+document.getElementById('tchPayMonth').addEventListener('change', renderTeacherPayslips);
+document.getElementById('tchAttPrintBtn').addEventListener('click', ()=>printElement('tchAttReportTable'));
+document.getElementById('tchAttExportBtn').addEventListener('click', ()=>{
+  const mKey = document.getElementById('tchAttMonth').value || currentMonth;
+  const lines = ['Teacher,ID,Present,Absent,Leave,Attendance %'];
+  activeTeachers().forEach(t=>{
+    const r = teacherMonthStats(t, mKey);
+    lines.push([t.name, t.id, r.present, r.absent, r.leave, r.pct+'%'].map(csvEscape).join(','));
+  });
+  downloadCSV(lines.join('\n'), `teacher_attendance_${mKey}.csv`);
+});
+document.getElementById('tchPayExportBtn').addEventListener('click', ()=>{
+  const mKey = document.getElementById('tchPayMonth').value || currentMonth;
+  const lines = ['Teacher,ID,Salary,Marked Days,Present,Absent,Leave,Per Day,Deduction,Payable'];
+  activeTeachers().forEach(t=>{
+    const r = teacherMonthStats(t, mKey);
+    lines.push([t.name, t.id, r.salary, r.marked, r.present, r.absent, r.leave, r.perDay, r.deduction, r.payable].map(csvEscape).join(','));
+  });
+  downloadCSV(lines.join('\n'), `teacher_payslips_${mKey}.csv`);
+});
 
 /* View Mode State */
 let currentStudentView = 'grid';
