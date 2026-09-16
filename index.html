@@ -248,6 +248,9 @@ thead th{
 }
 tbody td{padding:9px 10px; border-bottom:1px solid #ece4d2; vertical-align:middle;}
 tbody tr:hover{background:#fbf8f0;}
+.sabaq-select{width:190px; min-width:190px;}
+.yad-select{width:110px; min-width:110px;}
+.sabaq-remarks{width:220px; min-width:220px;}
 .table-wrap{overflow-x:auto; border-radius:8px;}
 
 .pill{display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:var(--radius-pill); font-size:12px; font-weight:600;}
@@ -380,6 +383,14 @@ tbody tr:hover{background:#fbf8f0;}
   .bottom-nav button svg{width:20px; height:20px;}
   .bottom-nav button.active{color:#fff;}
   .bottom-nav button.active svg{stroke:var(--gold);}
+  /* Bigger, thumb-friendly form controls inside tables (e.g. Sabaq Report) on mobile */
+  .table-wrap select, .table-wrap input{
+    font-size:15px; padding:11px 10px; min-height:44px; border-radius:8px;
+  }
+  .sabaq-select{width:240px; min-width:240px; font-size:16px;}
+  .yad-select{width:130px; min-width:130px; font-size:15px;}
+  .sabaq-remarks{width:260px; min-width:260px; font-size:15px;}
+  #sabaqTable th, #sabaqTable td{white-space:nowrap;}
 }
 @media print{
   body{background:#fff;}
@@ -1022,10 +1033,13 @@ tbody tr:hover{background:#fbf8f0;}
   <nav class="bottom-nav no-print" id="bottomNav">
     <button data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashb</span></button>
     <button data-page="students"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.6 2.8-6 6-6s6 2.4 6 6"/></svg><span>Stude</span></button>
+    <button data-page="teachers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M9 7h7M9 11h4"/></svg><span>Teach</span></button>
     <button data-page="fees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg><span>Fees</span></button>
     <button data-page="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3"/><rect x="9" y="9" width="6" height="6"/></svg><span>QR Scan</span></button>
     <button data-page="attendance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg><span>Atten</span></button>
     <button data-page="sabaq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4.5A2.5 2.5 0 016.5 2H19v18H6.5A2.5 2.5 0 004 17.5v-13z"/></svg><span>Sabaq</span></button>
+    <button data-page="tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>Imtihan</span></button>
+    <button data-page="bulkwa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span>Bulk WA</span></button>
     <button data-page="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9"/></svg><span>Settings</span></button>
     <button data-page="backup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>Backup</span></button>
   </nav>
@@ -1608,9 +1622,50 @@ const SECTION_META = {
   noor:   {label:'An-Noor (Girls)',     urdu:'شُعبَةُ النُّور',     fee:500, teacher:'Miss Mariya'},
   tarteel:{label:'At-Tarteel (Elementary)', urdu:'شُعبَةُ التَّرْتِيل', fee:300, teacher:'Miss Madiha & Miss Noureen'},
   alif:   {label:'Al-Alif (Beginner)',  urdu:'شُعبَةُ الأَلِف',     fee:300, teacher:'Miss Samreen'},
-  tuition:{label:'Tuition Class',       urdu:'',                     fee:0,   teacher:'---'}
+  tajweed:{label:'Tajweed-ul-Quran',    urdu:'شُعبَةُ التَّجْوِيدِ', fee:500, teacher:'---'}
 };
 const SECTION_KEYS = Object.keys(SECTION_META);
+/* Fallback so any old/unknown section value already saved in a browser's localStorage
+   (e.g. a student previously in the now-removed "Tuition" class) never crashes the UI. */
+function sectionMetaOf(key){ return SECTION_META[key] || {label:key||'Unassigned', urdu:'', fee:0, teacher:'---'}; }
+
+/* ---- Sabaq (lesson) dropdown lists ---- */
+const SURAH_LIST = [
+"01 - الْفَاتِحَةِ","02 - الْبَقَرَةِ","03 - آلِ عِمْرَانَ","04 - النِّسَاءِ","05 - الْمَائِدَةِ",
+"06 - الْأَنْعَامِ","07 - الْأَعْرَافِ","08 - الْأَنْفَالِ","09 - التَّوْبَةِ","10 - يُونُسَ",
+"11 - هُودٍ","12 - يُوسُفَ","13 - الرَّعْدِ","14 - إِبْرَاهِيمَ","15 - الْحِجْرِ",
+"16 - النَّحْلِ","17 - الْإِسْرَاءِ","18 - الْكَهْفِ","19 - مَرْيَمَ","20 - طٰهٰ",
+"21 - الْأَنْبِيَاءِ","22 - الْحَجِّ","23 - الْمُؤْمِنُونَ","24 - النُّورِ","25 - الْفُرْقَانِ",
+"26 - الشُّعَرَاءِ","27 - النَّمْلِ","28 - الْقَصَصِ","29 - الْعَنْكَبُوتِ","30 - الرُّومِ",
+"31 - لُقْمَانَ","32 - السَّجْدَةِ","33 - الْأَحْزَابِ","34 - سَبَإٍ","35 - فَاطِرٍ",
+"36 - يسٓ","37 - الصَّافَّاتِ","38 - صٓ","39 - الزُّمَرِ","40 - غَافِرٍ",
+"41 - فُصِّلَتْ","42 - الشُّورَىٰ","43 - الزُّخْرُفِ","44 - الدُّخَانِ","45 - الْجَاثِيَةِ",
+"46 - الْأَحْقَافِ","47 - مُحَمَّدٍ","48 - الْفَتْحِ","49 - الْحُجُرَاتِ","50 - قٓ",
+"51 - الذَّارِيَاتِ","52 - الطُّورِ","53 - النَّجْمِ","54 - الْقَمَرِ","55 - الرَّحْمٰنِ",
+"56 - الْوَاقِعَةِ","57 - الْحَدِيدِ","58 - الْمُجَادِلَةِ","59 - الْحَشْرِ","60 - الْمُمْتَحَنَةِ",
+"61 - الصَّفِّ","62 - الْجُمُعَةِ","63 - الْمُنَافِقُونَ","64 - التَّغَابُنِ","65 - الطَّلَاقِ",
+"66 - التَّحْرِيمِ","67 - الْمُلْكِ","68 - الْقَلَمِ","69 - الْحَاقَّةِ","70 - الْمَعَارِجِ",
+"71 - نُوحٍ","72 - الْجِنِّ","73 - الْمُزَّمِّلِ","74 - الْمُدَّثِّرِ","75 - الْقِيَامَةِ",
+"76 - الْإِنْسَانِ","77 - الْمُرْسَلَاتِ","78 - النَّبَإِ","79 - النَّازِعَاتِ","80 - عَبَسَ",
+"81 - التَّكْوِيرِ","82 - الْإِنْفِطَارِ","83 - الْمُطَفِّفِينَ","84 - الْإِنْشِقَاقِ","85 - الْبُرُوجِ",
+"86 - الطَّارِقِ","87 - الْأَعْلَىٰ","88 - الْغَاشِيَةِ","89 - الْفَجْرِ","90 - الْبَلَدِ",
+"91 - الشَّمْسِ","92 - اللَّيْلِ","93 - الضُّحَىٰ","94 - الشَّرْحِ","95 - التِّينِ",
+"96 - الْعَلَقِ","97 - الْقَدْرِ","98 - الْبَيِّنَةِ","99 - الزَّلْزَلَةِ","100 - الْعَادِيَاتِ",
+"101 - الْقَارِعَةِ","102 - التَّكَاثُرِ","103 - الْعَصْرِ","104 - الْهُمَزَةِ","105 - الْفِيلِ",
+"106 - قُرَيْشٍ","107 - الْمَاعُونِ","108 - الْكَوْثَرِ","109 - الْكَافِرُونَ","110 - النَّصْرِ",
+"111 - الْمَسَدِ","112 - الْإِخْلَاصِ","113 - الْفَلَقِ","114 - النَّاسِ"
+];
+const ALIF_LIST = [
+"01 - مُفْرَدَات","02 - مُرَكَّبَات","03 - حُرُوفِ مُقَطَّعَات","04 - حَرَكَات","05 - تَنْوِين"
+];
+function sabaqLessonList(sectionKey){ return sectionKey==='alif' ? ALIF_LIST : SURAH_LIST; }
+function sabaqLessonOptions(sectionKey, current){
+  const list = sabaqLessonList(sectionKey);
+  let opts = '<option value="">-- Muntakhib Karein --</option>';
+  if(current && !list.includes(current)) opts += `<option value="${esc(current)}" selected>${esc(current)}</option>`;
+  opts += list.map(v=>`<option value="${esc(v)}" ${v===current?'selected':''}>${esc(v)}</option>`).join('');
+  return opts;
+}
 
 function seedStudents(){
   // [name, father, address, contact, dob, section]
@@ -1704,7 +1759,7 @@ function loadDB(){
       else db.meta = {...DEFAULT_META, ...db.meta};
       if(!db.tests) db.tests = {};
       if(!db.teachers) db.teachers = [];
-      db.students.forEach(s=>{ if(s.joinMonth===undefined) s.joinMonth=null; if(s.photo===undefined) s.photo=''; if(s.gender===undefined) s.gender=''; });
+      db.students.forEach(s=>{ if(s.joinMonth===undefined) s.joinMonth=null; if(s.photo===undefined) s.photo=''; if(s.gender===undefined) s.gender=''; if(!SECTION_META[s.section]) s.section = 'iqra'; });
       return db;
     }catch(e){ /* fall through to reseed */ }
   }
@@ -2415,7 +2470,7 @@ function renderDashboard(){
   `;
   document.getElementById('statCards').innerHTML = statHTML;
 
-  let rows = SECTION_KEYS.filter(k=>k!=='tuition' || active.some(s=>s.section==='tuition')).map(k=>{
+  let rows = SECTION_KEYS.map(k=>{
     const list = active.filter(s=>s.section===k);
     if(!list.length) return '';
     let paid=0, tot=0;
@@ -3445,14 +3500,14 @@ function renderSabaq(){
     const absentCount = sabaqAbsentCount(sec, s.id, currentMonth);
     return `<tr>
       <td><b>${s.name}</b><br><small>${s.father||''}</small></td>
-      <td><input type="text" value="${rec.lessonStart}" style="width:80px" onchange="updateSabaq('${s.id}','lessonStart',this.value)" placeholder="Start"></td>
-      <td><input type="text" value="${rec.lessonEnd}" style="width:80px" onchange="updateSabaq('${s.id}','lessonEnd',this.value)" placeholder="End"></td>
-      <td><select onchange="updateSabaq('${s.id}','kalma',this.value)">${yadOpt(rec.kalma)}</select></td>
-      <td><select onchange="updateSabaq('${s.id}','namaz',this.value)">${yadOpt(rec.namaz)}</select></td>
-      <td><select onchange="updateSabaq('${s.id}','masail',this.value)">${yadOpt(rec.masail)}</select></td>
-      <td><select onchange="updateSabaq('${s.id}','dua',this.value)">${yadOpt(rec.dua)}</select></td>
+      <td><select class="sabaq-select urdu" onchange="updateSabaq('${s.id}','lessonStart',this.value)">${sabaqLessonOptions(sec, rec.lessonStart)}</select></td>
+      <td><select class="sabaq-select urdu" onchange="updateSabaq('${s.id}','lessonEnd',this.value)">${sabaqLessonOptions(sec, rec.lessonEnd)}</select></td>
+      <td><select class="yad-select" onchange="updateSabaq('${s.id}','kalma',this.value)">${yadOpt(rec.kalma)}</select></td>
+      <td><select class="yad-select" onchange="updateSabaq('${s.id}','namaz',this.value)">${yadOpt(rec.namaz)}</select></td>
+      <td><select class="yad-select" onchange="updateSabaq('${s.id}','masail',this.value)">${yadOpt(rec.masail)}</select></td>
+      <td><select class="yad-select" onchange="updateSabaq('${s.id}','dua',this.value)">${yadOpt(rec.dua)}</select></td>
       <td>${absentCount>0 ? `<span class="pill due" title="Attendance se — is mahine ki ghair hazriyan">${absentCount}</span>` : '<span class="pill paid">0</span>'}</td>
-      <td><input type="text" value="${rec.remarks}" onchange="updateSabaq('${s.id}','remarks',this.value)" placeholder="Remarks"></td>
+      <td><input type="text" class="sabaq-remarks" value="${rec.remarks}" onchange="updateSabaq('${s.id}','remarks',this.value)" placeholder="Remarks"></td>
       <td class="no-print">${CURRENT_ROLE==='admin' ? waBtn('Report Bhejein', `sendSabaqReport('${s.id}')`, {title:'Walidain ko WhatsApp par report bhejein'}) : ''}</td>
     </tr>`;
   }).join('');
