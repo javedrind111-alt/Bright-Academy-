@@ -3915,7 +3915,7 @@ function openIdCard(id){
   const box = document.getElementById('idCardQr');
   box.innerHTML = '';
   new QRCode(box, {
-    text: `STUDENT:${s.id}|${s.name}|CLASS:${(SECTION_META[s.section]?SECTION_META[s.section].label:s.section)}`,
+    text: s.id,
     width: 74,
     height: 74,
     colorDark: '#14161a',
