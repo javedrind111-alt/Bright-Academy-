@@ -1973,6 +1973,27 @@ let DB = loadDB();
 
 /* ---------------- helpers ---------------- */
 function monthKey(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
+function extractMonthKey(str){
+  if(!str) return null;
+  str = String(str).trim();
+  let m = str.match(/^(\d{4})-(\d{1,2})/);
+  if(m) return m[1]+'-'+String(m[2]).padStart(2,'0');
+  m = str.match(/^(\d{1,2})[\/.](\d{1,2})[\/.](\d{4})/);
+  if(m) return m[3]+'-'+String(m[2]).padStart(2,'0');
+  const d = new Date(str);
+  if(!isNaN(d.getTime())) return monthKey(d);
+  return null;
+}
+function studentJoinMonth(student){
+  if(!student) return null;
+  return student.joinMonth || extractMonthKey(student.admissionDate) || null;
+}
+function fmtDateDMY(iso){
+  if(!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso||'';
+  const p = iso.split('-');
+  return p[2]+'/'+p[1]+'/'+p[0];
+}
+
 function monthLabel(key){
   const [y,m] = key.split('-').map(Number);
   return new Date(y,m-1,1).toLocaleString('en-US',{month:'long',year:'numeric'});
@@ -2050,23 +2071,29 @@ function monthList(){
 // joinMonth === null means no restriction (legacy / pre-existing students).
 function isEnrolled(student, mKey){
   if(!student) return false;
-  return !student.joinMonth || mKey >= student.joinMonth;
+  const jm = studentJoinMonth(student);
+  return !jm || mKey >= jm;
 }
 function getFeeRecord(studentId, mKey){
   if(!DB.fees[mKey]) DB.fees[mKey] = {};
   const s = studentById(studentId);
   if(!DB.fees[mKey][studentId]){
-    DB.fees[mKey][studentId] = { amount: (s && !s.fisabilillah) ? s.fee : 0, paidAmount:0, paidDate:null, method:null };
+    DB.fees[mKey][studentId] = { amount: (s && !s.fisabilillah) ? ((Number(s.fee)>0)?Number(s.fee):((SECTION_META[s.section])?SECTION_META[s.section].fee:0)) : 0, paidAmount:0, paidDate:null, method:null };
   } else {
     // migrate legacy records that used a boolean "paid" flag
     const rec = DB.fees[mKey][studentId];
     if(rec.paidAmount===undefined){
-      rec.paidAmount = rec.paid ? rec.amount : 0;
+      rec.paidAmount = rec.paid ? (rec.amount||0) : 0;
       rec.method = rec.method || null;
       delete rec.paid;
     }
     // Fi Sabilillah students are exempt — always zero out any previously-set amount
-    if(s && s.fisabilillah && rec.amount){ rec.amount = 0; }
+    if(s && s.fisabilillah){ rec.amount = 0; }
+    else if(!(rec.paidAmount>0)){
+      // khali/ghalat fee record ko mojooda maasi fee se theek karein
+      const cur = (Number(s && s.fee)>0) ? Number(s.fee) : ((s && SECTION_META[s.section]) ? SECTION_META[s.section].fee : 0);
+      if(!(rec.amount>0) && cur>0) rec.amount = cur;
+    }
   }
   return DB.fees[mKey][studentId];
 }
@@ -2080,7 +2107,8 @@ function runningBalance(studentId, mKey){
   const student = studentById(studentId);
   if(!student) return 0;
   if(student.fisabilillah) return 0;
-  const months = Object.keys(DB.fees).filter(k=>k<=mKey && (!student.joinMonth || k>=student.joinMonth)).sort();
+  const jm = studentJoinMonth(student);
+  const months = Object.keys(DB.fees).filter(k=>k<=mKey && (!jm || k>=jm)).sort();
   let bal = 0;
   months.forEach(mk=>{
     const rec = DB.fees[mk] && DB.fees[mk][studentId];
@@ -2096,7 +2124,8 @@ function previousBalance(studentId, mKey){
   const student = studentById(studentId);
   if(!student) return 0;
   if(student.fisabilillah) return 0;
-  return Object.keys(DB.fees).filter(k=>k<mKey && (!student.joinMonth || k>=student.joinMonth)).sort().reduce((bal,mk)=>{
+  const jm = studentJoinMonth(student);
+  return Object.keys(DB.fees).filter(k=>k<mKey && (!jm || k>=jm)).sort().reduce((bal,mk)=>{
     const rec = DB.fees[mk] && DB.fees[mk][studentId];
     return bal + (rec ? feeDue(rec, student) : 0);
   },0);
@@ -2113,7 +2142,8 @@ function collectPayment(studentId, mKey, amount, method){
   let remaining = Math.max(0, Number(amount)||0);
   const totalReceived = remaining;
   // Pay off oldest unpaid months first (previous bakaya), then the selected month.
-  const prevMonths = Object.keys(DB.fees).filter(k=>k<mKey && (!student || !student.joinMonth || k>=student.joinMonth)).sort();
+  const jm = studentJoinMonth(student);
+  const prevMonths = Object.keys(DB.fees).filter(k=>k<mKey && (!jm || k>=jm)).sort();
   [...prevMonths, mKey].forEach(mk=>{
     if(remaining<=0) return;
     const rec = getFeeRecord(studentId, mk);
@@ -2133,6 +2163,11 @@ function collectPayment(studentId, mKey, amount, method){
 function resetPayment(studentId, mKey){
   const rec = getFeeRecord(studentId, mKey);
   rec.paidAmount = 0; rec.paidDate = null; rec.method = null; rec.lastPaidAmount = 0;
+  const s = studentById(studentId);
+  if(s && !s.fisabilillah && !(rec.amount>0)){
+    const cur = (Number(s.fee)>0) ? Number(s.fee) : ((SECTION_META[s.section]) ? SECTION_META[s.section].fee : 0);
+    if(cur>0) rec.amount = cur;
+  }
   saveDB(DB);
 }
 function confirmResetPayment(studentId, mKey){
@@ -3377,6 +3412,10 @@ document.getElementById('addStudentBtn').onclick = ()=>openStudentModal(null);
 document.getElementById('sf_section').addEventListener('change', e=>{
   document.getElementById('sf_fee').value = SECTION_META[e.target.value].fee;
 });
+document.getElementById('sf_admdate').addEventListener('input', e=>{
+  const mk = extractMonthKey(e.target.value);
+  if(mk && !document.getElementById('sf_join').value) document.getElementById('sf_join').value = mk;
+});
 document.getElementById('sf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
@@ -3403,7 +3442,7 @@ document.getElementById('studentForm').addEventListener('submit', e=>{
     address: document.getElementById('sf_address').value.trim(),
     contact: document.getElementById('sf_contact').value.trim(),
     dob: document.getElementById('sf_dob').value.trim(),
-    joinMonth: document.getElementById('sf_join').value || null,
+    joinMonth: document.getElementById('sf_join').value || extractMonthKey(document.getElementById('sf_admdate').value) || null,
     photo: document.getElementById('sf_photo_data').value || '',
     whatsapp: document.getElementById('sf_whatsapp').value.trim(),
     blood: document.getElementById('sf_blood').value.trim(),
@@ -3521,14 +3560,14 @@ function renderFees(){
       <td>${fmtMoney(rec.amount)}</td>
       <td>${fmtMoney(rec.paidAmount||0)}${rec.method?` <small style="color:var(--ink-soft)">(${rec.method})</small>`:''}</td>
       <td><div class="progress-cell"><div class="progress-track"><div class="progress-fill ${pct===0?'zero':''}" style="width:${pct}%"></div></div>${pct}%</div></td>
-      <td>${due<=0 ? (s.fisabilillah ? fisabilillahPill() : '<span class="pill paid">&#10003; Paid '+(rec.paidDate?('&middot; '+rec.paidDate):'')+'</span>') : (rec.paidAmount>0 ? '<span class="pill due">Jama Ho Raha Hai</span>' : '<span class="pill due">Bakaya</span>')}</td>
+      <td>${due<=0 ? (s.fisabilillah ? fisabilillahPill() : '<span class="pill paid">&#10003; Paid '+(rec.paidDate?('&middot; '+fmtDateDMY(rec.paidDate)):'')+'</span>') : (rec.paidAmount>0 ? '<span class="pill due">Jama Ho Raha Hai</span>' : '<span class="pill due">Bakaya</span>')}</td>
        <td>${dueCell(due, s)}</td>
        <td>${dueCell(details.previousDue, s)}</td>
       <td>${dueCell(bal, s)}</td>
       <td class="no-print" style="white-space:nowrap;">
         ${due>0
           ? `<button class="btn sm gold" onclick="openPaymentModal('${s.id}','${currentMonth}')">&#128176; Fees Wasool Karein</button>`
-          : (s.fisabilillah ? '' : `<button class="btn sm ghost" onclick="confirmResetPayment('${s.id}','${currentMonth}')">Reset</button>`)}
+          : ((s.fisabilillah || !(rec.paidAmount>0)) ? '' : `<button class="btn sm ghost" onclick="confirmResetPayment('${s.id}','${currentMonth}')">Reset</button>`)}
         ${rec.paidAmount>0 ? `<button class="btn sm indigo" onclick="openReceipt('${s.id}','${currentMonth}')">&#128196; Receipt</button>` : ''}
         ${bal>0 ? waBtn('Yaad Dahani', `sendFeeReminder('${s.id}')`, {title:'WhatsApp par Urdu mein yaad dahani bhejein'}) : ''}
       </td>
