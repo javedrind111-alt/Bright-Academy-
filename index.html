@@ -2149,12 +2149,50 @@ let CURRENT_ROLE = null;
 let CURRENT_USER = null;
 
 function saveDB(db){
-  localStorage.setItem(DB_KEY, JSON.stringify(db));
+  try{
+    localStorage.setItem(DB_KEY, JSON.stringify(db));
+  }catch(e){
+    console.error('Local save nakaam (storage full ho sakta hai)', e);
+    alert('Data save nahi ho saka: browser storage bhar chuka hai. Tasveer chhoti size ki try karein ya purana data delete karein.');
+  }
   if(cloudSyncStarted){
     suppressCloudEcho = true;
-    CLOUD_DOC.set(db).catch(err=>console.error('Cloud save nakaam', err))
+    CLOUD_DOC.set(db).catch(err=>{
+      console.error('Cloud save nakaam', err);
+      alert('Cloud (online) save nakaam ho gaya: ' + (err && err.message ? err.message : err) + '\nAapki tabdeeli sirf isi device par mehfooz hui hai, refresh karne par ghayeb ho sakti hai jab tak yeh theek na ho.');
+    })
       .finally(()=>{ setTimeout(()=>{ suppressCloudEcho = false; }, 400); });
   }
+}
+
+/* Resize/compress an uploaded image before storing it as base64, so a single
+   student/teacher photo (or the logo) never blows past localStorage or the
+   Firestore 1MB-per-document limit. Returns a Promise<dataURL>. */
+function compressImageFile(file, maxDim, quality){
+  maxDim = maxDim || 400;
+  quality = quality || 0.7;
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = ()=>{
+        let { width, height } = img;
+        if(width > maxDim || height > maxDim){
+          if(width >= height){ height = Math.round(height * (maxDim / width)); width = maxDim; }
+          else { width = Math.round(width * (maxDim / height)); height = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 function refreshAllUI(){
@@ -3101,13 +3139,14 @@ document.getElementById('addTeacherBtn').onclick = ()=>openTeacherModal(null);
 document.getElementById('tf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    document.getElementById('tf_photo_data').value = reader.result;
+  compressImageFile(file, 400, 0.7).then(dataUrl=>{
+    document.getElementById('tf_photo_data').value = dataUrl;
     const prev = document.getElementById('tf_photo_preview');
-    prev.src = reader.result; prev.style.display='block';
-  };
-  reader.readAsDataURL(file);
+    prev.src = dataUrl; prev.style.display='block';
+  }).catch(err=>{
+    console.error('Photo compress nakaam', err);
+    alert('Tasveer load nahi ho saki, dobara koshish karein.');
+  });
 });
 
 document.getElementById('teacherForm').addEventListener('submit', async e=>{
@@ -3813,13 +3852,14 @@ document.getElementById('sf_admdate').addEventListener('input', e=>{
 document.getElementById('sf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    document.getElementById('sf_photo_data').value = reader.result;
+  compressImageFile(file, 400, 0.7).then(dataUrl=>{
+    document.getElementById('sf_photo_data').value = dataUrl;
     const prev = document.getElementById('sf_photo_preview');
-    prev.src = reader.result; prev.style.display='block';
-  };
-  reader.readAsDataURL(file);
+    prev.src = dataUrl; prev.style.display='block';
+  }).catch(err=>{
+    console.error('Photo compress nakaam', err);
+    alert('Tasveer load nahi ho saki, dobara koshish karein.');
+  });
 });
 
 document.getElementById('studentForm').addEventListener('submit', e=>{
@@ -4419,14 +4459,15 @@ function renderSettings(){
 document.getElementById('st_logo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    DB.meta.logo = reader.result;
+  compressImageFile(file, 300, 0.7).then(dataUrl=>{
+    DB.meta.logo = dataUrl;
     saveDB(DB);
     renderBrand();
     renderSettings();
-  };
-  reader.readAsDataURL(file);
+  }).catch(err=>{
+    console.error('Logo compress nakaam', err);
+    alert('Logo load nahi ho saka, dobara koshish karein.');
+  });
 });
 document.getElementById('st_logo_clear').onclick = ()=>{
   DB.meta.logo = '';
