@@ -1985,8 +1985,8 @@ const DB_KEY = 'madrassa_db_v1';
    (newly added) photo with the last successfully-synced cloud copy -
    which is exactly why a photo you just added disappears after refresh. */
 function compressImageFile(file, maxSize, quality, callback){
-  maxSize = maxSize || 320;
-  quality = quality || 0.7;
+  maxSize = maxSize || 180;
+  quality = quality || 0.6;
   const reader = new FileReader();
   reader.onload = function(e){
     const img = new Image();
@@ -2201,28 +2201,45 @@ function refreshAllUI(){
   showPage(activeBtn ? activeBtn.dataset.page : 'dashboard');
 }
 
+function applyCloudData(cloudData){
+  if(!cloudData) return;
+  // Preserve locally saved student & teacher photos if cloud record is missing them
+  if(Array.isArray(cloudData.students) && Array.isArray(DB.students)){
+    cloudData.students.forEach(cs=>{
+      const local = DB.students.find(s=>s.id===cs.id);
+      if(local && local.photo && !cs.photo){
+        cs.photo = local.photo;
+      }
+    });
+  }
+  if(Array.isArray(cloudData.teachers) && Array.isArray(DB.teachers)){
+    cloudData.teachers.forEach(ct=>{
+      const local = DB.teachers.find(t=>t.id===ct.id);
+      if(local && local.photo && !ct.photo){
+        ct.photo = local.photo;
+      }
+    });
+  }
+  DB = cloudData;
+  if(!DB.tests) DB.tests = {};
+  if(!DB.teachers) DB.teachers = [];
+  if(!DB.teacherAttendance) DB.teacherAttendance = {};
+  localStorage.setItem(DB_KEY, JSON.stringify(DB));
+  refreshAllUI();
+}
+
 function initCloudSync(){
   if(cloudSyncStarted) return;
   cloudSyncStarted = true;
   CLOUD_DOC.get().then(snap=>{
     if(snap.exists){
-      DB = snap.data();
-      if(!DB.tests) DB.tests = {};
-      if(!DB.teachers) DB.teachers = [];
-      if(!DB.teacherAttendance) DB.teacherAttendance = {};
-      localStorage.setItem(DB_KEY, JSON.stringify(DB));
-      refreshAllUI();
+      applyCloudData(snap.data());
     } else {
       CLOUD_DOC.set(DB);
     }
     CLOUD_DOC.onSnapshot(snap=>{
       if(!snap.exists || suppressCloudEcho) return;
-      DB = snap.data();
-      if(!DB.tests) DB.tests = {};
-      if(!DB.teachers) DB.teachers = [];
-      if(!DB.teacherAttendance) DB.teacherAttendance = {};
-      localStorage.setItem(DB_KEY, JSON.stringify(DB));
-      refreshAllUI();
+      applyCloudData(snap.data());
     });
   }).catch(err=>console.error('Cloud load nakaam', err));
 }
