@@ -1311,6 +1311,7 @@ tbody tr:hover{background:#fbf8f0;}
         <h2 id="pageTitle">Dashboard</h2>
         <div class="sub" id="pageSub">Aaj ka khulasa &mdash; fees, hazri aur talaba ki mukhtasar report</div>
       </div>
+      <button type="button" class="btn amber sm no-print" id="teacherNoticeTopBtn" onclick="openTeacherNoticePopup()" style="display:none;margin-right:10px;animation:pulse 2s infinite;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>آج کی ہدایت دیکھیں</button>
       <div class="todaybox no-print">
         <b id="todayDate"></b>
         <span id="todayCounts"></span>
@@ -2061,7 +2062,20 @@ tbody tr:hover{background:#fbf8f0;}
       <table id="teacherInstrTable"></table>
     </div>
     <div class="btnbar" style="margin-top:14px;">
-      <button type="button" class="btn whatsapp" id="teacherInstrStartBtn">WhatsApp Par Bhejna Shuru Karein</button>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-top:14px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-weight:700;font-size:13px;color:#1e293b;">📢 App Notice Board (ٹیچر کے لاگ اِن پر دکھانے کے لیے)</span>
+        <span class="tag" id="activeNoticeStatusTag">کوئی فعال ہدایت نہیں</span>
+      </div>
+      <p style="font-size:12px;color:#64748b;margin-bottom:10px;">یہاں سے آپ جو بھی ہدایت سیو کریں گے، تمام اساتذہ جیسے ہی ایپ لاگ اِن کریں گے ان کی اسکرین پر یہ پاپ اپ خودبخود ظاہر ہو جائے گا۔</p>
+      <div id="activeNoticePreviewBox" style="display:none;background:#fffbeb;border:1px solid #fef3c7;border-radius:6px;padding:10px;font-size:13px;margin-bottom:10px;text-align:right;direction:rtl;"></div>
+      <div class="btnbar">
+        <button type="button" class="btn blue sm" id="teacherInstrSaveAppNoticeBtn" onclick="saveTeacherAppNotice()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> ایپ میں سیو کریں (لاگ اِن پر دکھائیں)</button>
+        <button type="button" class="btn ghost sm" id="teacherInstrClearAppNoticeBtn" onclick="clearTeacherAppNotice()" style="color:#dc2626;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> نوٹس ہٹائیں (Clear Notice)</button>
+      </div>
+    </div>
+    
+    <button type="button" class="btn whatsapp" id="teacherInstrStartBtn">WhatsApp Par Bhejna Shuru Karein</button>
     </div>
     <div id="teacherInstrQueueCard" style="display:none;margin-top:14px;">
       <h4 style="margin:0 0 8px;">Bhejne ki Qatar <span class="tag" id="teacherInstrProgressTag"></span></h4>
@@ -2712,6 +2726,11 @@ function applyCloudData(cloudData){
   if(!DB.tests) DB.tests = {};
   if(!DB.teachers) DB.teachers = [];
   if(!DB.teacherAttendance) DB.teacherAttendance = {};
+  if(cloudData.teacherNotice !== undefined) DB.teacherNotice = cloudData.teacherNotice;
+  if(window.updateActiveNoticeUI) window.updateActiveNoticeUI();
+  if(CURRENT_ROLE === 'teacher' && DB.teacherNotice && DB.teacherNotice.text){
+    if(window.checkAndShowTeacherNotice) window.checkAndShowTeacherNotice();
+  }
   localStorage.setItem(DB_KEY, JSON.stringify(DB));
   refreshAllUI();
 }
@@ -2747,7 +2766,7 @@ function applyRoleAccess(role){
   });
   document.getElementById('sideRoleLabel').textContent = role==='admin' ? 'Admin' : 'Teacher';
   populateSectionFilters();
-  showPage(allowed[0] || 'dashboard');
+  showPage(allowed[0] || 'dashboard'); if(window.checkAndShowTeacherNotice) window.checkAndShowTeacherNotice();
 }
 window.doLogin = function doLogin(){
   console.log("doLogin clicked");
@@ -3104,7 +3123,7 @@ window.openTeacherInstr = function(){
       bd.style.visibility = 'visible';
       bd.style.opacity = '1';
     }
-    renderTeacherInstrTable();
+    renderTeacherInstrTable(); if(window.updateActiveNoticeUI) window.updateActiveNoticeUI();
   }catch(err){
     console.error('Error opening teacher instructions:', err);
   }
@@ -3165,11 +3184,11 @@ document.getElementById('teacherInstrSelectAllBtn').addEventListener('click', ()
   teacherInstrList().forEach(t=>{
     if(toWaNumber(t.phone)) TI_SELECTED.add(t.id);
   });
-  renderTeacherInstrTable();
+  renderTeacherInstrTable(); if(window.updateActiveNoticeUI) window.updateActiveNoticeUI();
 });
 document.getElementById('teacherInstrClearBtn').addEventListener('click', ()=>{
   TI_SELECTED.clear();
-  renderTeacherInstrTable();
+  renderTeacherInstrTable(); if(window.updateActiveNoticeUI) window.updateActiveNoticeUI();
 });
 document.getElementById('teacherInstrStartBtn').addEventListener('click', ()=>{
   const msg = document.getElementById('teacherInstrMessage').value.trim();
@@ -4525,6 +4544,11 @@ function toggleTeacherActive(id){
 /* ---- Teacher daily attendance ---- */
 function tchAttRec(date){
   if(!DB.teacherAttendance) DB.teacherAttendance = {};
+  if(cloudData.teacherNotice !== undefined) DB.teacherNotice = cloudData.teacherNotice;
+  if(window.updateActiveNoticeUI) window.updateActiveNoticeUI();
+  if(CURRENT_ROLE === 'teacher' && DB.teacherNotice && DB.teacherNotice.text){
+    if(window.checkAndShowTeacherNotice) window.checkAndShowTeacherNotice();
+  }
   if(!DB.teacherAttendance[date]) DB.teacherAttendance[date] = {};
   return DB.teacherAttendance[date];
 }
@@ -6613,10 +6637,176 @@ window.openTeacherInstr = window.openTeacherInstr || function(){
   if(bd){
     bd.classList.add('open');
     bd.style.display = 'flex';
-    if(typeof renderTeacherInstrTable === 'function') renderTeacherInstrTable();
+    if(typeof renderTeacherInstrTable === 'function') renderTeacherInstrTable(); if(window.updateActiveNoticeUI) window.updateActiveNoticeUI();
   }
 };
+
+
+/* ================= TEACHER APP NOTICE LOGIC ================= */
+window.saveTeacherAppNotice = function(){
+  try{
+    const msg = (document.getElementById('teacherInstrMessage').value || '').trim();
+    if(!msg){
+      alert('براہ کرم پہلے ہدایت یا پیغام تحریر فرمائیں۔');
+      return;
+    }
+    const today = new Date();
+    const dateStr = today.toISOString().slice(0, 10);
+    const timeStr = today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    DB.teacherNotice = {
+      text: msg,
+      date: dateStr,
+      time: timeStr,
+      updatedAt: today.toISOString()
+    };
+
+    saveDB(DB);
+    updateActiveNoticeUI();
+    alert('شاباش! ہدایت ایپ میں کامیابی سے محفوظ کر دی گئی ہے۔ تمام اساتذہ کو لاگ اِن کرتے ہی یہ ہدایت پاپ اپ میں دکھائی دے گی۔');
+  }catch(err){
+    console.error('saveTeacherAppNotice error:', err);
+    alert('ہدایت محفوظ کرنے میں خرابی: ' + (err && err.message ? err.message : err));
+  }
+};
+
+window.clearTeacherAppNotice = function(){
+  try{
+    if(!DB.teacherNotice || !DB.teacherNotice.text){
+      alert('فی الوقت کوئی فعال ہدایت موجود نہیں ہے۔');
+      return;
+    }
+    if(!confirm('کیا آپ واقعی اس ہدایت کو ایپ نوٹس بورڈ سے ہٹانا چاہتے ہیں؟')){
+      return;
+    }
+    DB.teacherNotice = null;
+    saveDB(DB);
+    updateActiveNoticeUI();
+    const topBtn = document.getElementById('teacherNoticeTopBtn');
+    if(topBtn) topBtn.style.display = 'none';
+    alert('ہدایت کامیابی کے ساتھ ہٹا دی گئی ہے۔');
+  }catch(err){
+    console.error('clearTeacherAppNotice error:', err);
+  }
+};
+
+window.updateActiveNoticeUI = function(){
+  try{
+    const statusTag = document.getElementById('activeNoticeStatusTag');
+    const previewBox = document.getElementById('activeNoticePreviewBox');
+    const notice = DB.teacherNotice;
+
+    if(notice && notice.text){
+      if(statusTag){
+        statusTag.textContent = 'فعال ہدایت (' + (notice.date || '') + ')';
+        statusTag.className = 'tag green';
+      }
+      if(previewBox){
+        previewBox.style.display = 'block';
+        previewBox.innerHTML = '<b>فعال ہدایت:</b><br>' + esc(notice.text);
+      }
+    } else {
+      if(statusTag){
+        statusTag.textContent = 'کوئی فعال ہدایت نہیں';
+        statusTag.className = 'tag';
+      }
+      if(previewBox){
+        previewBox.style.display = 'none';
+        previewBox.innerHTML = '';
+      }
+    }
+
+    // Topbar notice button visibility for teachers or everyone
+    const topBtn = document.getElementById('teacherNoticeTopBtn');
+    if(topBtn){
+      if(notice && notice.text){
+        topBtn.style.display = 'inline-flex';
+      } else {
+        topBtn.style.display = 'none';
+      }
+    }
+  }catch(err){
+    console.error('updateActiveNoticeUI error:', err);
+  }
+};
+
+window.openTeacherNoticePopup = function(){
+  try{
+    const notice = DB.teacherNotice;
+    if(!notice || !notice.text) return;
+    const modal = document.getElementById('teacherLoginNoticeModal');
+    const body = document.getElementById('teacherLoginNoticeBody');
+    const dateTag = document.getElementById('teacherLoginNoticeDateTag');
+    if(body) body.textContent = notice.text;
+    if(dateTag) dateTag.textContent = 'تاریخ: ' + (notice.date || '') + (notice.time ? ' (' + notice.time + ')' : '');
+    if(modal){
+      modal.classList.add('open');
+      modal.style.display = 'flex';
+      modal.style.visibility = 'visible';
+      modal.style.opacity = '1';
+    }
+  }catch(err){
+    console.error('openTeacherNoticePopup error:', err);
+  }
+};
+
+window.closeTeacherNoticePopup = function(){
+  try{
+    const modal = document.getElementById('teacherLoginNoticeModal');
+    if(modal){
+      modal.classList.remove('open');
+      modal.style.display = 'none';
+    }
+  }catch(err){
+    console.error('closeTeacherNoticePopup error:', err);
+  }
+};
+
+window.checkAndShowTeacherNotice = function(){
+  try{
+    // If current user is a teacher (or role is teacher) and notice exists
+    if(CURRENT_ROLE === 'teacher' && DB && DB.teacherNotice && DB.teacherNotice.text){
+      // Automatically popup the notice
+      setTimeout(()=>{
+        openTeacherNoticePopup();
+      }, 450);
+    }
+    updateActiveNoticeUI();
+  }catch(err){
+    console.error('checkAndShowTeacherNotice error:', err);
+  }
+};
+
 </script>
+
+
+<!-- ================= TEACHER LOGIN NOTICE POPUP ================= -->
+<div class="modal-backdrop" id="teacherLoginNoticeModal" style="z-index:999999; display:none; background:rgba(0,0,0,0.65); backdrop-filter:blur(3px);">
+  <div class="modal" style="max-width:560px; border-top:5px solid #d97706; box-shadow:0 25px 50px -12px rgba(0,0,0,0.35);">
+    <button class="modal-close" onclick="closeTeacherNoticePopup()">&times;</button>
+    <div style="text-align:center; margin-bottom:12px;">
+      <div style="display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; background:#fef3c7; border-radius:50%; color:#d97706; margin-bottom:8px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:26px; height:26px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+      </div>
+      <h3 style="margin:0; font-size:19px; color:#1e293b;">محترم اساتذہ کرام کے لیے ضروری ہدایات</h3>
+      <span class="tag amber" id="teacherLoginNoticeDateTag" style="margin-top:6px; display:inline-block;">آج کی ہدایت</span>
+    </div>
+
+    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:16px; margin:14px 0; max-height:280px; overflow-y:auto; text-align:right; direction:rtl;">
+      <p id="teacherLoginNoticeBody" class="urdu" style="font-size:16px; line-height:1.9; color:#78350f; margin:0; white-space:pre-wrap;"></p>
+    </div>
+
+    <div style="background:#f8fafc; border-radius:6px; padding:8px 12px; margin-bottom:14px; font-size:12px; color:#64748b; text-align:center;">
+      براہ کرم ان ہدایات کو غور سے پڑھیں اور اپنی کلاس اور حاضری کے دوران ان پر عمل فرمائیں۔
+    </div>
+
+    <div class="btnbar" style="justify-content:center;">
+      <button type="button" class="btn green" onclick="closeTeacherNoticePopup()" style="min-width:200px; font-weight:bold; font-size:14px; padding:10px 20px;">
+        ✓ میں نے پڑھ لیا اور سمجھ لیا
+      </button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
