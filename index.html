@@ -480,7 +480,7 @@ tbody tr:hover{background:#fbf8f0;}
 .input-icon svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); width:16px; height:16px; color:var(--ink-soft); opacity:.55; pointer-events:none;}
 .input-icon input{padding-left:36px;}
 .input-icon .toggle-eye{position:absolute; right:10px; left:auto; cursor:pointer; opacity:.6; pointer-events:auto;}
-#loginBtn{font-size:14.5px; padding:12px 18px;}
+#loginBtn{font-size:14.5px; padding:12px 18px; cursor:pointer !important; pointer-events:auto !important;}
 .login-footer{text-align:center; margin-top:20px; font-size:11px; color:var(--ink-soft); letter-spacing:.2px;}
 .login-footer b{color:var(--teal);}
 @media(max-width:860px){.login-visual{display:none;} .login-split{grid-template-columns:1fr;}}
@@ -1213,7 +1213,7 @@ tbody tr:hover{background:#fbf8f0;}
     <div class="login-form-side">
       <div class="login-box">
         <div class="login-brand">
-          <div class="badge"><img src="" id="loginBoxLogo" alt="Bright Academy Nazra" style="width:44px;height:44px;object-fit:contain;"></div>
+          <div class="badge"><img src="data:image/jpeg;base64,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EAAAAAAACgABAAAAAAAAAAE4QklNA/UAAAAAAEgAL2ZmAAEAbGZmAAYAAAAAAAEAL2ZmAAEAoZmaAAYAAAAAAAEAMgAAAAEAWgAAAAYAAAAAAAEANQAAAAEALQAAAAYAAAAAAAE4QklNA/gAAAAAAHAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAOEJJTQQAAAAAAAACAAE4QklNBAIAAAAAAAQAAAAAOEJJTQQIAAAAAAAQAAAAAQAAAkAAAAJAAAAAADhCSU0EHgAAAAAABAAAAAA4QklNBBoAAAAAA0kAAAAGAAAAAAAAAAAAAABnAAAAfgAAAAoAVQBuAHQAaQB0AGwAZQBkAC0AMQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAfgAAAGcAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAQAAAAAAAG51bGwAAAACAAAABmJvdW5kc09iamMAAAABAAAAAAAAUmN0MQAAAAQAAAAAVG9wIGxvbmcAAAAAAAAAAExlZnRsb25nAAAAAAAAAABCdG9tbG9uZwAAAGcAAAAAUmdodGxvbmcAAAB+AAAABnNsaWNlc1ZsTHMAAAABT2JqYwAAAAEAAAAAAAVzbGljZQAAABIAAAAHc2xpY2VJRGxvbmcAAAAAAAAAB2dyb3VwSURsb25nAAAAAAAAAAZvcmlnaW5lbnVtAAAADEVTbGljZU9yaWdpbgAAAA1hdXRvR2VuZXJhdGVkAAAAAFR5cGVlbnVtAAAACkVTbGljZVR5cGUAAAAASW1nIAAAAAZib3VuZHNPYmpjAAAAAQAAAAAAAFJjdDEAAAAEAAAAAFRvcCBsb25nAAAAAAAAAABMZWZ0bG9uZwAAAAAAAAAAQnRvbWxvbmcAAABnAAAAAFJnaHRsb25nAAAAfgAAAAN1cmxURVhUAAAAAQAAAAAAAG51bGxURVhUAAAAAQAAAAAAAE1zZ2VURVhUAAAAAQAAAAAABmFsdFRhZ1RFWFQAAAABAAAAAAAOY2VsbFRleHRJc0hUTUxib29sAQAA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aWQ9J1c1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCc/Pgo8P2Fkb2JlLXhhcC1maWx0ZXJzIGVzYz0iQ1IiPz4KPHg6eGFwbWV0YSB4bWxuczp4PSdhZG9iZTpuczptZXRhLycgeDp4YXB0az0nWE1QIHRvb2xraXQgMi44LjItMzMsIGZyYW1ld29yayAxLjUnPgo8cmRmOlJERiB4bWxuczpyZGY9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMnIHhtbG5zOmlYPSdodHRwOi8vbnMuYWRvYmUuY29tL2lYLzEuMC8nPgoKIDxyZGY6RGVzY3JpcHRpb24gYWJvdXQ9J3V1aWQ6YzZiMDVhZTYtYWY0MC0xMWYxLTgyZDUtZmE0MTk3MmIyMzJlJwogIHhtbG5zOnhhcE1NPSdodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vJz4KICA8eGFwTU06RG9jdW1lbnRJRD5hZG9iZTpkb2NpZDpwaG90b3Nob3A6YzZiMDVhZTQtYWY0MC0xMWYxLTgyZDUtZmE0MTk3MmIyMzJlPC94YXBNTTpEb2N1bWVudElEPgogPC9yZGY6RGVzY3JpcHRpb24+Cgo8L3JkZjpSREY+CjwveDp4YXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg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" id="loginBoxLogo" alt="Bright Academy Nazra" style="width:44px;height:44px;object-fit:contain;"></div>
           <h2 id="loginBrandTitle">Bright Academy Nazra</h2>
           <p>Login Karein &mdash; Apne Account mein Dakhil Hon</p>
         </div>
@@ -1235,7 +1235,7 @@ tbody tr:hover{background:#fbf8f0;}
         <div class="login-error" id="loginError"></div>
         <div class="login-loading" id="loginLoading"></div>
         <div class="btnbar">
-          <button class="btn gold" id="loginBtn" style="width:100%;justify-content:center;">Sign In Securely &rarr;</button>
+          <button class="btn gold" id="loginBtn" type="button" onclick="doLogin()" style="width:100%;justify-content:center;cursor:pointer;pointer-events:auto;position:relative;z-index:20;">Sign In Securely &rarr;</button>Sign In Securely &rarr;</button>
         </div>
         <div class="login-footer">System by <b>Bright Academy Nazra</b> &middot; Since 2026</div>
       </div>
@@ -1408,6 +1408,7 @@ tbody tr:hover{background:#fbf8f0;}
       <div class="tch-tab-panel" data-tch-panel="list">
         <div class="searchbar no-print">
           <button class="btn blue" id="addTeacherBtn">&#10133; Naya Teacher</button>
+          <button class="btn whatsapp" id="teacherInstrBtn" type="button" onclick="openTeacherInstr()"><svg viewBox="0 0 32 32" fill="currentColor" style="width:14px;height:14px;vertical-align:-2px;"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.34.64 4.53 1.75 6.4L4 29l7.78-1.7A11.94 11.94 0 0016.004 27C22.63 27 28 21.63 28 15S22.63 3 16.004 3zm5.37 12.66c-.29-.15-1.73-.86-2-.96-.27-.1-.46-.15-.66.14-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.08-.29-.15-1.24-.46-2.36-1.47-.87-.78-1.46-1.74-1.63-2.03-.17-.3-.02-.46.13-.6.13-.13.29-.34.44-.51.15-.17.2-.3.29-.5.1-.2.05-.37-.02-.51-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.51.07-.78.37-.27.3-1.02 1-1.02 2.44s1.05 2.83 1.2 3.03c.14.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.11.56-.08 1.73-.7 1.97-1.39.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.34z"/></svg> Teachers ko Hidayat</button>
           <input type="text" id="teacherSearch" placeholder="Naam / username se dhoondein...">
           <select id="teacherStatusFilter">
             <option value="">Tamam</option>
@@ -1650,8 +1651,12 @@ tbody tr:hover{background:#fbf8f0;}
                     <input type="text" id="certMetaDesignation" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
                   </div>
                   <div class="mb-2">
-                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">تاریخِ شمولیت (Joining Date)</label>
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">تاریخِ شمولیت (Service From)</label>
                     <input type="text" id="certMetaJoining" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">تاریخِ خدمت اختتام (Service To)</label>
+                    <input type="text" id="certMetaServiceTo" class="form-control form-control-sm" style="font-size:12px;" placeholder="e.g. Present / 30 Sep 2026" oninput="certStudioUpdateMeta()">
                   </div>
                   <div class="mb-2">
                     <label class="form-label mb-1" style="font-size:11px; font-weight:700;">شناختی کارڈ نمبر (CNIC)</label>
@@ -2030,6 +2035,46 @@ tbody tr:hover{background:#fbf8f0;}
   </div>
 </div>
 
+<div class="modal-backdrop" id="teacherInstrModalBackdrop" style="z-index:99999; display:none;">
+  <div class="modal" style="max-width:640px;">
+    <button class="modal-close" onclick="closeTeacherInstr()">&times;</button>
+    <h3>Teachers ko Hidayat (WhatsApp)</h3>
+    <p class="note">Yahan likha hua paigham muntakhib teachers ko WhatsApp par bhejein &mdash; tamam teachers ko aik sath (ek ek karke chat khul kar) ya kisi aik teacher ko.</p>
+    <div class="field">
+      <label>Hidayat / Paigham</label>
+      <textarea id="teacherInstrMessage" rows="5" placeholder="محترم اسٹاف، ..."></textarea>
+    </div>
+    <div class="btnbar" style="margin-bottom:10px;">
+      <button type="button" class="btn ghost sm" onclick="teacherInstrUseTemplate('absent')">غیر حاضری کی وضاحت</button>
+      <button type="button" class="btn ghost sm" onclick="teacherInstrUseTemplate('meeting')">اجلاس / اہم ہدایت</button>
+      <button type="button" class="btn ghost sm" onclick="teacherInstrUseTemplate('leave')">رخصتی کی درخواست</button>
+    </div>
+    <div class="field">
+      <label>Muntakhib Karein</label>
+      <div class="btnbar">
+        <button type="button" class="btn amber sm" id="teacherInstrSelectAllBtn">Tamam Ustad Muntakhib Karein</button>
+        <button type="button" class="btn ghost sm" id="teacherInstrClearBtn">Sab Hatayein</button>
+        <span class="tag" id="teacherInstrCountTag">0 muntakhib</span>
+      </div>
+    </div>
+    <div class="table-wrap" style="max-height:260px;overflow-y:auto;">
+      <table id="teacherInstrTable"></table>
+    </div>
+    <div class="btnbar" style="margin-top:14px;">
+      <button type="button" class="btn whatsapp" id="teacherInstrStartBtn">WhatsApp Par Bhejna Shuru Karein</button>
+    </div>
+    <div id="teacherInstrQueueCard" style="display:none;margin-top:14px;">
+      <h4 style="margin:0 0 8px;">Bhejne ki Qatar <span class="tag" id="teacherInstrProgressTag"></span></h4>
+      <div id="teacherInstrCurrentBox" class="dashboard-hero" style="margin:0 0 12px;"></div>
+      <div class="btnbar">
+        <button type="button" class="btn whatsapp" id="teacherInstrSendBtn">Bhejein / Next</button>
+        <button type="button" class="btn ghost" id="teacherInstrSkipBtn">Chhorein / Next</button>
+        <button type="button" class="btn danger" id="teacherInstrStopBtn">Rokein</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="teacherModalBackdrop">
   <div class="modal">
     <button class="modal-close" data-close>&times;</button>
@@ -2378,25 +2423,58 @@ const DB_KEY = 'madrassa_db_v1';
    (newly added) photo with the last successfully-synced cloud copy -
    which is exactly why a photo you just added disappears after refresh. */
 function compressImageFile(file, maxSize, quality, callback){
-  maxSize = maxSize || 180;
-  quality = quality || 0.6;
+  maxSize = maxSize || 130;
+  quality = quality || 0.55;
   const reader = new FileReader();
   reader.onload = function(e){
     const img = new Image();
     img.onload = function(){
       let w = img.width, h = img.height;
-      if(w > h){ if(w > maxSize){ h = Math.round(h * (maxSize / w)); w = maxSize; } }
-      else { if(h > maxSize){ w = Math.round(w * (maxSize / h)); h = maxSize; } }
+      if(w > h){
+        if(w > maxSize){ h = Math.round(h * (maxSize / w)); w = maxSize; }
+      } else {
+        if(h > maxSize){ w = Math.round(w * (maxSize / h)); h = maxSize; }
+      }
+      w = Math.max(1, w); h = Math.max(1, h);
+
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, w, h);
       ctx.drawImage(img, 0, 0, w, h);
-      let dataUrl;
-      try{ dataUrl = canvas.toDataURL('image/jpeg', quality); }
-      catch(err){ dataUrl = e.target.result; }
+
+      let q = quality;
+      let dataUrl = '';
+      try {
+        dataUrl = canvas.toDataURL('image/jpeg', q);
+        // Firebase Firestore document strict limit is 1MB total.
+        // Auto-manage size: reduce quality if photo exceeds 8KB
+        while(dataUrl.length > 10000 && q > 0.25){
+          q -= 0.1;
+          dataUrl = canvas.toDataURL('image/jpeg', q);
+        }
+        // If still > 10KB, scale down dimensions
+        if(dataUrl.length > 10000){
+          const sc = document.createElement('canvas');
+          sc.width = Math.round(w * 0.7);
+          sc.height = Math.round(h * 0.7);
+          const sctx = sc.getContext('2d');
+          sctx.fillStyle = '#ffffff';
+          sctx.fillRect(0, 0, sc.width, sc.height);
+          sctx.drawImage(canvas, 0, 0, sc.width, sc.height);
+          dataUrl = sc.toDataURL('image/jpeg', 0.4);
+        }
+      } catch(err) {
+        console.warn('Canvas export error:', err);
+        dataUrl = '';
+      }
       callback(dataUrl);
     };
-    img.onerror = function(){ callback(e.target.result); };
+    img.onerror = function(){
+      console.warn('Image parse error');
+      callback('');
+    };
     img.src = e.target.result;
   };
   reader.readAsDataURL(file);
@@ -2671,7 +2749,8 @@ function applyRoleAccess(role){
   populateSectionFilters();
   showPage(allowed[0] || 'dashboard');
 }
-function doLogin(){
+window.doLogin = function doLogin(){
+  console.log("doLogin clicked");
   const uname = document.getElementById('loginUsername').value.trim().toLowerCase();
   const pass = document.getElementById('loginPassword').value;
   const errBox = document.getElementById('loginError');
@@ -2699,6 +2778,7 @@ function doLogin(){
     errBox.textContent = FIREBASE_OK ? 'Username ya password ghalat hai.' : (err && err.message ? err.message : 'Internet/Firebase available nahi hai. Connection check karke page refresh karein.');
   });
 }
+
 document.getElementById('loginPwToggle').addEventListener('click', ()=>{
   const pw = document.getElementById('loginPassword');
   pw.type = pw.type==='password' ? 'text' : 'password';
@@ -2706,7 +2786,8 @@ document.getElementById('loginPwToggle').addEventListener('click', ()=>{
 document.getElementById('loginBtn').addEventListener('click', doLogin);
 document.getElementById('loginPassword').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
 document.getElementById('logoutBtn').addEventListener('click', ()=>{
-  fbAuth.signOut().then(()=>location.reload());
+  try { localStorage.removeItem('NAZRA_AUTH_SESSION'); } catch(e){}
+  fbAuth.signOut().then(()=>location.reload()).catch(()=>location.reload());
 });
 
 let DB = loadDB();
@@ -2938,7 +3019,7 @@ function waBtn(label, onclick, opts){
 /* ---------------- WhatsApp messaging ---------------- */
 function toWaNumber(contact){
   if(!contact) return null;
-  let digits = contact.replace(/\D/g,'');
+  let digits = String(contact||"").replace(/\D/g,'');
   if(!digits) return null;
   if(digits.startsWith('0')) digits = '92'+digits.slice(1);
   else if(!digits.startsWith('92')) digits = '92'+digits;
@@ -2974,6 +3055,19 @@ function absentMessageText(s, date){
   const dateLabel = new Date(date+'T00:00:00').toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'});
   return `السلام علیکم!\n${childPhrase(s)} ${s.name} آج (${dateLabel}) مدرسہ میں غیر حاضر ہے۔\nبراہ کرم وجہ سے آگاہ فرمائیں۔\nجزاک اللہ خیر\n- ${DB.meta.instituteName}`;
 }
+function sendTeacherAbsentMessage(tId, date){
+  const t = teacherById(tId);
+  if(!t){ alert('Teacher nahi mili.'); return; }
+  if(!toWaNumber(t.phone)){ alert('Is ustad ka rabta number darj nahi hai. Pehle "Teachers" mein number add karein.'); return; }
+  openWhatsApp(t.phone, teacherAbsentMessageText(t, date));
+}
+function teacherAbsentMessageText(t, date){
+  const dateLabel = new Date(date+'T00:00:00').toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'});
+  return `محترم اسٹاف، ${t.name} صاحب
+آج (${dateLabel}) آپ کی ناظرہ کلاس میں غیر حاضری درج کی گئی ہے۔ براہِ کرم اپنی غیر حاضری کی وجہ سے انتظامیہ کو مطلع فرمائیں۔ شکریہ
+
+- ${DB.meta.instituteName}`;
+}
 function sendSabaqReport(id){
   const s = studentById(id);
   openWhatsApp(s.contact, sabaqReportText(s));
@@ -2994,6 +3088,130 @@ function sendMonthlyAttendanceReport(section, mKey, id){
   const s = studentById(id);
   openWhatsApp(s.contact, monthlyAttendanceText(s, mKey, monthlyAttendanceStats(section,mKey)));
 }
+
+/* ================= TEACHER INSTRUCTIONS (WHATSAPP) ================= */
+let TI_SELECTED = new Set();
+let TI_QUEUE = [];
+let TI_QUEUE_INDEX = 0;
+
+window.openTeacherInstr = function(){
+  try{
+    const bd = document.getElementById('teacherInstrModalBackdrop');
+    if(bd){
+      bd.classList.add('open');
+      bd.classList.add('show');
+      bd.style.display = 'flex';
+      bd.style.visibility = 'visible';
+      bd.style.opacity = '1';
+    }
+    renderTeacherInstrTable();
+  }catch(err){
+    console.error('Error opening teacher instructions:', err);
+  }
+};
+window.closeTeacherInstr = function(){
+  try{
+    const bd = document.getElementById('teacherInstrModalBackdrop');
+    if(bd){
+      bd.classList.remove('open');
+      bd.classList.remove('show');
+      bd.style.display = 'none';
+    }
+    const qc = document.getElementById('teacherInstrQueueCard');
+    if(qc) qc.style.display = 'none';
+  }catch(err){
+    console.error('Error closing teacher instructions:', err);
+  }
+};
+function teacherInstrUseTemplate(kind){
+  const el = document.getElementById('teacherInstrMessage');
+  if(kind==='absent'){
+    el.value = 'محترم اسٹاف، آج آپ کی ناظرہ کلاس میں غیر حاضری درج کی گئی ہے۔ براہِ کرم اپنی غیر حاضری کی وجہ سے انتظامیہ کو مطلع فرمائیں۔ شکریہ';
+  } else if(kind==='meeting'){
+    el.value = 'محترم اسٹاف، آپ کو مطلع کیا جاتا ہے کہ {date} کو انتظامیہ کا اجلاس منعقد ہوگا۔ براہِ کرم وقت پر تشریف لائیں۔ شکریہ';
+  } else {
+    el.value = 'محترم اسٹاف، براہِ کرم اپنی رخصت کی درخواست قبل از وقت انتظامیہ کو دے دیا کریں۔ شکریہ';
+  }
+}
+function teacherInstrList(){
+  return (DB.teachers||[]).filter(t=>t.active!==false);
+}
+function renderTeacherInstrTable(){
+  const list = teacherInstrList();
+  const rows = list.map(t=>{
+    const num = toWaNumber(t.phone);
+    const valid = !!num;
+    return `
+    <tr style="${valid ? '' : 'opacity:0.6;'}">
+      <td style="text-align:center;"><input type="checkbox" class="ti-check" data-id="${t.id}" ${TI_SELECTED.has(t.id)?'checked':''} ${valid?'':'disabled'}></td>
+      <td><b>${esc(t.name)}</b>${valid ? '' : ' <span style="font-size:11px;color:#dc2626;font-weight:bold;">(WhatsApp # nahi hai)</span>'}</td>
+      <td>${t.phone||'-'}</td>
+    </tr>`;
+  });
+  const tbl = document.getElementById('teacherInstrTable');
+  if(tbl){
+    tbl.innerHTML = `<thead><tr><th style="width:38px;"></th><th>Naam</th><th>WhatsApp / Phone</th></tr></thead><tbody>${rows.join('') || '<tr><td colspan=3 class="empty-state">Koi active teacher nahi</td></tr>'}</tbody>`;
+  }
+  const tag = document.getElementById('teacherInstrCountTag');
+  if(tag) tag.textContent = TI_SELECTED.size + ' muntakhib';
+}
+document.addEventListener('change', e=>{
+  const cb = e.target.closest('.ti-check');
+  if(!cb) return;
+  if(cb.checked) TI_SELECTED.add(cb.dataset.id); else TI_SELECTED.delete(cb.dataset.id);
+  document.getElementById('teacherInstrCountTag').textContent = TI_SELECTED.size + ' muntakhib';
+});
+document.getElementById('teacherInstrSelectAllBtn').addEventListener('click', ()=>{
+  teacherInstrList().forEach(t=>{
+    if(toWaNumber(t.phone)) TI_SELECTED.add(t.id);
+  });
+  renderTeacherInstrTable();
+});
+document.getElementById('teacherInstrClearBtn').addEventListener('click', ()=>{
+  TI_SELECTED.clear();
+  renderTeacherInstrTable();
+});
+document.getElementById('teacherInstrStartBtn').addEventListener('click', ()=>{
+  const msg = document.getElementById('teacherInstrMessage').value.trim();
+  if(!msg){ alert('Pehle hidayat likhein.'); return; }
+  TI_QUEUE = teacherInstrList().filter(t=>TI_SELECTED.has(t.id));
+  if(!TI_QUEUE.length){ alert('Koi teacher muntakhib nahi.'); return; }
+  TI_QUEUE_INDEX = 0;
+  document.getElementById('teacherInstrStartBtn').disabled = true;
+  document.getElementById('teacherInstrQueueCard').style.display = '';
+  tiRenderCurrent();
+});
+function tiRenderCurrent(){
+  const box = document.getElementById('teacherInstrCurrentBox');
+  if(TI_QUEUE_INDEX >= TI_QUEUE.length){
+    box.innerHTML = '<div style="padding:16px;text-align:center;"><b>Qatar mukammal!</b><br>Tamam muntakhib teachers ke WhatsApp chats khul chuke hain.</div>';
+    document.getElementById('teacherInstrSendBtn').disabled = true;
+    document.getElementById('teacherInstrSkipBtn').disabled = true;
+    document.getElementById('teacherInstrProgressTag').textContent = TI_QUEUE.length + '/' + TI_QUEUE.length;
+    return;
+  }
+  const t = TI_QUEUE[TI_QUEUE_INDEX];
+  const msg = document.getElementById('teacherInstrMessage').value.trim() + '\n\n- ' + (DB.meta.instituteName||'');
+  box.innerHTML = `<div style="padding:12px;"><b>${TI_QUEUE_INDEX+1} / ${TI_QUEUE.length}:</b> ${esc(t.name)} (${t.phone})<br><span style="font-size:12px;color:var(--ink-soft);">WhatsApp khulega &mdash; Send dabayein, phir "Bhejein / Next" par click karein.</span><p class="urdu" style="text-align:right;max-height:120px;overflow-y:auto;">${esc(msg)}</p></div>`;
+  document.getElementById('teacherInstrProgressTag').textContent = (TI_QUEUE_INDEX) + '/' + TI_QUEUE.length;
+}
+document.getElementById('teacherInstrSendBtn').addEventListener('click', ()=>{
+  if(TI_QUEUE_INDEX >= TI_QUEUE.length) return;
+  const t = TI_QUEUE[TI_QUEUE_INDEX];
+  const msg = document.getElementById('teacherInstrMessage').value.trim() + '\n\n- ' + (DB.meta.instituteName||'');
+  openWhatsApp(t.phone, msg);
+  TI_QUEUE_INDEX++;
+  tiRenderCurrent();
+});
+document.getElementById('teacherInstrSkipBtn').addEventListener('click', ()=>{
+  TI_QUEUE_INDEX++;
+  tiRenderCurrent();
+});
+document.getElementById('teacherInstrStopBtn').addEventListener('click', ()=>{
+  document.getElementById('teacherInstrQueueCard').style.display = 'none';
+  document.getElementById('teacherInstrStartBtn').disabled = false;
+});
+document.getElementById('teacherInstrBtn').addEventListener('click', openTeacherInstr);
 
 /* ================= BULK WHATSAPP ================= */
 const BWA_TEMPLATES = {
@@ -3390,6 +3608,7 @@ var certStudioState = {
     father: '---',
     designation: 'معلم / استادِ قرآن و ناظرہ',
     joiningDate: 'مقررہ مدت',
+    serviceToDate: '',
     cnic: '',
     classes: 'تمام شعبہ جات / ناظرہ قرآن',
     issueDateEn: '',
@@ -3556,6 +3775,7 @@ function certStudioLoadTeacher(id) {
     father: t.father || "---",
     designation: t.designation || (t.role === "admin" ? "معلم و منتظم" : "معلم / استادِ قرآن و ناظرہ"),
     joiningDate: t.joiningDate || "مقررہ مدت",
+    serviceToDate: "",
     cnic: t.cnic || "",
     classes: assignedClasses,
     issueDateEn: issueDateEn,
@@ -3569,6 +3789,7 @@ function certStudioLoadTeacher(id) {
   var elFather = document.getElementById("certMetaFather");
   var elDesig = document.getElementById("certMetaDesignation");
   var elJoin = document.getElementById("certMetaJoining");
+  var elServiceTo = document.getElementById("certMetaServiceTo");
   var elCnic = document.getElementById("certMetaCnic");
   var elClasses = document.getElementById("certMetaClasses");
   var elRef = document.getElementById("certMetaRefNo");
@@ -3577,6 +3798,7 @@ function certStudioLoadTeacher(id) {
   if (elFather) elFather.value = certStudioState.meta.father;
   if (elDesig) elDesig.value = certStudioState.meta.designation;
   if (elJoin) elJoin.value = certStudioState.meta.joiningDate;
+  if (elServiceTo) elServiceTo.value = certStudioState.meta.serviceToDate;
   if (elCnic) elCnic.value = certStudioState.meta.cnic;
   if (elClasses) elClasses.value = certStudioState.meta.classes;
   if (elRef) elRef.value = certStudioState.meta.refNo;
@@ -3589,6 +3811,7 @@ function certStudioUpdateMeta() {
   certStudioState.meta.father = (document.getElementById("certMetaFather") || {}).value || "";
   certStudioState.meta.designation = (document.getElementById("certMetaDesignation") || {}).value || "";
   certStudioState.meta.joiningDate = (document.getElementById("certMetaJoining") || {}).value || "";
+  certStudioState.meta.serviceToDate = (document.getElementById("certMetaServiceTo") || {}).value || "";
   certStudioState.meta.cnic = (document.getElementById("certMetaCnic") || {}).value || "";
   certStudioState.meta.classes = (document.getElementById("certMetaClasses") || {}).value || "";
   certStudioState.meta.refNo = (document.getElementById("certMetaRefNo") || {}).value || "";
@@ -3650,7 +3873,7 @@ function certStudioAddPreset(type) {
   var m = certStudioState.meta;
   if (type === 'title') {
     certStudioAddTextBox({
-      content: 'تَصْدِیق نَامَۂ تَدْرِیسِی تَجْرِبَہ • TEACHER EXPERIENCE CERTIFICATE',
+      content: 'EXPERIENCE CERTIFICATE',
       size: '22px',
       weight: 'bold',
       color: '#0d5c58',
@@ -3658,15 +3881,15 @@ function certStudioAddPreset(type) {
     });
   } else if (type === 'body') {
     certStudioAddTextBox({
-      content: 'تصدیق کی جاتی ہے کہ محترم / محترمہ ' + (m.name || 'استاد محترم') + ' ولدیت ' + (m.father || '---') + ' ہمارے ادارے میں بطور ' + (m.designation || 'استاد') + ' اپنی خدمات نہایت محنت، دیانت داری اور حسن کارکردگی سے انجام دیتے رہے ہیں۔',
+      content: 'This is to certify that ' + (m.name || 'Mr./Ms. _____________') + ', S/O / D/O ' + (m.father || '_____________') + ', has served at Bright Academy, Quetta \u2013 Nazra Section as a ' + (m.designation || 'Nazra Qur\u2019an Teacher') + ' with dedication, sincerity, and satisfactory performance.',
       size: '16px',
       weight: 'normal',
       color: '#1a202c',
-      align: 'right'
+      align: 'left'
     });
   } else if (type === 'ref') {
     certStudioAddTextBox({
-      content: 'Ref: ' + (m.refNo || 'BAQ/EXP') + ' | بتاریخ: ' + (m.issueDateUr || 'آج') + ' (' + (m.issueDateEn || '') + ')',
+      content: 'Certificate No.: ' + (m.refNo || 'BAQ/EXP') + '  |  Date of Issue: ' + (m.issueDateEn || '_______________'),
       size: '12px',
       weight: 'bold',
       color: '#475569',
@@ -3674,7 +3897,7 @@ function certStudioAddPreset(type) {
     });
   } else if (type === 'sign') {
     certStudioAddTextBox({
-      content: 'دستخط معلم / استاد: ___________________        دستخط پرنسپل و مہتمم: ___________________',
+      content: 'Signature of Nazra Section Head: ___________________        Signature of Director: ___________________',
       size: '14px',
       weight: 'bold',
       color: '#0d5c58',
@@ -3774,11 +3997,12 @@ function certStudioGenerateHtml() {
   var m = s.meta;
   var M = DB.meta || {};
   var logoUrl = s.customLogoUrl || ((typeof getPayslipLogoUrl === "function") ? getPayslipLogoUrl() : (M.logo || DEFAULT_LOGO_SRC));
-  
-  // Custom background layer or Islamic base styling
+  var hasUrduChars = function(v){ return /[\u0600-\u06FF]/.test(v || ''); };
+
+  // Custom background layer or default parchment styling
   var bgStyle = '';
   var customBgImgHtml = '';
-  
+
   if (s.bgMode === 'custom' && s.bgCustomUrl) {
     customBgImgHtml = '<img id="certCustomBgImageLayer" src="' + s.bgCustomUrl + '" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; pointer-events:none; z-index:0; opacity:' + (s.bgOpacity / 100) + ';" alt="Custom Background">';
     bgStyle = 'position:relative; background:#ffffff;';
@@ -3788,8 +4012,8 @@ function certStudioGenerateHtml() {
 
   // Border styling
   var borderStyle = s.showIslamicBorder ? 'border:3.5px double #c79a3c; outline:1.5px solid #0d5c58; outline-offset:-9px;' : 'border:1px solid #cbd5e1;';
-  
-  // Watermark
+
+  // Watermark (logo image only, no text)
   var watermarkHtml = '';
   if (s.showWatermark) {
     watermarkHtml = '<div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); opacity:0.045; pointer-events:none; z-index:1; text-align:center;">' +
@@ -3797,84 +4021,65 @@ function certStudioGenerateHtml() {
     '</div>';
   }
 
-  // Ornate corners
+  // Ornate corners (decorative flourish marks only — no script/language)
   var cornersHtml = '';
   if (s.showIslamicBorder) {
-    cornersHtml = '<div style="position:absolute; top:14px; left:14px; color:#c79a3c; font-size:24px; z-index:2; pointer-events:none;">&#1758;</div>' +
-      '<div style="position:absolute; top:14px; right:14px; color:#c79a3c; font-size:24px; z-index:2; pointer-events:none;">&#1758;</div>' +
-      '<div style="position:absolute; bottom:14px; left:14px; color:#c79a3c; font-size:24px; z-index:2; pointer-events:none;">&#1758;</div>' +
-      '<div style="position:absolute; bottom:14px; right:14px; color:#c79a3c; font-size:24px; z-index:2; pointer-events:none;">&#1758;</div>';
+    cornersHtml = '<div style="position:absolute; top:14px; left:14px; color:#c79a3c; font-size:18px; z-index:2; pointer-events:none;">&#10070;</div>' +
+      '<div style="position:absolute; top:14px; right:14px; color:#c79a3c; font-size:18px; z-index:2; pointer-events:none;">&#10070;</div>' +
+      '<div style="position:absolute; bottom:14px; left:14px; color:#c79a3c; font-size:18px; z-index:2; pointer-events:none;">&#10070;</div>' +
+      '<div style="position:absolute; bottom:14px; right:14px; color:#c79a3c; font-size:18px; z-index:2; pointer-events:none;">&#10070;</div>';
   }
 
-  // Bismillah
-  var bismillahHtml = '';
+  // Decorative top rule (replaces the removed Bismillah calligraphy line)
+  var topRuleHtml = '';
   if (s.showBismillah) {
-    bismillahHtml = '<div class="urdu" contenteditable="true" style="text-align:center; font-size:23px; color:#0d5c58; margin-bottom:12px; font-weight:700; z-index:2; position:relative;">بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ</div>';
+    topRuleHtml = '<div style="text-align:center; color:#c79a3c; font-size:12px; letter-spacing:10px; margin-bottom:8px; z-index:2; position:relative;">&#10070; &#10070; &#10070;</div>';
   }
 
   // Teacher Photo
   var photoHtml = '';
   if (s.showPhoto && m.photo) {
-    photoHtml = '<div id="certTeacherPhotoBox" style="float:left; margin:0 0 16px 20px; text-align:center; z-index:2; position:relative;">' +
+    photoHtml = '<div id="certTeacherPhotoBox" style="float:right; margin:0 0 16px 20px; text-align:center; z-index:2; position:relative;">' +
       '<img src="' + m.photo + '" style="width:105px; height:125px; object-fit:cover; border-radius:6px; border:2.5px solid #c79a3c; box-shadow:0 3px 8px rgba(0,0,0,0.15);" alt="' + esc(m.name) + '">' +
     '</div>';
   }
 
+  // Institute identity block — always English (falls back to English defaults
+  // if the saved institute subtitle/address happen to be in Urdu).
+  var instituteName = M.instituteName || 'Bright Academy Quetta';
+  var instituteSub = (M.instituteSub && !hasUrduChars(M.instituteSub)) ? M.instituteSub : 'Nazra Section \u2014 Qur\u2019an Education & Training';
+  var instituteLine = (M.instituteLine && !hasUrduChars(M.instituteLine)) ? M.instituteLine : 'Quetta, Balochistan, Pakistan';
+
+  var instBlock = '<h2 contenteditable="true" style="margin:0; font-size:24px; color:#0d5c58; font-weight:800;">' + esc(instituteName) + '</h2>' +
+    '<div contenteditable="true" style="font-size:12.5px; color:#4a5568; font-weight:600; margin-top:3px;">' + esc(instituteSub) + '</div>' +
+    '<div contenteditable="true" style="font-size:11px; color:#718096; margin-top:2px;">' + esc(instituteLine) + (M.institutePhone ? (' &middot; ' + esc(M.institutePhone)) : '') + '</div>';
+
   // Header Logo Layout
   var headerHtml = '';
   if (s.logoPos === 'center') {
-    headerHtml = '<div style="text-align:center; border-bottom:2.5px double #c79a3c; padding-bottom:12px; margin-bottom:16px; position:relative; z-index:2;">' +
+    headerHtml = '<div style="text-align:center; border-bottom:2.5px double #c79a3c; padding-bottom:14px; margin-bottom:20px; position:relative; z-index:2;">' +
       '<img id="certMainLogoImg" src="' + logoUrl + '" alt="Logo" style="width:82px; height:82px; object-fit:contain; margin-bottom:6px;">' +
-      '<h2 contenteditable="true" style="margin:0; font-size:25px; color:#0d5c58; font-weight:800;">' + esc(M.instituteName || "Bright Academy Quetta") + '</h2>' +
-      '<div class="urdu" contenteditable="true" style="font-size:14px; color:#4a5568; font-weight:600; margin-top:3px;">' + esc(M.instituteSub || "برائٹ اکیڈمی کوئٹہ • شعبہ تعلیم و تربیتِ قرآن") + '</div>' +
-      '<div contenteditable="true" style="font-size:11px; color:#718096; margin-top:2px;">' + esc(M.instituteLine || "کوئٹہ، بلوچستان") + (M.institutePhone ? (" • ☎ " + esc(M.institutePhone)) : "") + '</div>' +
-      '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:12px; color:#4a5568; border-top:1px dashed #cbd5e1; padding-top:6px;">' +
-        '<div><strong>Ref:</strong> <span contenteditable="true">' + esc(m.refNo) + '</span></div>' +
-        '<div class="urdu">بتاریخ: <span contenteditable="true">' + esc(m.issueDateUr) + '</span></div>' +
-        '<div><strong>Date:</strong> <span contenteditable="true">' + esc(m.issueDateEn) + '</span></div>' +
-      '</div>' +
+      instBlock +
     '</div>';
   } else if (s.logoPos === 'right') {
-    headerHtml = '<div style="display:flex; align-items:center; justify-content:space-between; border-bottom:2.5px double #c79a3c; padding-bottom:12px; margin-bottom:16px; position:relative; z-index:2;">' +
-      '<div style="text-align:left; font-size:12px; color:#4a5568;">' +
-        '<div><strong>Ref:</strong> <span contenteditable="true">' + esc(m.refNo) + '</span></div>' +
-        '<div style="margin-top:3px;"><strong>Date:</strong> <span contenteditable="true">' + esc(m.issueDateEn) + '</span></div>' +
-        '<div class="urdu" style="font-size:11px; color:#718096; margin-top:2px;">بتاریخ: <span contenteditable="true">' + esc(m.issueDateUr) + '</span></div>' +
-      '</div>' +
-      '<div style="display:flex; align-items:center; gap:14px; direction:rtl; text-align:right;">' +
-        '<img id="certMainLogoImg" src="' + logoUrl + '" alt="Logo" style="width:78px; height:78px; object-fit:contain;">' +
-        '<div>' +
-          '<h2 contenteditable="true" style="margin:0; font-size:25px; color:#0d5c58; font-weight:800;">' + esc(M.instituteName || "Bright Academy Quetta") + '</h2>' +
-          '<div class="urdu" contenteditable="true" style="font-size:13px; color:#4a5568; font-weight:600; margin-top:2px;">' + esc(M.instituteSub || "برائٹ اکیڈمی کوئٹہ • شعبہ تعلیم و تربیتِ قرآن") + '</div>' +
-          '<div contenteditable="true" style="font-size:11px; color:#718096; margin-top:2px;">' + esc(M.instituteLine || "کوئٹہ، بلوچستان") + (M.institutePhone ? (" • ☎ " + esc(M.institutePhone)) : "") + '</div>' +
-        '</div>' +
-      '</div>' +
+    headerHtml = '<div style="display:flex; align-items:center; justify-content:flex-end; gap:14px; border-bottom:2.5px double #c79a3c; padding-bottom:14px; margin-bottom:20px; position:relative; z-index:2;">' +
+      '<div style="text-align:right;">' + instBlock + '</div>' +
+      '<img id="certMainLogoImg" src="' + logoUrl + '" alt="Logo" style="width:78px; height:78px; object-fit:contain;">' +
     '</div>';
   } else {
-    // Left
-    headerHtml = '<div style="display:flex; align-items:center; justify-content:space-between; border-bottom:2.5px double #c79a3c; padding-bottom:12px; margin-bottom:16px; position:relative; z-index:2;">' +
-      '<div style="display:flex; align-items:center; gap:14px;">' +
-        '<img id="certMainLogoImg" src="' + logoUrl + '" alt="Logo" style="width:78px; height:78px; object-fit:contain;">' +
-        '<div>' +
-          '<h2 contenteditable="true" style="margin:0; font-size:25px; color:#0d5c58; font-weight:800;">' + esc(M.instituteName || "Bright Academy Quetta") + '</h2>' +
-          '<div class="urdu" contenteditable="true" style="font-size:13px; color:#4a5568; font-weight:600; margin-top:2px;">' + esc(M.instituteSub || "برائٹ اکیڈمی کوئٹہ • شعبہ تعلیم و تربیتِ قرآن") + '</div>' +
-          '<div contenteditable="true" style="font-size:11px; color:#718096; margin-top:2px;">' + esc(M.instituteLine || "کوئٹہ، بلوچستان") + (M.institutePhone ? (" • ☎ " + esc(M.institutePhone)) : "") + '</div>' +
-        '</div>' +
-      '</div>' +
-      '<div style="text-align:right; font-size:12px; color:#4a5568;">' +
-        '<div><strong>Ref:</strong> <span contenteditable="true">' + esc(m.refNo) + '</span></div>' +
-        '<div style="margin-top:3px;"><strong>Date:</strong> <span contenteditable="true">' + esc(m.issueDateEn) + '</span></div>' +
-        '<div class="urdu" style="font-size:11px; color:#718096; margin-top:2px;">بتاریخ: <span contenteditable="true">' + esc(m.issueDateUr) + '</span></div>' +
-      '</div>' +
+    // Left (default)
+    headerHtml = '<div style="display:flex; align-items:center; gap:14px; border-bottom:2.5px double #c79a3c; padding-bottom:14px; margin-bottom:20px; position:relative; z-index:2;">' +
+      '<img id="certMainLogoImg" src="' + logoUrl + '" alt="Logo" style="width:78px; height:78px; object-fit:contain;">' +
+      '<div style="text-align:left;">' + instBlock + '</div>' +
     '</div>';
   }
 
-  // Extra Text Boxes Layered on top of background
+  // Extra Text Boxes Layered on top of background (English, left-to-right)
   var textLayersHtml = '';
   if (s.textBoxes && s.textBoxes.length > 0) {
     textLayersHtml = '<div style="position:relative; z-index:4; margin:16px 0; display:flex; flex-direction:column; gap:12px;">';
     s.textBoxes.forEach(function(b) {
-      textLayersHtml += '<div contenteditable="true" style="width:' + b.width + '; font-size:' + b.size + '; font-weight:' + b.weight + '; color:' + b.color + '; text-align:' + b.align + '; background:' + b.bg + '; border:' + b.border + '; padding:6px 10px; border-radius:4px; font-family:' + b.font + '; line-height:1.8; direction:rtl; outline:1px dashed transparent;" class="cert-text-layer" tabindex="0">' +
+      textLayersHtml += '<div contenteditable="true" style="width:' + b.width + '; font-size:' + b.size + '; font-weight:' + b.weight + '; color:' + b.color + '; text-align:' + b.align + '; background:' + b.bg + '; border:' + b.border + '; padding:6px 10px; border-radius:4px; font-family:' + b.font + '; line-height:1.8; direction:ltr; outline:1px dashed transparent;" class="cert-text-layer" tabindex="0">' +
         esc(b.content).replace(/\n/g, '<br>') +
       '</div>';
     });
@@ -3884,89 +4089,91 @@ function certStudioGenerateHtml() {
   // Official Seal
   var sealHtml = '';
   if (s.showSeal) {
-    sealHtml = '<div style="text-align:center; min-width:140px;">' +
-      '<div contenteditable="true" style="width:78px; height:78px; border:2.5px dashed #c79a3c; border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; color:#c79a3c; font-size:11px; font-weight:bold; text-align:center; background:rgba(199,154,60,0.04);">' +
-        'مہر ادارہ<br>Official Seal' +
+    sealHtml = '<div style="text-align:center; min-width:150px;">' +
+      '<div contenteditable="true" style="width:84px; height:84px; border:2.5px dashed #c79a3c; border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; color:#c79a3c; font-size:10.5px; font-weight:800; text-align:center; line-height:1.35; text-transform:uppercase; letter-spacing:.4px; background:rgba(199,154,60,0.04);">' +
+        'Official<br>Academy<br>Stamp' +
       '</div>' +
     '</div>';
   } else {
     sealHtml = '<div style="min-width:60px;"></div>';
   }
 
+  // ---- Dynamic fill-ins for the fixed English letter text ----
+  var nameDisplay = (m.name && m.name.trim() && !hasUrduChars(m.name)) ? m.name : '_____________________';
+  var fatherDisplay = (m.father && m.father !== '---' && !hasUrduChars(m.father)) ? m.father : '_____________________';
+  var fromDate = (m.joiningDate && !hasUrduChars(m.joiningDate)) ? m.joiningDate : '_______________';
+  var toDate = m.serviceToDate ? m.serviceToDate : '_______________';
+  var certNo = m.refNo || '_______________';
+  var issueDate = m.issueDateEn || '_______________';
+
+  var bodyHtml = '<div style="text-align:justify; font-size:15.5px; line-height:2; color:#1a202c; margin-top:8px;">' +
+      photoHtml +
+      '<p contenteditable="true" style="margin:0 0 14px;">' +
+        'This is to certify that <strong style="font-size:16.5px; color:#0d5c58; border-bottom:1px solid #c79a3c; padding:0 3px;">Mr./Ms. ' + esc(nameDisplay) + '</strong>, ' +
+        'S/O / D/O <strong style="color:#0d5c58;">' + esc(fatherDisplay) + '</strong>, has served at ' +
+        '<strong>Bright Academy, Quetta \u2013 Nazra Section</strong> as a <strong style="color:#0d5c58;">Nazra Qur\u2019an Teacher</strong> from ' +
+        '<strong>' + esc(fromDate) + '</strong> to <strong>' + esc(toDate) + '</strong>.' +
+      '</p>' +
+
+      '<p contenteditable="true" style="margin:0 0 14px;">' +
+        'During the period of service, he/she was responsible for teaching Qur\u2019an Nazra, correct pronunciation, basic Tajweed and proper recitation to the students. He/She also contributed to the Islamic and moral development of the students with care and dedication.' +
+      '</p>' +
+
+      '<p contenteditable="true" style="margin:0 0 14px;">' +
+        'Throughout his/her service, we found him/her to be hardworking, punctual, responsible, well-mannered, and sincere in carrying out assigned duties. His/Her teaching approach and interaction with students were found to be satisfactory and respectful.' +
+      '</p>' +
+
+      '<p contenteditable="true" style="margin:0 0 14px;">' +
+        'We appreciate his/her services rendered to the institution and wish him/her success, growth, and a bright future in all future endeavors.' +
+      '</p>' +
+
+      '<p contenteditable="true" style="margin:0;">' +
+        'This certificate is issued upon his/her request as a proof of teaching experience.' +
+      '</p>' +
+    '</div>';
+
+  var certMetaRowHtml = '<div style="display:flex; justify-content:space-between; margin-top:24px; padding-top:14px; border-top:1px dashed #cbd5e1; font-size:13.5px; color:#334155;">' +
+      '<div><strong>Certificate No.:</strong> <span contenteditable="true">' + esc(certNo) + '</span></div>' +
+      '<div><strong>Date of Issue:</strong> <span contenteditable="true">' + esc(issueDate) + '</span></div>' +
+    '</div>';
+
+  var signatureHtml = '<div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:46px; padding-top:6px;">' +
+      '<div style="text-align:center; min-width:170px;">' +
+        '<div style="border-bottom:1.5px dashed #718096; width:150px; margin:0 auto 6px;"></div>' +
+        '<div contenteditable="true" style="font-weight:bold; color:#1a202c; font-size:13.5px;">Signature of Nazra Section Head</div>' +
+        '<div contenteditable="true" style="font-size:11px; color:#718096;">Bright Academy, Quetta</div>' +
+      '</div>' +
+
+      sealHtml +
+
+      '<div style="text-align:center; min-width:170px;">' +
+        '<div style="border-bottom:1.5px dashed #718096; width:150px; margin:0 auto 6px;"></div>' +
+        '<div contenteditable="true" style="font-weight:bold; color:#0d5c58; font-size:13.5px;">Signature of Director</div>' +
+        '<div contenteditable="true" style="font-size:11px; color:#718096;">Bright Academy, Quetta</div>' +
+      '</div>' +
+    '</div>';
+
   return '<div class="doc-sheet islamic" style="padding:40px 48px; ' + borderStyle + ' ' + bgStyle + ' min-height:960px; box-sizing:border-box;">' +
     customBgImgHtml +
     cornersHtml +
     watermarkHtml +
-    
+
     '<div style="position:relative; z-index:3;">' +
-      bismillahHtml +
+      topRuleHtml +
       headerHtml +
-      
-      '<div style="text-align:center; margin:16px 0 10px;">' +
-        '<div class="urdu" contenteditable="true" style="font-size:28px; font-weight:bold; color:#0d5c58; line-height:1.7;">تَصْدِیق نَامَۂ تَدْرِیسِی تَجْرِبَہ</div>' +
-        '<div contenteditable="true" style="font-size:12.5px; letter-spacing:2px; text-transform:uppercase; font-weight:800; color:#c79a3c; margin-top:2px;">TEACHER EXPERIENCE CERTIFICATE</div>' +
-        '<div style="color:#c79a3c; font-size:18px; margin:4px 0;">&#1758; &#1758; &#1758;</div>' +
+
+      '<div style="text-align:center; margin:6px 0 16px;">' +
+        '<div contenteditable="true" style="font-size:29px; font-weight:800; letter-spacing:1.5px; color:#0d5c58; text-transform:uppercase;">Experience Certificate</div>' +
+        '<div style="color:#c79a3c; font-size:15px; margin:6px 0 0; letter-spacing:8px;">&#10070; &#10070; &#10070;</div>' +
       '</div>' +
 
-      '<div class="urdu" style="direction:rtl; text-align:right; font-size:16.5px; line-height:2.3; color:#1a202c; margin-top:12px;">' +
-        photoHtml +
-        '<p contenteditable="true" style="margin-bottom:12px;">' +
-          'تصدیق کی جاتی ہے کہ محترم / محترمہ <strong style="font-size:19.5px; color:#0d5c58; padding:0 4px; border-bottom:1px solid #c79a3c;">' + esc(m.name) + '</strong> ' +
-          'ولدیت / دختر <strong style="color:#0d5c58;">' + esc(m.father) + '</strong>' +
-          (m.cnic ? ('، شناختی کارڈ نمبر <strong style="direction:ltr; display:inline-block;">' + esc(m.cnic) + '</strong>') : '') +
-          '، ہمارے ادارے <strong>&quot;' + esc(M.instituteName || "برائٹ اکیڈمی کوئٹہ") + '&quot;</strong> میں بطور ' +
-          '<strong style="color:#0d5c58;">' + esc(m.designation) + '</strong> اپنی تدریسی و تعلیمی خدمات انجام دیتے رہے ہیں۔' +
-        '</p>' +
+      bodyHtml +
 
-        '<p contenteditable="true" style="margin-bottom:12px;">' +
-          'موصوف نے ادارہ ہذا میں تاریخِ شمولیت <strong>' + esc(m.joiningDate) + '</strong> سے تا حال تدریسی فرائض نہایت محنت، دیانت داری، لگن، خلوصِ نیت اور بہترین حسنِ کارکردگی کے ساتھ سرانجام دیے۔ ' +
-          'تدریس کے دوران انہوں نے طلبہ کی قرآنی تعلیم، تلفظ و تجوید، اور اخلاقی تربیت کے شعبہ جات (<strong>' + esc(m.classes) + '</strong>) میں گراں قدر کردار ادا کیا۔' +
-        '</p>' +
-
-        '<p contenteditable="true" style="margin-bottom:12px;">' +
-          'دورانِ ملازمت ان کا اخلاق و کردار نہایت شاندار، برتاؤ مشفقانہ، اور ساتھی اساتذہ و انتظامیہ کے ساتھ رویہ انتہائی مثبت و باوقار رہا۔ ادارہ ان کے اعلیٰ اخلاق اور خدمات کا دل سے معترف ہے۔' +
-        '</p>' +
-
-        '<p contenteditable="true" style="margin-bottom:16px; color:#0d5c58; font-weight:600;">' +
-          'ادارہ ان کی مخلصانہ خدمات کو قدر کی نگاہ سے دیکھتا ہے اور ان کی آئندہ تدریسی زندگی، کامیابی، اور روشن مستقبل کے لیے دست بہ دعا ہے۔' +
-        '</p>' +
-      '</div>' +
-
-      // Optional Text Layers pasted/added by user on top of background
+      // Optional Text Layers added by user on top of the letter
       textLayersHtml +
 
-      '<div style="direction:rtl; margin:18px 0; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.04);">' +
-        '<table class="urdu" style="width:100%; border-collapse:collapse; font-size:13px; text-align:right;">' +
-          '<tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">' +
-            '<td style="padding:8px 14px; font-weight:bold; color:#4a5568; width:25%;">استاد کا نام / Name:</td>' +
-            '<td contenteditable="true" style="padding:8px 14px; font-weight:bold; color:#0d5c58; width:25%;">' + esc(m.name) + '</td>' +
-            '<td style="padding:8px 14px; font-weight:bold; color:#4a5568; width:25%;">عہدہ / Designation:</td>' +
-            '<td contenteditable="true" style="padding:8px 14px; color:#1a202c; width:25%;">' + esc(m.designation) + '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td style="padding:8px 14px; font-weight:bold; color:#4a5568;">تاریخ شمولیت / Joining:</td>' +
-            '<td contenteditable="true" style="padding:8px 14px; color:#1a202c;">' + esc(m.joiningDate) + '</td>' +
-            '<td style="padding:8px 14px; font-weight:bold; color:#4a5568;">حسنِ اخلاق و کارکردگی:</td>' +
-            '<td contenteditable="true" style="padding:8px 14px; color:#16a34a; font-weight:bold;">ممتاز و مثالی (Excellent)</td>' +
-          '</tr>' +
-        '</table>' +
-      '</div>' +
-
-      '<div class="urdu" style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:45px; padding-top:16px; direction:rtl;">' +
-        '<div style="text-align:center; min-width:160px;">' +
-          '<div style="border-bottom:1.5px dashed #718096; width:140px; margin:0 auto 6px;"></div>' +
-          '<div contenteditable="true" style="font-weight:bold; color:#1a202c; font-size:13.5px;">دستخط معلم / استاد</div>' +
-          '<div contenteditable="true" style="font-size:11px; color:#718096; direction:ltr;">Teacher Signature</div>' +
-        '</div>' +
-
-        sealHtml +
-
-        '<div style="text-align:center; min-width:160px;">' +
-          '<div style="border-bottom:1.5px dashed #718096; width:140px; margin:0 auto 6px;"></div>' +
-          '<div contenteditable="true" style="font-weight:bold; color:#0d5c58; font-size:13.5px;">دستخط مہتمم و پرنسپل</div>' +
-          '<div contenteditable="true" style="font-size:11px; color:#718096; direction:ltr;">Principal / Administrator</div>' +
-        '</div>' +
-      '</div>' +
+      certMetaRowHtml +
+      signatureHtml +
     '</div>' +
   '</div>';
 }
@@ -4219,7 +4426,7 @@ document.getElementById('addTeacherBtn').onclick = ()=>openTeacherModal(null);
 document.getElementById('tf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 320, 0.7, (dataUrl)=>{
+  compressImageFile(file, 130, 0.55, (dataUrl)=>{
     document.getElementById('tf_photo_data').value = dataUrl;
     const prev = document.getElementById('tf_photo_preview');
     prev.src = dataUrl; prev.style.display='block';
@@ -4349,6 +4556,7 @@ function renderTeacherAttendance(){
         <button class="btn sm ${st==='P'?'green':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','P')">&#10003; Present</button>
         <button class="btn sm ${st==='A'?'danger':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','A')">&#10007; Absent</button>
         <button class="btn sm ${st==='L'?'amber':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','L')">&#128197; Leave</button>
+        ${st==='A' && CURRENT_ROLE==='admin' ? waBtn('WhatsApp', `sendTeacherAbsentMessage('${t.id}','${date}')`, {title:'Ustad ko WhatsApp par ghair hazri ki wajah poochein'}) : ''}
       </td>
     </tr>`;
   }).join('');
@@ -4977,7 +5185,24 @@ function profileSerial(s){
   return idx >= 0 ? idx+1 : '-';
 }
 
+
+function dossierUploadPhoto(event){
+  const file = event.target.files[0];
+  if(!file || !activeDossierId) return;
+  compressImageFile(file, 130, 0.55, (dataUrl)=>{
+    if(!dataUrl) return;
+    const s = studentById(activeDossierId);
+    if(s){
+      s.photo = dataUrl;
+      saveDB(DB);
+      openStudentDossier(activeDossierId);
+      renderStudents();
+    }
+  });
+}
+
 function openStudentDossier(id){
+
   const s = studentById(id);
   if(!s) return;
   activeDossierId = id;
@@ -5237,7 +5462,7 @@ document.getElementById('sf_admdate').addEventListener('input', e=>{
 document.getElementById('sf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 320, 0.7, (dataUrl)=>{
+  compressImageFile(file, 130, 0.55, (dataUrl)=>{
     document.getElementById('sf_photo_data').value = dataUrl;
     const prev = document.getElementById('sf_photo_preview');
     prev.src = dataUrl; prev.style.display='block';
@@ -5841,7 +6066,7 @@ function renderSettings(){
 document.getElementById('st_logo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 320, 0.7, (dataUrl)=>{
+  compressImageFile(file, 130, 0.55, (dataUrl)=>{
     DB.meta.logo = dataUrl;
     saveDB(DB);
     renderBrand();
@@ -6291,7 +6516,7 @@ if(expAttBtn){
       <!-- Identity strip -->
       <div class="pf-hero">
         <div>
-          <div id="pf_photo_wrap"></div>
+          <div id="pf_photo_wrap" style="cursor:pointer;position:relative;" title="Tasweer tabdeel karne ke liye click karein" onclick="document.getElementById('dossierPhotoInput').click()"></div><input type="file" id="dossierPhotoInput" accept="image/*" style="display:none;" onchange="dossierUploadPhoto(event)">
           <div class="pf-serial" id="pf_serial"></div>
         </div>
         <div>
@@ -6381,5 +6606,17 @@ if(expAttBtn){
 
   <!-- Certificate / Admission Form printable sheet -->
   <div class="print-doc" id="printDocBox"></div>
+
+<script>
+window.openTeacherInstr = window.openTeacherInstr || function(){
+  var bd = document.getElementById('teacherInstrModalBackdrop');
+  if(bd){
+    bd.classList.add('open');
+    bd.style.display = 'flex';
+    if(typeof renderTeacherInstrTable === 'function') renderTeacherInstrTable();
+  }
+};
+</script>
+
 </body>
 </html>
