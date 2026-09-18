@@ -54,7 +54,7 @@ body{
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
 }
-.urdu{font-family:'Noto Nastaliq Urdu','Amiri',serif; direction:rtl; unicode-bidi:isolate;}
+.urdu{font-family:"Noto Nastaliq Urdu", "Amiri", serif; direction:rtl; unicode-bidi:isolate;}
 h1,h2,h3,.brand-word{font-family:'Amiri',serif;}
 ::selection{background:var(--gold); color:#fff;}
 a{color:inherit;}
@@ -155,7 +155,7 @@ nav.navlist button.active svg{opacity:1;}
 .dashboard-logo{width:74px; height:62px; object-fit:contain; background:#fff; border-radius:12px; padding:5px; position:relative; z-index:1;}
 .dashboard-hero h3{margin:0 0 2px; font-size:24px; color:#fff; position:relative; z-index:1;}
 .dashboard-hero p{margin:0; color:#d9e8df; font-size:13px; position:relative; z-index:1;}
-.dashboard-hero .arabic{font:16px 'Noto Nastaliq Urdu',serif; color:#e9d59c; margin-top:5px; position:relative; z-index:1;}
+.dashboard-hero .arabic{font:16px "Noto Nastaliq Urdu", serif; color:#e9d59c; margin-top:5px; position:relative; z-index:1;}
 .chart-grid{display:grid; grid-template-columns:1.25fr 1fr; gap:16px; margin-bottom:18px;}
 .chart-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow); padding:18px 20px; min-width:0;}
 .chart-card.wide{grid-column:1/-1;}
@@ -312,7 +312,7 @@ tbody tr:hover{background:#fbf8f0;}
 .receipt:before,.receipt:after{content:'۞'; position:absolute; color:rgba(199,154,60,.17); font:72px 'Amiri',serif; line-height:1;}
 .receipt:before{left:-12px; top:-10px;}.receipt:after{right:-12px; bottom:-12px;}
 .receipt .rhd{text-align:center; border-bottom:2px solid var(--gold); padding:4px 0 12px; margin-bottom:12px; position:relative;}
-.receipt .rhd:before{content:'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ'; display:block; font:16px 'Noto Nastaliq Urdu',serif; color:var(--teal); margin-bottom:3px;}
+.receipt .rhd:before{content:'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ'; display:block; font:16px "Noto Nastaliq Urdu", serif; color:var(--teal); margin-bottom:3px;}
 .receipt .rhd b{font-family:'Amiri',serif; font-size:21px; color:var(--teal-deep); display:block;}
 .receipt .rhd span{font-size:11.5px; color:var(--ink-soft);}
 .receipt .rrow{display:flex; justify-content:space-between; font-size:13px; padding:5px 0; border-bottom:1px dotted var(--line);}
@@ -320,7 +320,7 @@ tbody tr:hover{background:#fbf8f0;}
 .receipt .rtotal{display:flex; justify-content:space-between; font-size:16px; font-weight:700; margin-top:10px; padding-top:10px; border-top:2px solid var(--teal); color:var(--teal-deep);}
 .receipt .rfoot{text-align:center; font-size:11.5px; color:var(--ink-soft); margin-top:14px;}
 .receipt .receipt-no{position:absolute; top:12px; right:18px; font-size:10px; color:var(--ink-soft);}
-.receipt .urdu-foot{font:15px 'Noto Nastaliq Urdu',serif; color:var(--teal); margin-top:4px;}
+.receipt .urdu-foot{font:15px "Noto Nastaliq Urdu", serif; color:var(--teal); margin-top:4px;}
 
 /* ===== Fee and report highlights ===== */
 .metric-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px;}
@@ -393,6 +393,7 @@ tbody tr:hover{background:#fbf8f0;}
   #sabaqTable th, #sabaqTable td{white-space:nowrap;}
 }
 @media print{
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   body{background:#fff;}
   body *{visibility:hidden !important;}
   .print-target,.print-target *{visibility:visible !important;}
@@ -462,7 +463,7 @@ tbody tr:hover{background:#fbf8f0;}
 .login-visual-top .mark{font:34px 'Amiri',serif; color:var(--gold);}
 .login-visual-top .brandline{font-size:13px; color:#e9d59c; letter-spacing:.4px;}
 .login-visual-content{position:relative; z-index:1; padding:26px 44px 56px; margin-top:auto;}
-.login-bismillah{font-family:'Noto Nastaliq Urdu',serif; font-size:22px; color:#e9d59c; margin-bottom:16px; direction:rtl; unicode-bidi:isolate;}
+.login-bismillah{font-family:"Noto Nastaliq Urdu", serif; font-size:22px; color:#e9d59c; margin-bottom:16px; direction:rtl; unicode-bidi:isolate;}
 .login-visual-content h1{font-family:'Amiri',serif; font-size:36px; line-height:1.25; margin:0 0 14px; color:#fff;}
 .login-visual-content p{font-size:14.5px; color:#dce8e2; max-width:400px; line-height:1.7; margin:0;}
 .login-visual{display:flex; flex-direction:column;}
@@ -896,14 +897,14 @@ tbody tr:hover{background:#fbf8f0;}
     #fffdf7;
 }
 .doc-sheet.islamic .bismillah{
-  text-align:center; font-family:'Noto Nastaliq Urdu',serif; direction:rtl; unicode-bidi:isolate;
+  text-align:center; font-family:"Noto Nastaliq Urdu", serif; direction:rtl; unicode-bidi:isolate;
   font-size:21px; color:var(--teal-deep); margin-bottom:8px;
 }
 .doc-sheet.islamic .doc-head{border-bottom:3px double var(--gold); padding-bottom:14px;}
 .doc-sheet.islamic .doc-head h2{color:var(--teal-deep); font-style:normal;}
 .doc-sheet.islamic .doc-title{color:var(--teal-deep); margin-top:14px;}
 .doc-sheet.islamic .doc-title-urdu{
-  font-family:'Noto Nastaliq Urdu',serif; direction:rtl; unicode-bidi:isolate;
+  font-family:"Noto Nastaliq Urdu", serif; direction:rtl; unicode-bidi:isolate;
   text-align:center; font-size:24px; color:var(--gold); margin-top:22px; margin-bottom:0;
 }
 .doc-sheet.islamic .doc-motif{text-align:center; color:var(--gold); font-size:18px; letter-spacing:12px; margin:4px 0 4px;}
@@ -928,7 +929,7 @@ tbody tr:hover{background:#fbf8f0;}
 .idcard-islamic .ic-top{background:linear-gradient(120deg,var(--teal-deep),var(--teal) 70%); color:#fff; padding:14px 16px 10px; position:relative; text-align:center;}
 .idcard-islamic .ic-top:after{content:'\06DE'; position:absolute; right:10px; top:0px; color:rgba(255,255,255,.16); font:48px 'Amiri',serif;}
 .idcard-islamic .ic-inst{font-family:'Amiri',serif; font-size:16px; margin:0;}
-.idcard-islamic .ic-inst-urdu{font-family:'Noto Nastaliq Urdu',serif; direction:rtl; unicode-bidi:isolate; font-size:14px; color:#e9d59c; margin-top:2px;}
+.idcard-islamic .ic-inst-urdu{font-family:"Noto Nastaliq Urdu", serif; direction:rtl; unicode-bidi:isolate; font-size:14px; color:#e9d59c; margin-top:2px;}
 .idcard-islamic .ic-chip{position:absolute; left:12px; top:12px; background:var(--gold); color:#173018; font-size:9px; font-weight:700; padding:3px 9px; border-radius:999px; letter-spacing:.5px;}
 .idcard-islamic .ic-body{display:flex; gap:12px; padding:16px; align-items:flex-start; background:linear-gradient(160deg,#fff,#f6f1e2);}
 .idcard-islamic .ic-photo{width:76px; height:90px; object-fit:cover; border:3px solid var(--gold); border-radius:8px; background:#fff; flex:0 0 auto;}
@@ -1056,6 +1057,144 @@ tbody tr:hover{background:#fbf8f0;}
 }
 .baq-footer-text { color: #ffffff; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap; }
 .baq-footer-contact { color: #e7c98a; font-size: 10px; font-weight: 600; letter-spacing: 0.2px; white-space: nowrap; }
+
+
+/* ----- Editable Certificate Styles ----- */
+#certPreviewContainer [contenteditable="true"] {
+  outline: none;
+  transition: all 0.15s ease-in-out;
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+#certPreviewContainer [contenteditable="true"]:hover {
+  outline: 1.5px dashed #c79a3c !important;
+  background-color: rgba(199, 154, 60, 0.08) !important;
+  cursor: text;
+}
+#certPreviewContainer [contenteditable="true"]:focus {
+  outline: 2px solid #0d5c58 !important;
+  background-color: #f0fdf4 !important;
+}
+@media print {
+  [contenteditable="true"] {
+    outline: none !important;
+    background: transparent !important;
+  }
+}
+</style>
+<style>
+
+/* ================= STAFF PAYROLL & MULTI-SLIP STYLES ================= */
+.slip-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.print-slip-box {
+  border: 1px dashed #2d3748;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1a202c;
+  font-size: 12px;
+  position: relative;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.print-slip-box .slip-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+.print-slip-box .slip-logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  margin-right: 12px;
+  border-radius: 4px;
+}
+.print-slip-box .slip-title-en {
+  margin: 0;
+  font-weight: 800;
+  font-size: 15px;
+  color: #0d5c58;
+  line-height: 1.2;
+}
+.print-slip-box .slip-title-ur {
+  font-size: 11px;
+  color: #4a5568;
+  font-weight: 600;
+}
+.print-slip-box .slip-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 12px;
+  border-bottom: 1px dotted #edf2f7;
+  padding-bottom: 2px;
+}
+.print-slip-box .slip-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #cbd5e1;
+  font-size: 10px;
+  color: #64748b;
+  text-align: center;
+}
+.print-slip-box .slip-remove-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+@media print {
+  #multiSlipPrintArea.print-target,
+  #multiSlipPrintArea.print-target * {
+    visibility: visible !important;
+  }
+  #multiSlipPrintArea.print-target {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    background: #fff !important;
+  }
+  #multiSlipPrintArea.print-target .slip-grid-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+    margin: 0 !important;
+  }
+  #multiSlipPrintArea.print-target .print-slip-box {
+    background: #ffffff !important;
+    border: 1px dashed #000000 !important;
+    box-shadow: none !important;
+    padding: 12px 14px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  #multiSlipPrintArea.print-target .slip-remove-btn {
+    display: none !important;
+  }
+}
 
 </style>
 </head>
@@ -1263,6 +1402,7 @@ tbody tr:hover{background:#fbf8f0;}
         <button type="button" class="active" data-tch-tab="list">&#128100; Fehrist</button>
         <button type="button" data-tch-tab="attendance">&#128197; Teacher Hazri</button>
         <button type="button" data-tch-tab="payslip">&#128176; Pay Slip</button>
+        <button type="button" data-tch-tab="cert" style="font-weight:700; color:#0d5c58;">&#128220; Experience Certificate / سند تجربہ</button>
       </div>
 
       <div class="tch-tab-panel" data-tch-panel="list">
@@ -1303,18 +1443,266 @@ tbody tr:hover{background:#fbf8f0;}
 
       <div class="tch-tab-panel" data-tch-panel="payslip" style="display:none;">
         <div class="searchbar no-print">
-          <input type="month" id="tchPayMonth">
+          <input type="month" id="tchPayMonth" onchange="onPayrollMonthChange()">
           <button class="btn ghost sm" id="tchPayExportBtn">&#11015; Export CSV</button>
         </div>
         <div class="card islamic-card">
-          <h3>Tankhwah / Pay Slip &mdash; <span id="tchPayMonthLabel"></span></h3>
+          <h3>Teachers Pay Slips &mdash; <span id="tchPayMonthLabel"></span></h3>
           <div class="table-wrap"><table id="tchPayTable"></table></div>
-          <p class="note">Pay slip hazri ke mutabiq banti hai: <b>Fi-din tankhwah = Monthly Salary &divide; Marked Days (P+A+L)</b>. Har Absent din ki kitoti (deduction) ho jati hai, Leave aur Present din poore shumar hote hain.</p>
+        </div>
+        <div class="card">
+          <h3>&#128100; Custom / Batch Pay Slip Generator</h3>
+          <div class="form-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-bottom:10px;">
+            <select id="staffTeacherSelect" onchange="loadTeacherIntoForm(this.value)" style="grid-column:1/-1;">
+              <option value="">-- Manual / Select Teacher --</option>
+            </select>
+            <input type="text" id="staffName" placeholder="Staff Name" oninput="updateLiveSlip()">
+            <input type="text" id="staffRole" placeholder="Role / Designation" value="Teacher" oninput="updateLiveSlip()">
+            <input type="number" id="monthlySalary" placeholder="Monthly Salary" oninput="updateLiveSlip()">
+            <input type="number" id="totalDays" placeholder="Total Days" value="30" oninput="updateLiveSlip()">
+            <input type="number" id="presentDays" placeholder="Present Days" oninput="updateLiveSlip()">
+            <input type="number" id="absentDays" placeholder="Absent Days" value="0" oninput="updateLiveSlip()">
+            <input type="number" id="leaveDays" placeholder="Leave Days" value="0" oninput="updateLiveSlip()">
+          </div>
+          <div class="no-print" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+            <button class="btn blue sm" onclick="addSlipToBatch()">&#10133; Batch Mein Shamil Karein</button>
+            <button class="btn ghost sm" onclick="batchAllActiveTeachers()">&#128101; Tamam Active Teachers Shamil Karein</button>
+            <button class="btn ghost sm" onclick="clearBatch()">&#128465; Batch Saaf Karein</button>
+            <button class="btn gold sm" onclick="printAllSlipsA4()">&#128424; Print Batch (A4)</button>
+          </div>
+          <h4 class="no-print" style="margin:0 0 6px;"><span id="slipContainerTitle">Live Preview</span> <span class="tag" id="slipBatchCount">0</span></h4>
+          <div id="multiSlipPrintArea">
+            <div id="multiSlipContainer" class="slip-grid-container"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- EXPERIENCE CERTIFICATE STUDIO (FULLY EDITABLE WITH BACKGROUND & TEXT LAYERS) ---------- -->
+      <div class="tch-tab-panel" data-tch-panel="cert" style="display:none;">
+        <div class="card p-3 p-md-4 my-3 shadow-sm bg-white rounded no-print" style="border:1px solid var(--line, #e2e8f0);">
+          
+          <!-- Top Studio Header & Actions -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-bottom:1px solid #edf2f7; padding-bottom:14px; margin-bottom:14px;">
+            <div>
+              <h3 style="margin:0; color:var(--teal-deep, #0d5c58); font-size:19px; font-weight:800; display:flex; align-items:center; gap:8px;">
+                📜 <span>سندِ تدریسی تجربہ اسٹوڈیو • Experience Certificate Studio</span>
+              </h3>
+              <p style="margin:3px 0 0; font-size:12.5px; color:var(--ink-soft, #64748b);">
+                اپنی مرضی کی بیک گراؤنڈ تصویر اپلوڈ کریں یا خوبصورت اسلامی ڈیزائن منتخب کریں، اوپر سے ٹیکسٹ باکسز شامل کریں اور براہِ راست پرنٹ کریں۔
+              </p>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <select id="certTeacherSelect" class="form-control" style="min-width:210px; padding:7px 10px; border:1px solid #cbd5e1; border-radius:6px; font-weight:600; font-size:13px;" onchange="certStudioLoadTeacher(this.value)">
+                <option value="">-- استاد منتخب کریں (Auto-Fill) --</option>
+              </select>
+              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="certStudioResetDefault()" title="ڈیفالٹ پر ری سیٹ کریں" style="font-weight:600; padding:7px 12px; border-radius:6px;">
+                🔄 ری سیٹ (Reset)
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="printSelectedTeacherCert()" style="background:var(--teal-deep, #0d5c58); color:#fff; border:none; padding:7px 18px; border-radius:6px; font-weight:700; font-size:13.5px; box-shadow:0 2px 6px rgba(13,92,88,0.25);">
+                🖨️ پرنٹ سرٹیفکیٹ (Print A4)
+              </button>
+            </div>
+          </div>
+
+          <!-- Studio Layout: Left Controls & Right Live Preview -->
+          <div class="row g-3">
+            
+            <!-- LEFT STUDIO CONTROLS (Consent Slip Generator style) -->
+            <div class="col-lg-4 col-xl-4 no-print">
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; max-height:850px; overflow-y:auto; box-shadow:inset 0 1px 3px rgba(0,0,0,0.02);">
+                
+                <!-- Studio Navigation Tabs -->
+                <div style="display:flex; gap:4px; border-bottom:2px solid #e2e8f0; margin-bottom:12px; padding-bottom:6px;">
+                  <button type="button" class="btn btn-sm cert-tab-btn active" id="btnCertTabBg" onclick="certStudioSwitchTab('bg')" style="flex:1; font-weight:700; font-size:11.5px; padding:6px 2px;">
+                    🎨 بیک گراؤنڈ و فریم
+                  </button>
+                  <button type="button" class="btn btn-sm cert-tab-btn" id="btnCertTabBoxes" onclick="certStudioSwitchTab('boxes')" style="flex:1; font-weight:700; font-size:11.5px; padding:6px 2px;">
+                    📝 ٹیکسٹ باکسز / تحریر
+                  </button>
+                  <button type="button" class="btn btn-sm cert-tab-btn" id="btnCertTabMeta" onclick="certStudioSwitchTab('meta')" style="flex:1; font-weight:700; font-size:11.5px; padding:6px 2px;">
+                    📋 معلومات استاد
+                  </button>
+                </div>
+
+                <!-- TAB 1: BACKGROUND & DESIGN -->
+                <div id="certStudioTabBg">
+                  
+                  <!-- Background Choice -->
+                  <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:10px; margin-bottom:10px;">
+                    <div style="font-weight:700; font-size:12px; color:#0d5c58; margin-bottom:8px;">
+                      بیک گراؤنڈ کی قسم (Background Style)
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                      <button type="button" class="btn btn-sm" id="btnCertModeIslamic" onclick="certStudioSetBgMode('islamic')" style="font-size:11.5px; font-weight:700; border:1px solid #c79a3c; background:#fefdf8; color:#0d5c58;">
+                        🕌 شاہکار اسلامی فریم
+                      </button>
+                      <button type="button" class="btn btn-sm" id="btnCertModeCustom" onclick="certStudioSetBgMode('custom')" style="font-size:11.5px; font-weight:700; border:1px solid #cbd5e1; background:#fff; color:#475569;">
+                        🖼️ کسٹم تصویر بیک گراؤنڈ
+                      </button>
+                    </div>
+
+                    <!-- Custom Background Upload Section -->
+                    <div id="certCustomBgArea" style="margin-top:10px; padding-top:10px; border-top:1px dashed #e2e8f0; display:none;">
+                      <label class="btn btn-sm btn-outline-primary w-100" style="font-size:12px; font-weight:700; cursor:pointer;">
+                        📤 اپنی بیک گراؤنڈ تصویر منتخب کریں
+                        <input type="file" id="certBgInput" accept="image/*" style="display:none;" onchange="certStudioHandleBgUpload(event)">
+                      </label>
+                      <div id="certBgFileName" style="font-size:11px; color:#64748b; margin-top:4px; text-align:center;">کوئی تصویر منتخب نہیں</div>
+                      
+                      <div style="margin-top:8px;">
+                        <div style="display:flex; justify-content:space-between; font-size:11px; color:#475569; font-weight:600;">
+                          <span>تصویر کی دھندلاہٹ (Opacity):</span>
+                          <span id="certBgOpacityLabel">100%</span>
+                        </div>
+                        <input type="range" id="certBgOpacityRange" min="20" max="100" value="100" step="5" class="form-range" style="height:6px;" oninput="certStudioChangeBgOpacity(this.value)">
+                      </div>
+
+                      <div style="display:flex; gap:6px; margin-top:8px;">
+                        <button type="button" class="btn btn-sm btn-outline-danger w-100" onclick="certStudioRemoveBg()" style="font-size:11px; font-weight:600;">
+                          🗑️ تصویر ہٹائیں
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Frame & Islamic Elements Toggle -->
+                  <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:10px; margin-bottom:10px;">
+                    <div style="font-weight:700; font-size:12px; color:#0d5c58; margin-bottom:8px;">اسلامی و آرائشی عناصر (Islamic Ornaments)</div>
+                    <div class="form-check form-switch mb-2">
+                      <input class="form-check-input" type="checkbox" id="chkCertIslamicBorder" checked onchange="certStudioToggleIslamicBorder(this.checked)">
+                      <label class="form-check-label" for="chkCertIslamicBorder" style="font-size:12px; font-weight:600;">سنہری محرابی بارڈر (Golden Border)</label>
+                    </div>
+                    <div class="form-check form-switch mb-2">
+                      <input class="form-check-input" type="checkbox" id="chkCertBismillah" checked onchange="certStudioToggleBismillah(this.checked)">
+                      <label class="form-check-label" for="chkCertBismillah" style="font-size:12px; font-weight:600;">بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ (خطاطی)</label>
+                    </div>
+                    <div class="form-check form-switch mb-2">
+                      <input class="form-check-input" type="checkbox" id="chkCertWatermark" checked onchange="certStudioToggleWatermark(this.checked)">
+                      <label class="form-check-label" for="chkCertWatermark" style="font-size:12px; font-weight:600;">اکیڈمی مونوگرام واٹر مارک (Watermark)</label>
+                    </div>
+                    <div class="form-check form-switch mb-2">
+                      <input class="form-check-input" type="checkbox" id="chkCertSeal" checked onchange="certStudioToggleSeal(this.checked)">
+                      <label class="form-check-label" for="chkCertSeal" style="font-size:12px; font-weight:600;">اکیڈمی کی سنہری مہر (Official Seal)</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="chkCertPhoto" checked onchange="certStudioTogglePhoto(this.checked)">
+                      <label class="form-check-label" for="chkCertPhoto" style="font-size:12px; font-weight:600;">استاد کی تصویر (Teacher Photo)</label>
+                    </div>
+                  </div>
+
+                  <!-- Logo Controls -->
+                  <div style="background:#fff; border:1px solid #e2e8f0; border-radius:6px; padding:10px; margin-bottom:10px;">
+                    <div style="font-weight:700; font-size:12px; color:#0d5c58; margin-bottom:8px;">لوگو کی سیٹنگز (Logo Controls)</div>
+                    <div style="display:flex; gap:6px; margin-bottom:8px;">
+                      <button type="button" class="btn btn-sm btn-outline-secondary w-100" id="btnLogoPosLeft" onclick="certStudioSetLogoPos('left')" style="font-size:11px; font-weight:600;">⬅️ بائیں</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary w-100" id="btnLogoPosCenter" onclick="certStudioSetLogoPos('center')" style="font-size:11px; font-weight:600;">⏺️ درمیان</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary w-100" id="btnLogoPosRight" onclick="certStudioSetLogoPos('right')" style="font-size:11px; font-weight:600;">➡️ دائیں</button>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <label class="btn btn-sm btn-outline-primary mb-0 w-100" style="font-size:11.5px; font-weight:600; cursor:pointer;">
+                        🖼️ نیا لوگو اپلوڈ کریں
+                        <input type="file" id="certCustomLogoInput" accept="image/*" style="display:none;" onchange="certStudioHandleLogoUpload(event)">
+                      </label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- TAB 2: TEXT BOXES & LAYERS (Consent Slip Style) -->
+                <div id="certStudioTabBoxes" style="display:none;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span style="font-weight:800; font-size:12.5px; color:#0d5c58;">ٹیکسٹ باکسز (Text Layers)</span>
+                    <button type="button" class="btn btn-sm btn-success" onclick="certStudioAddTextBox()" style="font-size:11.5px; font-weight:700; padding:4px 10px;">
+                      + نیا باکس شامل کریں
+                    </button>
+                  </div>
+                  
+                  <div style="font-size:11px; color:#64748b; background:#edf2f7; padding:6px 10px; border-radius:5px; margin-bottom:10px;">
+                    💡 تحریر یہاں لکھیں یا نیچے سرٹیفکیٹ پر براہِ راست کلک کر کے ایڈٹ کریں۔
+                  </div>
+
+                  <!-- Quick Presets -->
+                  <div style="margin-bottom:10px; display:flex; gap:4px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="certStudioAddPreset('title')" style="font-size:10.5px;">+ عنوان</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="certStudioAddPreset('body')" style="font-size:10.5px;">+ پیراگراف</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="certStudioAddPreset('ref')" style="font-size:10.5px;">+ تاریخ و نمبر</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="certStudioAddPreset('sign')" style="font-size:10.5px;">+ دستخط</button>
+                  </div>
+
+                  <!-- Container for Text Box cards -->
+                  <div id="certTextBoxesList" style="display:flex; flex-direction:column; gap:10px;"></div>
+                </div>
+
+                <!-- TAB 3: TEACHER METADATA -->
+                <div id="certStudioTabMeta" style="display:none;">
+                  <div style="font-weight:800; font-size:12.5px; color:#0d5c58; margin-bottom:8px;">استاد کی معلومات (خودکار فل)</div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">نام استاد (Teacher Name)</label>
+                    <input type="text" id="certMetaName" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">ولدیت / والد کا نام (Father Name)</label>
+                    <input type="text" id="certMetaFather" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">عہدہ / پوسٹ (Designation)</label>
+                    <input type="text" id="certMetaDesignation" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">تاریخِ شمولیت (Joining Date)</label>
+                    <input type="text" id="certMetaJoining" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">شناختی کارڈ نمبر (CNIC)</label>
+                    <input type="text" id="certMetaCnic" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">شعبہ جات / کلاسز (Assigned Classes)</label>
+                    <input type="text" id="certMetaClasses" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">تاریخِ اجرا (Issue Date)</label>
+                    <input type="date" id="certMetaIssueDate" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMetaDate(this.value)">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label mb-1" style="font-size:11px; font-weight:700;">ریفرنس نمبر (Ref No)</label>
+                    <input type="text" id="certMetaRefNo" class="form-control form-control-sm" style="font-size:12px;" oninput="certStudioUpdateMeta()">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- RIGHT A4 CERTIFICATE CANVAS (Editable & Printable) -->
+            <div class="col-lg-8 col-xl-8">
+              
+              <!-- Canvas Tool strip -->
+              <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; background:#f1f5f9; padding:8px 14px; border-radius:6px; margin-bottom:10px; font-size:12px; color:#475569; border:1px solid #e2e8f0;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="font-weight:700; color:#0d5c58;">A4 لائیو کینوس (Live Preview):</span>
+                  <span>تمام تحریریں، نام اور تاریخیں کلک کر کے تبدیل کی جا سکتی ہیں۔</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <button type="button" class="btn btn-sm btn-outline-primary" onclick="certStudioAddTextBox()" style="font-size:11.5px; font-weight:700;">+ ٹیکسٹ باکس</button>
+                  <button type="button" class="btn btn-sm btn-success" onclick="printSelectedTeacherCert()" style="font-size:11.5px; font-weight:700;">🖨️ پرنٹ</button>
+                </div>
+              </div>
+
+              <!-- Main Scrollable Canvas Container -->
+              <div style="background:#e2e8f0; padding:15px; border-radius:8px; overflow-x:auto; text-align:center;">
+                <div id="certPreviewContainer" style="display:inline-block; text-align:left; max-width:840px; width:100%; box-shadow:0 10px 30px rgba(0,0,0,0.18); background:#fff; border-radius:6px; overflow:hidden;">
+                  <!-- Dynamic certificate rendered here -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
-
-    <!-- ---------- FEES ---------- -->
+<!-- ---------- FEES ---------- -->
     <section id="page-fees" class="page section-hidden">
       <div class="searchbar no-print">
         <select id="feeSectionFilter"><option value="">Tamam Sections</option></select>
@@ -1323,7 +1711,7 @@ tbody tr:hover{background:#fbf8f0;}
       </div>
       <div class="metric-grid" id="feeOverviewCards"></div>
       <div class="card">
-        <h3>Fee Wasooli &mdash; <span id="feeMonthLabel"></span> <span class="tag" id="feeSummaryTag"></span> <button class="btn ghost sm no-print" id="feeExportBtn" style="margin-left:auto;">&#11015; Export CSV</button></h3>
+        <h3>Fee Wasooli &mdash; <span id="feeMonthLabel"></span> <span class="tag" id="feeSummaryTag"></span> <button class="btn gold sm no-print" id="feeBulkSlipsBtn" style="margin-left:auto;">&#128424; Print All Fee Slips (3 Talaba / 6 Copies per A4)</button> <button class="btn ghost sm no-print" id="feeExportBtn">&#11015; Export CSV</button></h3>
         <div class="table-wrap"><table id="feesTable"></table></div>
         <p class="note">"Fees Wasool Karein" se poori ya jitni raqam mili ho utni darj karein. Misal: Rs. 500 fee mein Rs. 100 jama hon to <b>Is Mahine Baqi = Rs. 400</b>; agar pichle mahino ka Rs. 2,500 ho to <b>Kul Bakaya = Rs. 2,900</b>. Receipt aur WhatsApp dono mein yeh poori breakdown nazar aayegi. &#128172; WhatsApp button Urdu text bhejta hai.</p>
       </div>
@@ -1521,8 +1909,11 @@ tbody tr:hover{background:#fbf8f0;}
       <div class="card">
         <h3>Data Backup &amp; Restore</h3>
         <p class="note">Yeh software tamam data aapke isi browser (localStorage) mein rakhta hai. Data mehfooz rakhne ke liye hafta-waar JSON file save karein.</p>
-        <div class="btnbar">
-          <button class="btn gold" id="exportBtn">&#11015; Backup Download Karein (.json)</button>
+        <div class="btnbar" style="flex-wrap:wrap; gap:8px;">
+          <button class="btn gold" id="exportBtn">&#11015; Mukammal JSON Backup (.json)</button>
+          <button class="btn ghost" id="exportStudentsCsvBtn" style="background:#0f766e;color:#fff;border-color:#0f766e;">&#128202; Talaba List Excel (.csv)</button>
+          <button class="btn ghost" id="exportFeesCsvBtn" style="background:#15803d;color:#fff;border-color:#15803d;">&#128176; Fees Report Excel (.csv)</button>
+          <button class="btn ghost" id="exportAttendanceCsvBtn" style="background:#0369a1;color:#fff;border-color:#0369a1;">&#128197; Hazri Report Excel (.csv)</button>
           <label class="btn ghost" style="cursor:pointer;">&#11014; Backup Restore Karein
             <input type="file" id="importFile" accept="application/json" style="display:none;">
           </label>
@@ -1803,6 +2194,7 @@ tbody tr:hover{background:#fbf8f0;}
         <button type="button" class="btn green" id="tpf_edit_btn">&#9998; Edit Teacher</button>
         <button type="button" class="btn indigo" id="tpf_print_btn">&#128424; Print Profile</button>
         <button type="button" class="btn gold" id="tpf_payslip_btn">&#128176; Print Pay Slip</button>
+        <button type="button" class="btn gold" id="tpf_cert_btn" style="background:#b8860b;color:#fff;">&#128220; سند تجربہ (Experience Cert)</button>
         <button type="button" class="btn whatsapp" id="tpf_wa_btn">&#128172; WhatsApp Rabta</button>
         <button type="button" class="btn ghost" onclick="closeTeacherDossier()">Band Karein</button>
       </div>
@@ -1962,8 +2354,9 @@ tbody tr:hover{background:#fbf8f0;}
       <div class="rfoot">Jazak Allah Khair · Shukriya</div>
       <div class="urdu-foot">اللہ آپ کو جزائے خیر عطا فرمائے</div>
     </div>
-    <div class="btnbar" style="margin-top:16px;">
-      <button class="btn gold" onclick="printElement('receiptBox')">&#128424; Print Receipt</button>
+    <div class="btnbar" style="margin-top:16px; flex-wrap:wrap; gap:8px;">
+      <button class="btn gold" onclick="printDualFeeReceipt()">&#128424; 2-Copy Voucher (Office &amp; Student Copy)</button>
+      <button class="btn ghost" onclick="printElement('receiptBox')">&#128424; Single Slip</button>
       <button class="btn whatsapp" id="receiptWhatsAppBtn"><svg viewBox="0 0 32 32" fill="currentColor" style="width:14px;height:14px;vertical-align:-2px;"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.34.64 4.53 1.75 6.4L4 29l7.78-1.7A11.94 11.94 0 0016.004 27C22.63 27 28 21.63 28 15S22.63 3 16.004 3zm0 21.8c-1.98 0-3.83-.55-5.4-1.5l-.39-.23-4.62 1 1.02-4.5-.25-.4A9.75 9.75 0 016.2 15c0-5.4 4.4-9.8 9.8-9.8s9.8 4.4 9.8 9.8-4.4 9.8-9.8 9.8zm5.37-7.34c-.29-.15-1.73-.86-2-.96-.27-.1-.46-.15-.66.14-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.08-.29-.15-1.24-.46-2.36-1.47-.87-.78-1.46-1.74-1.63-2.03-.17-.3-.02-.46.13-.6.13-.13.29-.34.44-.51.15-.17.2-.3.29-.5.1-.2.05-.37-.02-.51-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.51.07-.78.37-.27.3-1.02 1-1.02 2.44s1.05 2.83 1.2 3.03c.14.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.11.56-.08 1.73-.7 1.97-1.39.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.34z"/></svg> WhatsApp Text</button>
     </div>
   </div>
@@ -2171,10 +2564,27 @@ const firebaseConfig = {
   appId: "1:935042003716:web:532d1f634b49ba7135d651",
   measurementId: "G-LHE9TXHT6D"
 };
-firebase.initializeApp(firebaseConfig);
-const fbAuth = firebase.auth();
-const fbStore = firebase.firestore();
-const CLOUD_DOC = fbStore.collection('appdata').doc('main');
+let FIREBASE_OK = false;
+let fbAuth, fbStore, CLOUD_DOC;
+try{
+  if(typeof firebase === 'undefined') throw new Error('Firebase SDK load nahi hua (internet/blocked check karein)');
+  firebase.initializeApp(firebaseConfig);
+  fbAuth = firebase.auth();
+  fbStore = firebase.firestore();
+  CLOUD_DOC = fbStore.collection('appdata').doc('main');
+  FIREBASE_OK = true;
+}catch(err){
+  console.error('Firebase init nakaam, offline/local-only mode mein chal raha hai:', err);
+  // Fallback stubs so the rest of the app (which is fully local-storage based)
+  // keeps working even when Firebase can't load, e.g. no internet or the
+  // CDN is blocked. Without this, one failed script tag used to crash the
+  // whole page and stop every button/tab from responding.
+  const fbErr = () => Promise.reject(new Error('Internet/Firebase available nahi hai. Connection check karke page refresh karein.'));
+  fbAuth = { signInWithEmailAndPassword: fbErr, signOut: () => Promise.resolve() };
+  const stubDoc = { get: () => Promise.resolve({ exists:false, data:()=>null }), set: fbErr, delete: fbErr, onSnapshot: () => {} };
+  fbStore = { collection: () => ({ doc: () => stubDoc }) };
+  CLOUD_DOC = stubDoc;
+}
 let cloudSyncStarted = false;
 let suppressCloudEcho = false;
 let CURRENT_ROLE = null;
@@ -2286,7 +2696,7 @@ function doLogin(){
     initCloudSync();
   }).catch(err=>{
     loadBox.textContent = '';
-    errBox.textContent = 'Username ya password ghalat hai.';
+    errBox.textContent = FIREBASE_OK ? 'Username ya password ghalat hai.' : (err && err.message ? err.message : 'Internet/Firebase available nahi hai. Connection check karke page refresh karein.');
   });
 }
 document.getElementById('loginPwToggle').addEventListener('click', ()=>{
@@ -2959,6 +3369,658 @@ function classesCheckboxHTML(selected){
   return SECTION_KEYS.map(k=>`<label><input type="checkbox" class="tf-class-chk" value="${k}" ${selected.includes(k)?'checked':''}> ${SECTION_META[k].label}</label>`).join('');
 }
 
+
+
+/* ================= TEACHER EXPERIENCE CERTIFICATE STUDIO ================= */
+var certStudioState = {
+  teacherId: '',
+  bgMode: 'islamic', // 'islamic' or 'custom'
+  bgCustomUrl: null,
+  bgOpacity: 100,
+  logoPos: 'left', // 'left', 'center', 'right'
+  customLogoUrl: null,
+  showIslamicBorder: true,
+  showBismillah: true,
+  showWatermark: true,
+  showSeal: true,
+  showPhoto: true,
+  textBoxes: [],
+  meta: {
+    name: 'محترم استاد',
+    father: '---',
+    designation: 'معلم / استادِ قرآن و ناظرہ',
+    joiningDate: 'مقررہ مدت',
+    cnic: '',
+    classes: 'تمام شعبہ جات / ناظرہ قرآن',
+    issueDateEn: '',
+    issueDateUr: '',
+    refNo: ''
+  }
+};
+
+// Compatibility shim for older references
+var certState = certStudioState;
+
+function populateCertTeachers() {
+  var sel = document.getElementById("certTeacherSelect");
+  if (!sel) return;
+  var teachers = (typeof activeTeachers === "function") ? activeTeachers() : (DB.teachers || []);
+  var html = '<option value="">-- استاد منتخب کریں (Select Teacher) --</option>';
+  teachers.forEach(function(t) {
+    html += '<option value="' + t.id + '">' + esc(t.name) + ' (' + (t.designation || "Teacher") + ')</option>';
+  });
+  sel.innerHTML = html;
+  if (teachers.length > 0 && !sel.value) {
+    sel.value = teachers[0].id;
+    certStudioLoadTeacher(teachers[0].id);
+  }
+}
+
+function certStudioSwitchTab(tab) {
+  var tabBg = document.getElementById("certStudioTabBg");
+  var tabBoxes = document.getElementById("certStudioTabBoxes");
+  var tabMeta = document.getElementById("certStudioTabMeta");
+  var btnBg = document.getElementById("btnCertTabBg");
+  var btnBoxes = document.getElementById("btnCertTabBoxes");
+  var btnMeta = document.getElementById("btnCertTabMeta");
+  
+  if (tabBg) tabBg.style.display = (tab === 'bg') ? 'block' : 'none';
+  if (tabBoxes) tabBoxes.style.display = (tab === 'boxes') ? 'block' : 'none';
+  if (tabMeta) tabMeta.style.display = (tab === 'meta') ? 'block' : 'none';
+  
+  if (btnBg) btnBg.className = 'btn btn-sm ' + (tab === 'bg' ? 'btn-primary' : 'btn-outline-secondary');
+  if (btnBoxes) btnBoxes.className = 'btn btn-sm ' + (tab === 'boxes' ? 'btn-primary' : 'btn-outline-secondary');
+  if (btnMeta) btnMeta.className = 'btn btn-sm ' + (tab === 'meta' ? 'btn-primary' : 'btn-outline-secondary');
+}
+
+function certStudioSetBgMode(mode) {
+  certStudioState.bgMode = mode;
+  var btnIslamic = document.getElementById("btnCertModeIslamic");
+  var btnCustom = document.getElementById("btnCertModeCustom");
+  var customArea = document.getElementById("certCustomBgArea");
+  
+  if (btnIslamic && btnCustom) {
+    if (mode === 'islamic') {
+      btnIslamic.className = "btn btn-sm btn-success";
+      btnCustom.className = "btn btn-sm btn-outline-secondary";
+      if (customArea) customArea.style.display = "none";
+    } else {
+      btnIslamic.className = "btn btn-sm btn-outline-secondary";
+      btnCustom.className = "btn btn-sm btn-primary";
+      if (customArea) customArea.style.display = "block";
+    }
+  }
+  certStudioRenderCanvas();
+}
+
+function certStudioHandleBgUpload(e) {
+  var file = e.target.files && e.target.files[0];
+  if (!file) return;
+  var fileNameEl = document.getElementById("certBgFileName");
+  if (fileNameEl) fileNameEl.innerText = file.name;
+  
+  var reader = new FileReader();
+  reader.onload = function(evt) {
+    certStudioState.bgCustomUrl = evt.target.result;
+    certStudioState.bgMode = 'custom';
+    certStudioSetBgMode('custom');
+  };
+  reader.readAsDataURL(file);
+}
+
+function certStudioChangeBgOpacity(val) {
+  certStudioState.bgOpacity = parseInt(val, 10) || 100;
+  var lbl = document.getElementById("certBgOpacityLabel");
+  if (lbl) lbl.innerText = certStudioState.bgOpacity + "%";
+  var bgLayer = document.getElementById("certCustomBgImageLayer");
+  if (bgLayer) {
+    bgLayer.style.opacity = (certStudioState.bgOpacity / 100);
+  }
+}
+
+function certStudioRemoveBg() {
+  certStudioState.bgCustomUrl = null;
+  certStudioState.bgMode = 'islamic';
+  var fileNameEl = document.getElementById("certBgFileName");
+  if (fileNameEl) fileNameEl.innerText = "کوئی تصویر منتخب نہیں";
+  var input = document.getElementById("certBgInput");
+  if (input) input.value = "";
+  certStudioSetBgMode('islamic');
+}
+
+function certStudioToggleIslamicBorder(chk) {
+  certStudioState.showIslamicBorder = !!chk;
+  certStudioRenderCanvas();
+}
+
+function certStudioToggleBismillah(chk) {
+  certStudioState.showBismillah = !!chk;
+  certStudioRenderCanvas();
+}
+
+function certStudioToggleWatermark(chk) {
+  certStudioState.showWatermark = !!chk;
+  certStudioRenderCanvas();
+}
+
+function certStudioToggleSeal(chk) {
+  certStudioState.showSeal = !!chk;
+  certStudioRenderCanvas();
+}
+
+function certStudioTogglePhoto(chk) {
+  certStudioState.showPhoto = !!chk;
+  certStudioRenderCanvas();
+}
+
+function certStudioSetLogoPos(pos) {
+  certStudioState.logoPos = pos;
+  var leftBtn = document.getElementById("btnLogoPosLeft");
+  var centerBtn = document.getElementById("btnLogoPosCenter");
+  var rightBtn = document.getElementById("btnLogoPosRight");
+  if (leftBtn && centerBtn && rightBtn) {
+    leftBtn.className = "btn btn-sm " + (pos === "left" ? "btn-secondary" : "btn-outline-secondary");
+    centerBtn.className = "btn btn-sm " + (pos === "center" ? "btn-secondary" : "btn-outline-secondary");
+    rightBtn.className = "btn btn-sm " + (pos === "right" ? "btn-secondary" : "btn-outline-secondary");
+  }
+  certStudioRenderCanvas();
+}
+
+function certStudioHandleLogoUpload(e) {
+  var file = e.target.files && e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(evt) {
+    certStudioState.customLogoUrl = evt.target.result;
+    certStudioRenderCanvas();
+  };
+  reader.readAsDataURL(file);
+}
+
+function certStudioLoadTeacher(id) {
+  certStudioState.teacherId = id;
+  var t = (typeof teacherById === "function") ? teacherById(id) : (DB.teachers || []).find(function(x) { return x.id === id; });
+  if (!t) return;
+  
+  var now = new Date();
+  var issueDateUr = now.toLocaleDateString("ur-PK", { day: "numeric", month: "long", year: "numeric" });
+  var issueDateEn = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  var refNo = "BAQ/EXP/" + (t.id || "TCH") + "/" + now.getFullYear();
+
+  var assignedClasses = (t.sections || []).map(function(k) {
+    return (typeof SECTION_META !== "undefined" && SECTION_META[k]) ? SECTION_META[k].label : k;
+  }).join("، ") || "تمام شعبہ جات / ناظرہ قرآن";
+
+  certStudioState.meta = {
+    name: t.fullName || t.name,
+    father: t.father || "---",
+    designation: t.designation || (t.role === "admin" ? "معلم و منتظم" : "معلم / استادِ قرآن و ناظرہ"),
+    joiningDate: t.joiningDate || "مقررہ مدت",
+    cnic: t.cnic || "",
+    classes: assignedClasses,
+    issueDateEn: issueDateEn,
+    issueDateUr: issueDateUr,
+    refNo: refNo,
+    photo: t.photo || ""
+  };
+
+  // Sync inputs in tab 3
+  var elName = document.getElementById("certMetaName");
+  var elFather = document.getElementById("certMetaFather");
+  var elDesig = document.getElementById("certMetaDesignation");
+  var elJoin = document.getElementById("certMetaJoining");
+  var elCnic = document.getElementById("certMetaCnic");
+  var elClasses = document.getElementById("certMetaClasses");
+  var elRef = document.getElementById("certMetaRefNo");
+  
+  if (elName) elName.value = certStudioState.meta.name;
+  if (elFather) elFather.value = certStudioState.meta.father;
+  if (elDesig) elDesig.value = certStudioState.meta.designation;
+  if (elJoin) elJoin.value = certStudioState.meta.joiningDate;
+  if (elCnic) elCnic.value = certStudioState.meta.cnic;
+  if (elClasses) elClasses.value = certStudioState.meta.classes;
+  if (elRef) elRef.value = certStudioState.meta.refNo;
+
+  certStudioRenderCanvas();
+}
+
+function certStudioUpdateMeta() {
+  certStudioState.meta.name = (document.getElementById("certMetaName") || {}).value || "";
+  certStudioState.meta.father = (document.getElementById("certMetaFather") || {}).value || "";
+  certStudioState.meta.designation = (document.getElementById("certMetaDesignation") || {}).value || "";
+  certStudioState.meta.joiningDate = (document.getElementById("certMetaJoining") || {}).value || "";
+  certStudioState.meta.cnic = (document.getElementById("certMetaCnic") || {}).value || "";
+  certStudioState.meta.classes = (document.getElementById("certMetaClasses") || {}).value || "";
+  certStudioState.meta.refNo = (document.getElementById("certMetaRefNo") || {}).value || "";
+  certStudioRenderCanvas();
+}
+
+function certStudioUpdateMetaDate(val) {
+  if (!val) return;
+  try {
+    var parts = val.split("-");
+    var dObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    certStudioState.meta.issueDateEn = dObj.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    certStudioState.meta.issueDateUr = dObj.toLocaleDateString("ur-PK", { day: "numeric", month: "long", year: "numeric" });
+  } catch(e){}
+  certStudioRenderCanvas();
+}
+
+function certStudioResetDefault() {
+  var sel = document.getElementById("certTeacherSelect");
+  if (sel && sel.value) {
+    certStudioState.textBoxes = [];
+    certStudioState.bgCustomUrl = null;
+    certStudioState.bgMode = 'islamic';
+    certStudioState.showIslamicBorder = true;
+    certStudioState.showBismillah = true;
+    certStudioState.showWatermark = true;
+    certStudioState.showSeal = true;
+    certStudioState.showPhoto = true;
+    certStudioState.logoPos = 'left';
+    certStudioLoadTeacher(sel.value);
+    certStudioRenderTextBoxList();
+  }
+}
+
+// Text Box Layers Manager
+function certStudioAddTextBox(presetData) {
+  var newId = 'box_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+  var box = Object.assign({
+    id: newId,
+    content: 'یہاں اپنی تحریر یا نوٹ درج کریں...',
+    font: 'Noto Nastaliq Urdu, Amiri, serif',
+    size: '16px',
+    weight: 'normal',
+    color: '#0d5c58',
+    align: 'right',
+    width: '100%',
+    bg: 'transparent',
+    border: 'none'
+  }, presetData || {});
+  
+  certStudioState.textBoxes.push(box);
+  certStudioRenderTextBoxList();
+  certStudioRenderCanvas();
+  // Switch to boxes tab
+  certStudioSwitchTab('boxes');
+}
+
+function certStudioAddPreset(type) {
+  var m = certStudioState.meta;
+  if (type === 'title') {
+    certStudioAddTextBox({
+      content: 'تَصْدِیق نَامَۂ تَدْرِیسِی تَجْرِبَہ • TEACHER EXPERIENCE CERTIFICATE',
+      size: '22px',
+      weight: 'bold',
+      color: '#0d5c58',
+      align: 'center'
+    });
+  } else if (type === 'body') {
+    certStudioAddTextBox({
+      content: 'تصدیق کی جاتی ہے کہ محترم / محترمہ ' + (m.name || 'استاد محترم') + ' ولدیت ' + (m.father || '---') + ' ہمارے ادارے میں بطور ' + (m.designation || 'استاد') + ' اپنی خدمات نہایت محنت، دیانت داری اور حسن کارکردگی سے انجام دیتے رہے ہیں۔',
+      size: '16px',
+      weight: 'normal',
+      color: '#1a202c',
+      align: 'right'
+    });
+  } else if (type === 'ref') {
+    certStudioAddTextBox({
+      content: 'Ref: ' + (m.refNo || 'BAQ/EXP') + ' | بتاریخ: ' + (m.issueDateUr || 'آج') + ' (' + (m.issueDateEn || '') + ')',
+      size: '12px',
+      weight: 'bold',
+      color: '#475569',
+      align: 'center'
+    });
+  } else if (type === 'sign') {
+    certStudioAddTextBox({
+      content: 'دستخط معلم / استاد: ___________________        دستخط پرنسپل و مہتمم: ___________________',
+      size: '14px',
+      weight: 'bold',
+      color: '#0d5c58',
+      align: 'center'
+    });
+  }
+}
+
+function certStudioRemoveTextBox(id) {
+  certStudioState.textBoxes = certStudioState.textBoxes.filter(function(b) { return b.id !== id; });
+  certStudioRenderTextBoxList();
+  certStudioRenderCanvas();
+}
+
+function certStudioUpdateTextBox(id, key, val) {
+  var b = certStudioState.textBoxes.find(function(x) { return x.id === id; });
+  if (!b) return;
+  b[key] = val;
+  certStudioRenderCanvas();
+}
+
+function certStudioRenderTextBoxList() {
+  var container = document.getElementById("certTextBoxesList");
+  if (!container) return;
+  
+  if (certStudioState.textBoxes.length === 0) {
+    container.innerHTML = '<div style="font-size:12px; color:#94a3b8; text-align:center; padding:15px; border:1px dashed #cbd5e1; border-radius:6px;">کوئی اضافی ٹیکسٹ باکس نہیں ہے۔ نیا شامل کرنے کے لیے اوپر بٹن دبائیں۔</div>';
+    return;
+  }
+  
+  var html = "";
+  certStudioState.textBoxes.forEach(function(b, idx) {
+    var bid = b.id;
+    html += '<div style="background:#fff; border:1px solid #cbd5e1; border-radius:6px; padding:10px; position:relative; box-shadow:0 1px 3px rgba(0,0,0,0.03);">' +
+      '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">' +
+        '<strong style="font-size:11.5px; color:#0d5c58;">باکس #' + (idx + 1) + '</strong>' +
+        '<button type="button" class="btn btn-xs btn-outline-danger" onclick="certStudioRemoveTextBox(\'' + bid + '\')" style="padding:2px 6px; font-size:10px;">🗑️ حذف</button>' +
+      '</div>' +
+      
+      '<textarea class="form-control form-control-sm mb-2" rows="3" style="font-size:13px; direction:rtl;" oninput="certStudioUpdateTextBox(\'' + bid + '\', \'content\', this.value)">' + esc(b.content) + '</textarea>' +
+      
+      '<div class="row g-2">' +
+        '<div class="col-6">' +
+          '<label style="font-size:10px; color:#64748b; font-weight:700;">سائز (Size):</label>' +
+          '<select class="form-select form-select-sm" style="font-size:11px;" onchange="certStudioUpdateTextBox(\'' + bid + '\', \'size\', this.value)">' +
+            '<option value="12px"' + (b.size === '12px' ? ' selected' : '') + '>12px (چھوٹا)</option>' +
+            '<option value="14px"' + (b.size === '14px' ? ' selected' : '') + '>14px (درمیانہ)</option>' +
+            '<option value="16px"' + (b.size === '16px' ? ' selected' : '') + '>16px (معیاری)</option>' +
+            '<option value="18px"' + (b.size === '18px' ? ' selected' : '') + '>18px (بڑا)</option>' +
+            '<option value="22px"' + (b.size === '22px' ? ' selected' : '') + '>22px (عنوان)</option>' +
+            '<option value="26px"' + (b.size === '26px' ? ' selected' : '') + '>26px (جلی)</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="col-6">' +
+          '<label style="font-size:10px; color:#64748b; font-weight:700;">رنگ (Color):</label>' +
+          '<select class="form-select form-select-sm" style="font-size:11px;" onchange="certStudioUpdateTextBox(\'' + bid + '\', \'color\', this.value)">' +
+            '<option value="#0d5c58"' + (b.color === '#0d5c58' ? ' selected' : '') + '>گہرا سبز (Teal)</option>' +
+            '<option value="#1a202c"' + (b.color === '#1a202c' ? ' selected' : '') + '>کالا (Black)</option>' +
+            '<option value="#c79a3c"' + (b.color === '#c79a3c' ? ' selected' : '') + '>سنہری (Gold)</option>' +
+            '<option value="#1e3a8a"' + (b.color === '#1e3a8a' ? ' selected' : '') + '>نیلا (Navy)</option>' +
+            '<option value="#dc2626"' + (b.color === '#dc2626' ? ' selected' : '') + '>سرخ (Red)</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="col-6">' +
+          '<label style="font-size:10px; color:#64748b; font-weight:700;">سیدھ (Align):</label>' +
+          '<select class="form-select form-select-sm" style="font-size:11px;" onchange="certStudioUpdateTextBox(\'' + bid + '\', \'align\', this.value)">' +
+            '<option value="right"' + (b.align === 'right' ? ' selected' : '') + '>دائیں (Right)</option>' +
+            '<option value="center"' + (b.align === 'center' ? ' selected' : '') + '>درمیان (Center)</option>' +
+            '<option value="left"' + (b.align === 'left' ? ' selected' : '') + '>بائیں (Left)</option>' +
+            '<option value="justify"' + (b.align === 'justify' ? ' selected' : '') + '>برابر (Justify)</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="col-6">' +
+          '<label style="font-size:10px; color:#64748b; font-weight:700;">چوڑائی (Width):</label>' +
+          '<select class="form-select form-select-sm" style="font-size:11px;" onchange="certStudioUpdateTextBox(\'' + bid + '\', \'width\', this.value)">' +
+            '<option value="100%"' + (b.width === '100%' ? ' selected' : '') + '>100% (مکمل)</option>' +
+            '<option value="80%"' + (b.width === '80%' ? ' selected' : '') + '>80%</option>' +
+            '<option value="50%"' + (b.width === '50%' ? ' selected' : '') + '>50% (نصف)</option>' +
+          '</select>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  container.innerHTML = html;
+}
+
+// Render the Live Certificate Canvas
+function certStudioRenderCanvas() {
+  var container = document.getElementById("certPreviewContainer");
+  if (!container) return;
+  var html = certStudioGenerateHtml();
+  container.innerHTML = html;
+}
+
+function certStudioGenerateHtml() {
+  var s = certStudioState;
+  var m = s.meta;
+  var M = DB.meta || {};
+  var logoUrl = s.customLogoUrl || ((typeof getPayslipLogoUrl === "function") ? getPayslipLogoUrl() : (M.logo || DEFAULT_LOGO_SRC));
+  
+  // Custom background layer or Islamic base styling
+  var bgStyle = '';
+  var customBgImgHtml = '';
+  
+  if (s.bgMode === 'custom' && s.bgCustomUrl) {
+    customBgImgHtml = '<img id="certCustomBgImageLayer" src="' + s.bgCustomUrl + '" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; pointer-events:none; z-index:0; opacity:' + (s.bgOpacity / 100) + ';" alt="Custom Background">';
+    bgStyle = 'position:relative; background:#ffffff;';
+  } else {
+    bgStyle = 'position:relative; background:#fffdf8;';
+  }
+
+  // Border styling
+  var borderStyle = s.showIslamicBorder ? 'border:3.5px double #c79a3c; outline:1.5px solid #0d5c58; outline-offset:-9px;' : 'border:1px solid #cbd5e1;';
+  
+  // Watermark
+  var watermarkHtml = '';
+  if (s.showWatermark) {
+    watermarkHtml = '<div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); opacity:0.045; pointer-events:none; z-index:1; text-align:center;">' +
+      '<img src="' + logoUrl + '" style="width:380px; height:380px; object-fit:contain;" alt="Watermark">' +
+    '</div>';
+  }
+
+  // Ornate corners
+  var cornersHtml = '';
+  if (s.showIslamicBorder) {
+    cornersHtml = '<div style="position:absolute; top:14px; left:14px; color:#c79a3c; font-size:24px; z-index:2; pointer-events:none;">&#1758;</div>' +
+      '<div style="position:absolute; top:14px; right:14px; color:#c79a3c; font-size:24px; z-index:2; pointer-events:none;">&#1758;</div>' +
+      '<div style="position:absolute; bottom:14px; left:14px; color:#c79a3c; font-size:24px; z-index:2; pointer-events:none;">&#1758;</div>' +
+      '<div style="position:absolute; bottom:14px; right:14px; color:#c79a3c; font-size:24px; z-index:2; pointer-events:none;">&#1758;</div>';
+  }
+
+  // Bismillah
+  var bismillahHtml = '';
+  if (s.showBismillah) {
+    bismillahHtml = '<div class="urdu" contenteditable="true" style="text-align:center; font-size:23px; color:#0d5c58; margin-bottom:12px; font-weight:700; z-index:2; position:relative;">بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ</div>';
+  }
+
+  // Teacher Photo
+  var photoHtml = '';
+  if (s.showPhoto && m.photo) {
+    photoHtml = '<div id="certTeacherPhotoBox" style="float:left; margin:0 0 16px 20px; text-align:center; z-index:2; position:relative;">' +
+      '<img src="' + m.photo + '" style="width:105px; height:125px; object-fit:cover; border-radius:6px; border:2.5px solid #c79a3c; box-shadow:0 3px 8px rgba(0,0,0,0.15);" alt="' + esc(m.name) + '">' +
+    '</div>';
+  }
+
+  // Header Logo Layout
+  var headerHtml = '';
+  if (s.logoPos === 'center') {
+    headerHtml = '<div style="text-align:center; border-bottom:2.5px double #c79a3c; padding-bottom:12px; margin-bottom:16px; position:relative; z-index:2;">' +
+      '<img id="certMainLogoImg" src="' + logoUrl + '" alt="Logo" style="width:82px; height:82px; object-fit:contain; margin-bottom:6px;">' +
+      '<h2 contenteditable="true" style="margin:0; font-size:25px; color:#0d5c58; font-weight:800;">' + esc(M.instituteName || "Bright Academy Quetta") + '</h2>' +
+      '<div class="urdu" contenteditable="true" style="font-size:14px; color:#4a5568; font-weight:600; margin-top:3px;">' + esc(M.instituteSub || "برائٹ اکیڈمی کوئٹہ • شعبہ تعلیم و تربیتِ قرآن") + '</div>' +
+      '<div contenteditable="true" style="font-size:11px; color:#718096; margin-top:2px;">' + esc(M.instituteLine || "کوئٹہ، بلوچستان") + (M.institutePhone ? (" • ☎ " + esc(M.institutePhone)) : "") + '</div>' +
+      '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:12px; color:#4a5568; border-top:1px dashed #cbd5e1; padding-top:6px;">' +
+        '<div><strong>Ref:</strong> <span contenteditable="true">' + esc(m.refNo) + '</span></div>' +
+        '<div class="urdu">بتاریخ: <span contenteditable="true">' + esc(m.issueDateUr) + '</span></div>' +
+        '<div><strong>Date:</strong> <span contenteditable="true">' + esc(m.issueDateEn) + '</span></div>' +
+      '</div>' +
+    '</div>';
+  } else if (s.logoPos === 'right') {
+    headerHtml = '<div style="display:flex; align-items:center; justify-content:space-between; border-bottom:2.5px double #c79a3c; padding-bottom:12px; margin-bottom:16px; position:relative; z-index:2;">' +
+      '<div style="text-align:left; font-size:12px; color:#4a5568;">' +
+        '<div><strong>Ref:</strong> <span contenteditable="true">' + esc(m.refNo) + '</span></div>' +
+        '<div style="margin-top:3px;"><strong>Date:</strong> <span contenteditable="true">' + esc(m.issueDateEn) + '</span></div>' +
+        '<div class="urdu" style="font-size:11px; color:#718096; margin-top:2px;">بتاریخ: <span contenteditable="true">' + esc(m.issueDateUr) + '</span></div>' +
+      '</div>' +
+      '<div style="display:flex; align-items:center; gap:14px; direction:rtl; text-align:right;">' +
+        '<img id="certMainLogoImg" src="' + logoUrl + '" alt="Logo" style="width:78px; height:78px; object-fit:contain;">' +
+        '<div>' +
+          '<h2 contenteditable="true" style="margin:0; font-size:25px; color:#0d5c58; font-weight:800;">' + esc(M.instituteName || "Bright Academy Quetta") + '</h2>' +
+          '<div class="urdu" contenteditable="true" style="font-size:13px; color:#4a5568; font-weight:600; margin-top:2px;">' + esc(M.instituteSub || "برائٹ اکیڈمی کوئٹہ • شعبہ تعلیم و تربیتِ قرآن") + '</div>' +
+          '<div contenteditable="true" style="font-size:11px; color:#718096; margin-top:2px;">' + esc(M.instituteLine || "کوئٹہ، بلوچستان") + (M.institutePhone ? (" • ☎ " + esc(M.institutePhone)) : "") + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  } else {
+    // Left
+    headerHtml = '<div style="display:flex; align-items:center; justify-content:space-between; border-bottom:2.5px double #c79a3c; padding-bottom:12px; margin-bottom:16px; position:relative; z-index:2;">' +
+      '<div style="display:flex; align-items:center; gap:14px;">' +
+        '<img id="certMainLogoImg" src="' + logoUrl + '" alt="Logo" style="width:78px; height:78px; object-fit:contain;">' +
+        '<div>' +
+          '<h2 contenteditable="true" style="margin:0; font-size:25px; color:#0d5c58; font-weight:800;">' + esc(M.instituteName || "Bright Academy Quetta") + '</h2>' +
+          '<div class="urdu" contenteditable="true" style="font-size:13px; color:#4a5568; font-weight:600; margin-top:2px;">' + esc(M.instituteSub || "برائٹ اکیڈمی کوئٹہ • شعبہ تعلیم و تربیتِ قرآن") + '</div>' +
+          '<div contenteditable="true" style="font-size:11px; color:#718096; margin-top:2px;">' + esc(M.instituteLine || "کوئٹہ، بلوچستان") + (M.institutePhone ? (" • ☎ " + esc(M.institutePhone)) : "") + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="text-align:right; font-size:12px; color:#4a5568;">' +
+        '<div><strong>Ref:</strong> <span contenteditable="true">' + esc(m.refNo) + '</span></div>' +
+        '<div style="margin-top:3px;"><strong>Date:</strong> <span contenteditable="true">' + esc(m.issueDateEn) + '</span></div>' +
+        '<div class="urdu" style="font-size:11px; color:#718096; margin-top:2px;">بتاریخ: <span contenteditable="true">' + esc(m.issueDateUr) + '</span></div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  // Extra Text Boxes Layered on top of background
+  var textLayersHtml = '';
+  if (s.textBoxes && s.textBoxes.length > 0) {
+    textLayersHtml = '<div style="position:relative; z-index:4; margin:16px 0; display:flex; flex-direction:column; gap:12px;">';
+    s.textBoxes.forEach(function(b) {
+      textLayersHtml += '<div contenteditable="true" style="width:' + b.width + '; font-size:' + b.size + '; font-weight:' + b.weight + '; color:' + b.color + '; text-align:' + b.align + '; background:' + b.bg + '; border:' + b.border + '; padding:6px 10px; border-radius:4px; font-family:' + b.font + '; line-height:1.8; direction:rtl; outline:1px dashed transparent;" class="cert-text-layer" tabindex="0">' +
+        esc(b.content).replace(/\n/g, '<br>') +
+      '</div>';
+    });
+    textLayersHtml += '</div>';
+  }
+
+  // Official Seal
+  var sealHtml = '';
+  if (s.showSeal) {
+    sealHtml = '<div style="text-align:center; min-width:140px;">' +
+      '<div contenteditable="true" style="width:78px; height:78px; border:2.5px dashed #c79a3c; border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; color:#c79a3c; font-size:11px; font-weight:bold; text-align:center; background:rgba(199,154,60,0.04);">' +
+        'مہر ادارہ<br>Official Seal' +
+      '</div>' +
+    '</div>';
+  } else {
+    sealHtml = '<div style="min-width:60px;"></div>';
+  }
+
+  return '<div class="doc-sheet islamic" style="padding:40px 48px; ' + borderStyle + ' ' + bgStyle + ' min-height:960px; box-sizing:border-box;">' +
+    customBgImgHtml +
+    cornersHtml +
+    watermarkHtml +
+    
+    '<div style="position:relative; z-index:3;">' +
+      bismillahHtml +
+      headerHtml +
+      
+      '<div style="text-align:center; margin:16px 0 10px;">' +
+        '<div class="urdu" contenteditable="true" style="font-size:28px; font-weight:bold; color:#0d5c58; line-height:1.7;">تَصْدِیق نَامَۂ تَدْرِیسِی تَجْرِبَہ</div>' +
+        '<div contenteditable="true" style="font-size:12.5px; letter-spacing:2px; text-transform:uppercase; font-weight:800; color:#c79a3c; margin-top:2px;">TEACHER EXPERIENCE CERTIFICATE</div>' +
+        '<div style="color:#c79a3c; font-size:18px; margin:4px 0;">&#1758; &#1758; &#1758;</div>' +
+      '</div>' +
+
+      '<div class="urdu" style="direction:rtl; text-align:right; font-size:16.5px; line-height:2.3; color:#1a202c; margin-top:12px;">' +
+        photoHtml +
+        '<p contenteditable="true" style="margin-bottom:12px;">' +
+          'تصدیق کی جاتی ہے کہ محترم / محترمہ <strong style="font-size:19.5px; color:#0d5c58; padding:0 4px; border-bottom:1px solid #c79a3c;">' + esc(m.name) + '</strong> ' +
+          'ولدیت / دختر <strong style="color:#0d5c58;">' + esc(m.father) + '</strong>' +
+          (m.cnic ? ('، شناختی کارڈ نمبر <strong style="direction:ltr; display:inline-block;">' + esc(m.cnic) + '</strong>') : '') +
+          '، ہمارے ادارے <strong>&quot;' + esc(M.instituteName || "برائٹ اکیڈمی کوئٹہ") + '&quot;</strong> میں بطور ' +
+          '<strong style="color:#0d5c58;">' + esc(m.designation) + '</strong> اپنی تدریسی و تعلیمی خدمات انجام دیتے رہے ہیں۔' +
+        '</p>' +
+
+        '<p contenteditable="true" style="margin-bottom:12px;">' +
+          'موصوف نے ادارہ ہذا میں تاریخِ شمولیت <strong>' + esc(m.joiningDate) + '</strong> سے تا حال تدریسی فرائض نہایت محنت، دیانت داری، لگن، خلوصِ نیت اور بہترین حسنِ کارکردگی کے ساتھ سرانجام دیے۔ ' +
+          'تدریس کے دوران انہوں نے طلبہ کی قرآنی تعلیم، تلفظ و تجوید، اور اخلاقی تربیت کے شعبہ جات (<strong>' + esc(m.classes) + '</strong>) میں گراں قدر کردار ادا کیا۔' +
+        '</p>' +
+
+        '<p contenteditable="true" style="margin-bottom:12px;">' +
+          'دورانِ ملازمت ان کا اخلاق و کردار نہایت شاندار، برتاؤ مشفقانہ، اور ساتھی اساتذہ و انتظامیہ کے ساتھ رویہ انتہائی مثبت و باوقار رہا۔ ادارہ ان کے اعلیٰ اخلاق اور خدمات کا دل سے معترف ہے۔' +
+        '</p>' +
+
+        '<p contenteditable="true" style="margin-bottom:16px; color:#0d5c58; font-weight:600;">' +
+          'ادارہ ان کی مخلصانہ خدمات کو قدر کی نگاہ سے دیکھتا ہے اور ان کی آئندہ تدریسی زندگی، کامیابی، اور روشن مستقبل کے لیے دست بہ دعا ہے۔' +
+        '</p>' +
+      '</div>' +
+
+      // Optional Text Layers pasted/added by user on top of background
+      textLayersHtml +
+
+      '<div style="direction:rtl; margin:18px 0; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.04);">' +
+        '<table class="urdu" style="width:100%; border-collapse:collapse; font-size:13px; text-align:right;">' +
+          '<tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">' +
+            '<td style="padding:8px 14px; font-weight:bold; color:#4a5568; width:25%;">استاد کا نام / Name:</td>' +
+            '<td contenteditable="true" style="padding:8px 14px; font-weight:bold; color:#0d5c58; width:25%;">' + esc(m.name) + '</td>' +
+            '<td style="padding:8px 14px; font-weight:bold; color:#4a5568; width:25%;">عہدہ / Designation:</td>' +
+            '<td contenteditable="true" style="padding:8px 14px; color:#1a202c; width:25%;">' + esc(m.designation) + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td style="padding:8px 14px; font-weight:bold; color:#4a5568;">تاریخ شمولیت / Joining:</td>' +
+            '<td contenteditable="true" style="padding:8px 14px; color:#1a202c;">' + esc(m.joiningDate) + '</td>' +
+            '<td style="padding:8px 14px; font-weight:bold; color:#4a5568;">حسنِ اخلاق و کارکردگی:</td>' +
+            '<td contenteditable="true" style="padding:8px 14px; color:#16a34a; font-weight:bold;">ممتاز و مثالی (Excellent)</td>' +
+          '</tr>' +
+        '</table>' +
+      '</div>' +
+
+      '<div class="urdu" style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:45px; padding-top:16px; direction:rtl;">' +
+        '<div style="text-align:center; min-width:160px;">' +
+          '<div style="border-bottom:1.5px dashed #718096; width:140px; margin:0 auto 6px;"></div>' +
+          '<div contenteditable="true" style="font-weight:bold; color:#1a202c; font-size:13.5px;">دستخط معلم / استاد</div>' +
+          '<div contenteditable="true" style="font-size:11px; color:#718096; direction:ltr;">Teacher Signature</div>' +
+        '</div>' +
+
+        sealHtml +
+
+        '<div style="text-align:center; min-width:160px;">' +
+          '<div style="border-bottom:1.5px dashed #718096; width:140px; margin:0 auto 6px;"></div>' +
+          '<div contenteditable="true" style="font-weight:bold; color:#0d5c58; font-size:13.5px;">دستخط مہتمم و پرنسپل</div>' +
+          '<div contenteditable="true" style="font-size:11px; color:#718096; direction:ltr;">Principal / Administrator</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function previewSelectedTeacherCert() {
+  certStudioRenderCanvas();
+}
+
+function printSelectedTeacherCert() {
+  var container = document.getElementById("certPreviewContainer");
+  var certBox = container ? container.querySelector(".doc-sheet") : null;
+  if (certBox) {
+    var clone = certBox.cloneNode(true);
+    var editables = clone.querySelectorAll("[contenteditable]");
+    editables.forEach(function(el) { el.removeAttribute("contenteditable"); });
+    
+    // Add print class for background print enforcement
+    clone.style.margin = "0 auto";
+    clone.style.boxShadow = "none";
+    
+    var printBox = document.getElementById("printDocBox");
+    if (printBox) {
+      printBox.innerHTML = "";
+      printBox.appendChild(clone);
+      if (typeof printElement === "function") {
+        printElement("printDocBox");
+        return;
+      }
+    }
+  }
+  
+  var sel = document.getElementById("certTeacherSelect");
+  if (sel && sel.value) {
+    printTeacherExperienceCertificate(sel.value);
+  } else {
+    alert("Barah-e-karam pehle ustaad muntakhib karein.");
+  }
+}
+
+function getTeacherExperienceCertHtml(id, customState) {
+  if (id) certStudioLoadTeacher(id);
+  return certStudioGenerateHtml();
+}
+
+function printTeacherExperienceCertificate(id) {
+  if (id) {
+    var sel = document.getElementById("certTeacherSelect");
+    if (sel) sel.value = id;
+    certStudioLoadTeacher(id);
+  }
+  printSelectedTeacherCert();
+}
+
+
 function renderTeachers(){
   if(!DB.teachers) DB.teachers = [];
   const qEl = document.getElementById('teacherSearch');
@@ -2989,6 +4051,7 @@ function renderTeachers(){
         <button class="btn blue sm" onclick="openTeacherModal('${t.id}')">&#9998; Edit</button>
         <button class="btn purple sm" onclick="openTeacherDossier('${t.id}')">&#128065; Profile</button>
         <button class="btn gold sm" onclick="printTeacherPayslip('${t.id}')">&#128176; Pay Slip</button>
+        <button class="btn ghost sm" onclick="printTeacherExperienceCertificate('${t.id}')" style="border:1px solid #c79a3c;color:#0d5c58;" title="سند تدریسی تجربہ">&#128220; سند تجربہ</button>
         <button class="btn ${t.active===false?'green':'amber'} sm" onclick="toggleTeacherActive('${t.id}')">${t.active===false?'Activate':'De-Activate'}</button>
         <button class="btn danger sm" onclick="deleteTeacher('${t.id}')">&#128465; Delete</button>
       </td>
@@ -3097,6 +4160,8 @@ function openTeacherDossier(id){
   if(pb) pb.onclick = ()=>printTeacherProfile(t.id);
   const psb = document.getElementById('tpf_payslip_btn');
   if(psb) psb.onclick = ()=>printTeacherPayslip(t.id);
+  const tcb = document.getElementById('tpf_cert_btn');
+  if(tcb) tcb.onclick = ()=>printTeacherExperienceCertificate(t.id);
 
   const clean = (t.phone||'').replace(/[^0-9]/g,'');
   const wab = document.getElementById('tpf_wa_btn');
@@ -3200,6 +4265,7 @@ document.getElementById('teacherForm').addEventListener('submit', async e=>{
   saveBtn.disabled = true; saveBtn.textContent = 'Save ho raha hai...';
   try{
     if(!isEdit){
+      if(!FIREBASE_OK) throw new Error('Internet/Firebase available nahi hai, naya teacher account nahi bana sakte. Connection check karke dobara koshish karein.');
       // Create the login account on a secondary Firebase app instance so the
       // currently signed-in admin's session is not affected/replaced.
       const secondary = firebase.initializeApp(firebaseConfig, 'Secondary-'+Date.now());
@@ -3303,10 +4369,11 @@ function teacherMonthStats(t, mKey){
   const marked = present+absent+leave;
   const pct = (present+absent) ? Math.round(present/(present+absent)*100) : 0;
   const salary = Number(t.salary||0);
-  const perDay = marked ? salary/marked : 0;
-  const deduction = Math.round(perDay*absent);
+  const monthDays = daysTotal || 30;
+  const perDay = monthDays > 0 ? (salary / monthDays) : 0;
+  const deduction = Math.round(perDay * absent);
   const payable = Math.max(0, salary - deduction);
-  return {teacher:t, present, absent, leave, marked, pct, days, salary, perDay:Math.round(perDay), deduction, payable};
+  return {teacher:t, present, absent, leave, marked, daysTotal: monthDays, pct, days, salary, perDay: Math.round(perDay * 10) / 10, deduction, payable};
 }
 function renderTeacherAttendanceSheet(){
   const mKey = document.getElementById('tchAttMonth').value || currentMonth;
@@ -3333,6 +4400,270 @@ function renderTeacherAttendanceSheet(){
 }
 
 /* ---- Pay slip ---- */
+
+/* ================= STAFF PAYROLL & MULTI-SLIP PRINT MODULE LOGIC ================= */
+const PAYSLIP_LOGO_DATA_URI = 'data:image/jpeg;base64,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';
+let slipBatch = [];
+
+function getPayslipLogoUrl() {
+  if (typeof DB !== 'undefined' && DB && DB.meta && DB.meta.logo) {
+    return DB.meta.logo;
+  }
+  return PAYSLIP_LOGO_DATA_URI;
+}
+
+function initPayrollModule() {
+  const monthInput = document.getElementById('tchPayMonth');
+  if (monthInput && !monthInput.value) {
+    monthInput.value = (typeof currentMonth !== 'undefined') ? currentMonth : new Date().toISOString().slice(0, 7);
+  }
+  populateTeacherDropdown();
+  updateLiveSlip();
+}
+
+function populateTeacherDropdown() {
+  const sel = document.getElementById('staffTeacherSelect');
+  if (!sel) return;
+  const currentVal = sel.value;
+  sel.innerHTML = '<option value="">-- Manual / Select Teacher --</option>';
+  if (typeof activeTeachers === 'function') {
+    activeTeachers().forEach(function(t) {
+      const opt = document.createElement('option');
+      opt.value = t.id;
+      opt.textContent = t.name + (t.designation ? ' (' + t.designation + ')' : '');
+      sel.appendChild(opt);
+    });
+  }
+  sel.value = currentVal;
+}
+
+function loadTeacherIntoForm(teacherId) {
+  if (!teacherId) return;
+  if (typeof teacherById !== 'function') return;
+  const t = teacherById(teacherId);
+  if (!t) return;
+
+  const mKey = (document.getElementById('tchPayMonth') && document.getElementById('tchPayMonth').value) || currentMonth;
+  let stats = { salary: t.salary || 0, marked: 30, present: 30, absent: 0, leave: 0 };
+  if (typeof teacherMonthStats === 'function') {
+    stats = teacherMonthStats(t, mKey);
+  }
+
+  document.getElementById('staffName').value = t.name || '';
+  document.getElementById('staffRole').value = t.designation || 'Teacher';
+  document.getElementById('monthlySalary').value = stats.salary || t.salary || '';
+  document.getElementById('totalDays').value = stats.daysTotal || (typeof daysInMonthCount === 'function' ? daysInMonthCount(mKey) : 30) || 30;
+  document.getElementById('presentDays').value = (stats.present != null) ? stats.present : 30;
+  document.getElementById('absentDays').value = stats.absent || 0;
+  document.getElementById('leaveDays').value = stats.leave || 0;
+
+  updateLiveSlip();
+}
+
+function onPayrollMonthChange() {
+  if (typeof renderTeacherPayslips === 'function') {
+    renderTeacherPayslips();
+  }
+  const sel = document.getElementById('staffTeacherSelect');
+  if (sel && sel.value) {
+    loadTeacherIntoForm(sel.value);
+  } else {
+    updateLiveSlip();
+  }
+}
+
+function calculateValues() {
+  const name = (document.getElementById('staffName') && document.getElementById('staffName').value.trim()) || 'Staff Member';
+  const role = (document.getElementById('staffRole') && document.getElementById('staffRole').value.trim()) || 'Teacher';
+  const monthly = parseFloat(document.getElementById('monthlySalary') ? document.getElementById('monthlySalary').value : 0) || 0;
+  const totalDays = parseFloat(document.getElementById('totalDays') ? document.getElementById('totalDays').value : 30) || 30;
+  const present = parseFloat(document.getElementById('presentDays') ? document.getElementById('presentDays').value : 30) || 0;
+  const absent = parseFloat(document.getElementById('absentDays') ? document.getElementById('absentDays').value : 0) || 0;
+  const leave = parseFloat(document.getElementById('leaveDays') ? document.getElementById('leaveDays').value : 0) || 0;
+  const mKey = (document.getElementById('tchPayMonth') && document.getElementById('tchPayMonth').value) || (typeof currentMonth !== 'undefined' ? currentMonth : '');
+  const monthTxt = (typeof monthLabel === 'function' && mKey) ? monthLabel(mKey) : mKey;
+
+  const perDay = totalDays > 0 ? (monthly / totalDays) : 0;
+  const deduction = absent * perDay;
+  let netPay = monthly - deduction;
+  if (netPay < 0) netPay = 0;
+
+  return {
+    name: name,
+    role: role,
+    monthly: monthly,
+    totalDays: totalDays,
+    perDay: perDay,
+    present: present,
+    absent: absent,
+    leave: leave,
+    deduction: deduction,
+    netPay: netPay,
+    monthTxt: monthTxt
+  };
+}
+
+function createSlipHtml(d, index) {
+  const logoUrl = getPayslipLogoUrl();
+  const removeBtn = (index !== null && index !== undefined)
+    ? '<button type="button" class="slip-remove-btn no-print" onclick="removeSlipFromBatch(' + index + ')" title="Remove slip">&times;</button>'
+    : '';
+
+  return '<div class="print-slip-box">' +
+    removeBtn +
+    '<div class="slip-header">' +
+      '<img src="' + logoUrl + '" alt="Logo" class="slip-logo" onerror="this.src=\'icon-512.png\';">' +
+      '<div>' +
+        '<h5 class="slip-title-en">Bright Academy Quetta</h5>' +
+        '<span class="slip-title-ur">Monthly Staff Pay Slip &bull; تنخواہ رسید</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="slip-row">' +
+      '<span><strong>Staff Name:</strong> ' + esc(d.name) + '</span>' +
+      '<span style="color:#64748b;">' + esc(d.role || '') + '</span>' +
+    '</div>' +
+    '<div class="slip-row">' +
+      '<span><strong>Month:</strong> ' + esc(d.monthTxt || '---') + '</span>' +
+      '<span><strong>Monthly:</strong> ' + Number(d.monthly).toLocaleString() + ' PKR</span>' +
+    '</div>' +
+    '<div class="slip-row">' +
+      '<span><strong>Per Day Rate:</strong> ' + d.perDay.toFixed(1) + ' PKR</span>' +
+      '<span><strong>Total Days:</strong> ' + d.totalDays + '</span>' +
+    '</div>' +
+    '<div class="slip-row">' +
+      '<span><strong>Attendance:</strong> Present: <b style="color:#059669;">' + d.present + '</b> | Absent: <b style="color:#dc2626;">' + d.absent + '</b>' + (d.leave > 0 ? ' | Leave: <b>' + d.leave + '</b>' : '') + '</span>' +
+    '</div>' +
+    '<div class="slip-row" style="color:#dc2626;">' +
+      '<span><strong>Absent Deduction:</strong></span>' +
+      '<span><b>' + d.deduction.toFixed(0) + ' PKR</b></span>' +
+    '</div>' +
+    '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding:6px 8px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;">' +
+      '<span style="font-weight:700; color:#166534; font-size:13px;">Net Payable:</span>' +
+      '<span style="font-weight:800; color:#15803d; font-size:15px;">' + Math.round(d.netPay).toLocaleString() + ' PKR</span>' +
+    '</div>' +
+    '<div class="slip-footer">' +
+      '<div style="text-align:left;">' +
+        '<div style="border-bottom:1px solid #94a3b8; width:90px; height:18px; margin-bottom:2px;"></div>' +
+        '<span>استاد / Teacher</span>' +
+      '</div>' +
+      '<div style="text-align:right;">' +
+        '<div style="border-bottom:1px solid #94a3b8; width:90px; height:18px; margin-bottom:2px; margin-left:auto;"></div>' +
+        '<span>مہتمم / Principal</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function updateLiveSlip() {
+  const container = document.getElementById('multiSlipContainer');
+  if (!container) return;
+  const countBadge = document.getElementById('slipBatchCount');
+  if (countBadge) countBadge.textContent = slipBatch.length;
+
+  if (slipBatch.length > 0) {
+    renderBatchSlips();
+    return;
+  }
+
+  const title = document.getElementById('slipContainerTitle');
+  if (title) title.textContent = 'Live Preview (Fill form or Add to Batch)';
+
+  const d = calculateValues();
+  container.innerHTML = createSlipHtml(d, null);
+}
+
+function addSlipToBatch() {
+  const d = calculateValues();
+  slipBatch.push(d);
+  renderBatchSlips();
+
+  // Reset inputs
+  document.getElementById('staffTeacherSelect').value = '';
+  document.getElementById('staffName').value = '';
+  document.getElementById('staffRole').value = '';
+  document.getElementById('monthlySalary').value = '';
+  document.getElementById('absentDays').value = '0';
+  document.getElementById('leaveDays').value = '0';
+}
+
+function batchAllActiveTeachers() {
+  if (typeof activeTeachers !== 'function') return;
+  const mKey = (document.getElementById('tchPayMonth') && document.getElementById('tchPayMonth').value) || currentMonth;
+  const monthTxt = (typeof monthLabel === 'function' && mKey) ? monthLabel(mKey) : mKey;
+
+  const teachers = activeTeachers();
+  if (!teachers.length) {
+    alert('Koi active teacher maujood nahi hai.');
+    return;
+  }
+
+  teachers.forEach(function(t) {
+    const stats = (typeof teacherMonthStats === 'function') ? teacherMonthStats(t, mKey) : {
+      salary: t.salary || 0, marked: 30, present: 30, absent: 0, leave: 0, perDay: (t.salary||0)/30, deduction: 0, payable: t.salary || 0
+    };
+
+    slipBatch.push({
+      name: t.name || 'Teacher',
+      role: t.designation || 'Teacher',
+      monthly: stats.salary || 0,
+      totalDays: stats.daysTotal || (typeof daysInMonthCount === 'function' ? daysInMonthCount(mKey) : 30) || 30,
+      perDay: stats.perDay || 0,
+      present: stats.present != null ? stats.present : 30,
+      absent: stats.absent || 0,
+      leave: stats.leave || 0,
+      deduction: stats.deduction || 0,
+      netPay: stats.payable || 0,
+      monthTxt: monthTxt
+    });
+  });
+
+  renderBatchSlips();
+}
+
+function removeSlipFromBatch(index) {
+  slipBatch.splice(index, 1);
+  if (slipBatch.length === 0) {
+    updateLiveSlip();
+  } else {
+    renderBatchSlips();
+  }
+}
+
+function renderBatchSlips() {
+  const container = document.getElementById('multiSlipContainer');
+  if (!container) return;
+  const countBadge = document.getElementById('slipBatchCount');
+  if (countBadge) countBadge.textContent = slipBatch.length;
+
+  const title = document.getElementById('slipContainerTitle');
+  if (title) title.textContent = slipBatch.length + ' Slip' + (slipBatch.length > 1 ? 's' : '') + ' in Batch';
+
+  let html = '';
+  slipBatch.forEach(function(s, idx) {
+    html += createSlipHtml(s, idx);
+  });
+  container.innerHTML = html;
+}
+
+function clearBatch() {
+  slipBatch = [];
+  updateLiveSlip();
+}
+
+function printAllSlipsA4() {
+  if (slipBatch.length === 0) {
+    const d = calculateValues();
+    slipBatch.push(d);
+    renderBatchSlips();
+  }
+  if (typeof printElement === 'function') {
+    printElement('multiSlipPrintArea');
+  } else {
+    window.print();
+  }
+}
+
+
 function renderTeacherPayslips(){
   const monthInput = document.getElementById('tchPayMonth');
   if(!monthInput.value) monthInput.value = currentMonth;
@@ -3358,6 +4689,47 @@ function renderTeacherPayslips(){
   document.getElementById('tchPayTable').innerHTML = `<thead><tr><th>Teacher</th><th>Salary</th><th>Marked Days</th><th>P</th><th>A</th><th>L</th><th>Fi-din</th><th>Kitoti</th><th>Qabil-e-Adaigi</th><th class="no-print">Amal</th></tr></thead><tbody>${rows || '<tr><td colspan=10 class="empty-state">Koi active teacher nahi</td></tr>'}</tbody>`;
 }
 function printTeacherPayslip(id){
+  const t = teacherById(id); if(!t) return;
+  const mKey = (document.getElementById("tchPayMonth") && document.getElementById("tchPayMonth").value) || currentMonth;
+  const r = (typeof teacherMonthStats === "function") ? teacherMonthStats(t, mKey) : {
+    salary: t.salary || 0, daysTotal: 30, present: 30, absent: 0, leave: 0, perDay: (t.salary||0)/30, deduction: 0, payable: t.salary || 0
+  };
+
+  const monthTxt = (typeof monthLabel === "function" && mKey) ? monthLabel(mKey) : mKey;
+  const d = {
+    name: t.name || "Teacher",
+    role: t.designation || "Teacher",
+    monthly: r.salary || 0,
+    totalDays: r.daysTotal || 30,
+    perDay: r.perDay || 0,
+    present: (r.present != null) ? r.present : 30,
+    absent: r.absent || 0,
+    leave: r.leave || 0,
+    deduction: r.deduction || 0,
+    netPay: r.payable || 0,
+    monthTxt: monthTxt
+  };
+
+  // If on payslip tab, also load into the form
+  const sel = document.getElementById("staffTeacherSelect");
+  if (sel) {
+    sel.value = t.id;
+    if (typeof loadTeacherIntoForm === "function") loadTeacherIntoForm(t.id);
+  }
+
+  // Generate the EXACT same modern card payslip HTML
+  const slipCardHtml = (typeof createSlipHtml === "function") ? createSlipHtml(d, null) : "";
+  const box = document.getElementById("printDocBox");
+  if (box) {
+    box.innerHTML = `<div style="max-width:480px; margin:20px auto; padding:10px;">${slipCardHtml}</div>`;
+    if (typeof printElement === "function") {
+      printElement("printDocBox");
+    } else {
+      window.print();
+    }
+  }
+}
+function oldPrintTeacherPayslipTable(id){
   const t = teacherById(id); if(!t) return;
   const mKey = (document.getElementById('tchPayMonth').value) || currentMonth;
   const r = teacherMonthStats(t, mKey);
@@ -3420,7 +4792,8 @@ document.getElementById('tchTabbar').addEventListener('click', e=>{
   document.querySelectorAll('.tch-tab-panel').forEach(p=>{ p.style.display = (p.dataset.tchPanel===tab) ? '' : 'none'; });
   if(tab==='list') renderTeachers();
   if(tab==='attendance') renderTeacherAttendance();
-  if(tab==='payslip') renderTeacherPayslips();
+  if(tab==='payslip'){ renderTeacherPayslips(); initPayrollModule(); }
+  if(tab==='cert'){ populateCertTeachers(); }
 });
 document.getElementById('teacherSearch').addEventListener('input', renderTeachers);
 document.getElementById('teacherStatusFilter').addEventListener('change', renderTeachers);
@@ -4570,6 +5943,331 @@ if('serviceWorker' in navigator){
     window.location.reload();
   });
 }
+
+
+
+/* ---- Dual Copy Fee Receipt (Office Copy + Student Copy) ---- */
+function printDualFeeReceipt(){
+  if(!currentReceiptCtx) return;
+  var studentId = currentReceiptCtx.studentId;
+  var mKey = currentReceiptCtx.mKey;
+  var s = studentById(studentId);
+  if(!s) return;
+  var details = feeBreakdown(studentId, mKey);
+  var rec = details.rec;
+  var institute = DB.meta.instituteName || 'Bright Academy';
+  var logo = DB.meta.logo || DEFAULT_LOGO_SRC;
+  var subtitle = DB.meta.instituteLine || DB.meta.instituteSub || 'Talaba Intizami Nizam';
+  var rcNo = 'REC-' + mKey.replace('-','') + '-' + s.id;
+  var secName = (SECTION_META[s.section] && SECTION_META[s.section].label) || s.section;
+  var mLabel = monthLabel(mKey);
+  var feeAmt = fmtMoney(rec.amount);
+  var paidAmt = fmtMoney(rec.lastPaidAmount || rec.paidAmount || 0);
+  var method = rec.method || 'Cash';
+  var pDate = rec.paidDate || todayISO();
+  var curDue = s.fisabilillah ? 'فی سبیل اللہ' : (details.thisMonthDue > 0 ? fmtMoney(details.thisMonthDue) : 'Nil');
+  var prevDue = s.fisabilillah ? 'فی سبیل اللہ' : (details.previousDue > 0 ? fmtMoney(details.previousDue) : 'Nil');
+  var totalBal = s.fisabilillah ? 'فی سبیل اللہ' : (details.totalDue > 0 ? fmtMoney(details.totalDue) + ' (Bakaya)' : 'Nil (Ada Shuda)');
+
+  function renderVoucherSlip(copyType){
+    return '<div style="flex:1; min-width:320px; max-width:400px; border:2px dashed #b45309; border-radius:10px; padding:16px; background:#fff; font-family:system-ui,-apple-system,sans-serif; position:relative; box-sizing:border-box;">'
+      + '<div style="position:absolute; top:8px; right:12px; background:#fef3c7; color:#92400e; font-size:11px; font-weight:700; padding:2px 8px; border-radius:12px; border:1px solid #f59e0b;">' + copyType + '</div>'
+      + '<div style="text-align:center; border-bottom:1px solid #e5e7eb; padding-bottom:8px; margin-bottom:10px;">'
+      + '<img src="' + logo + '" style="height:42px; max-width:120px; object-fit:contain; margin-bottom:4px;" onerror="this.style.display=\'none\'">'
+      + '<h3 style="margin:0; font-size:17px; color:#1e293b; font-weight:800;">' + institute + '</h3>'
+      + '<div style="font-size:11px; color:#64748b;">' + subtitle + '</div>'
+      + '<div style="font-size:10px; font-weight:700; color:#b45309; margin-top:2px;">' + rcNo + '</div>'
+      + '</div>'
+      + '<table style="width:100%; font-size:12px; border-collapse:collapse; margin-bottom:10px;">'
+      + '<tr style="border-bottom:1px solid #f1f5f9;"><td style="color:#64748b; padding:3px 0;">Talib-e-Ilm:</td><td style="font-weight:700; color:#0f172a; text-align:right;">' + s.name + ' (' + s.id + ')</td></tr>'
+      + '<tr style="border-bottom:1px solid #f1f5f9;"><td style="color:#64748b; padding:3px 0;">Walid ka Naam:</td><td style="font-weight:600; color:#334155; text-align:right;">' + (s.father || '-') + '</td></tr>'
+      + '<tr style="border-bottom:1px solid #f1f5f9;"><td style="color:#64748b; padding:3px 0;">Section / Class:</td><td style="font-weight:600; color:#334155; text-align:right;">' + secName + '</td></tr>'
+      + '<tr style="border-bottom:1px solid #f1f5f9;"><td style="color:#64748b; padding:3px 0;">Mahina (Month):</td><td style="font-weight:700; color:#0f172a; text-align:right;">' + mLabel + '</td></tr>'
+      + '<tr style="border-bottom:1px solid #f1f5f9;"><td style="color:#64748b; padding:3px 0;">Maasi Fee:</td><td style="font-weight:600; color:#334155; text-align:right;">' + feeAmt + '</td></tr>'
+      + '<tr style="border-bottom:1px solid #f1f5f9; background:#ecfdf5;"><td style="color:#047857; font-weight:700; padding:4px 0;">Wasool Shuda:</td><td style="font-weight:800; color:#047857; font-size:13px; text-align:right;">' + paidAmt + '</td></tr>'
+      + '<tr style="border-bottom:1px solid #f1f5f9;"><td style="color:#64748b; padding:3px 0;">Adaigi Zariya &amp; Tareekh:</td><td style="color:#334155; text-align:right;">' + method + ' &middot; ' + pDate + '</td></tr>'
+      + '<tr style="border-bottom:1px solid #f1f5f9;"><td style="color:#64748b; padding:3px 0;">Is Mahine ka Baqi:</td><td style="color:#334155; text-align:right;">' + curDue + '</td></tr>'
+      + '<tr style="border-bottom:1px solid #f1f5f9;"><td style="color:#64748b; padding:3px 0;">Pichla Baqi:</td><td style="color:#334155; text-align:right;">' + prevDue + '</td></tr>'
+      + '<tr style="background:#fffbeb; font-weight:700;"><td style="color:#92400e; padding:5px 0;">Kul Bakaya (Total Due):</td><td style="color:#b45309; text-align:right;">' + totalBal + '</td></tr>'
+      + '</table>'
+      + '<div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:18px; padding-top:6px; font-size:10px; color:#64748b;">'
+      + '<div style="text-align:center;"><div style="border-top:1px solid #94a3b8; width:90px; margin-bottom:2px;"></div><span>Dastakhat Cashier</span></div>'
+      + '<div style="font-size:11px; color:#059669; font-weight:700; font-family:\'Noto Nastaliq Urdu\',serif;">جزاکم اللہ خیراً</div>'
+      + '<div style="text-align:center;"><div style="border-top:1px solid #94a3b8; width:90px; margin-bottom:2px;"></div><span>Mohr / Incharge</span></div>'
+      + '</div>'
+      + '</div>';
+  }
+
+  var printArea = document.createElement('div');
+  printArea.id = 'dualReceiptPrintContainer';
+  printArea.innerHTML = '<style>'
+    + '@media print {'
+    + '  body * { visibility: hidden !important; }'
+    + '  #dualReceiptPrintContainer, #dualReceiptPrintContainer * { visibility: visible !important; }'
+    + '  #dualReceiptPrintContainer {'
+    + '    position: fixed !important;'
+    + '    left: 0 !important;'
+    + '    top: 0 !important;'
+    + '    width: 100vw !important;'
+    + '    padding: 15mm 10mm !important;'
+    + '    background: #fff !important;'
+    + '    display: flex !important;'
+    + '    flex-direction: row !important;'
+    + '    justify-content: center !important;'
+    + '    gap: 20px !important;'
+    + '    box-sizing: border-box !important;'
+    + '  }'
+    + '}'
+    + '</style>'
+    + '<div style="display:flex; flex-direction:row; justify-content:center; gap:20px; width:100%; max-width:860px; margin:0 auto;">'
+    + renderVoucherSlip('OFFICE COPY / دفتری نقل')
+    + renderVoucherSlip('STUDENT COPY / طالب علم نقل')
+    + '</div>';
+
+  document.body.appendChild(printArea);
+  window.print();
+  setTimeout(function(){
+    if(printArea && printArea.parentNode){
+      printArea.parentNode.removeChild(printArea);
+    }
+  }, 1000);
+}
+
+/* ================= BULK FEE SLIPS: 3 STUDENTS / 6 COPIES PER A4 PAGE ================= */
+/* Every student gets an OFFICE COPY + STUDENT COPY, laid out 2 columns x 3 rows       */
+/* per page. Works with however many students are currently filtered/shown on the      */
+/* Fees page, and auto-continues onto as many A4 pages as needed.                      */
+
+var BULK_SLIP_PRINT_CSS = ''
+  + '@media print {'
+  + '  body * { visibility: hidden !important; }'
+  + '  #bulkFeeSlipsPrintContainer, #bulkFeeSlipsPrintContainer * { visibility: visible !important; }'
+  + '  #bulkFeeSlipsPrintContainer {'
+  + '    position: absolute !important;'
+  + '    left: 0 !important;'
+  + '    top: 0 !important;'
+  + '    width: 100% !important;'
+  + '    margin: 0 !important;'
+  + '    padding: 0 !important;'
+  + '    background: #fff !important;'
+  + '  }'
+  + '  @page { size: A4; margin: 8mm; }'
+  + '}'
+  + '.bulk-slip-page {'
+  + '  display: grid;'
+  + '  grid-template-columns: 1fr 1fr;'
+  + '  grid-template-rows: repeat(3, 1fr);'
+  + '  gap: 4mm;'
+  + '  width: 100%;'
+  + '  height: 277mm;'
+  + '  box-sizing: border-box;'
+  + '  page-break-after: always;'
+  + '  break-after: page;'
+  + '}'
+  + '.bulk-slip-page:last-child { page-break-after: auto; break-after: auto; }'
+  + '.bulk-slip-box {'
+  + '  border: 1.5px dashed #b45309;'
+  + '  border-radius: 6px;'
+  + '  padding: 6px 9px;'
+  + '  font-family: system-ui,-apple-system,sans-serif;'
+  + '  font-size: 9.5px;'
+  + '  color: #1a202c;'
+  + '  position: relative;'
+  + '  box-sizing: border-box;'
+  + '  overflow: hidden;'
+  + '  display: flex;'
+  + '  flex-direction: column;'
+  + '  background: #fff;'
+  + '  page-break-inside: avoid;'
+  + '  break-inside: avoid;'
+  + '}'
+  + '.bulk-slip-copytag {'
+  + '  position: absolute; top: 4px; right: 6px;'
+  + '  background: #fef3c7; color: #92400e; font-size: 7.5px; font-weight: 700;'
+  + '  padding: 1px 6px; border-radius: 10px; border: 1px solid #f59e0b;'
+  + '}'
+  + '.bulk-slip-head { display:flex; align-items:center; gap:6px; border-bottom:1px solid #e5e7eb; padding-bottom:4px; margin-bottom:4px; padding-right:62px; }'
+  + '.bulk-slip-head img { height:26px; width:26px; object-fit:contain; border-radius:3px; flex:0 0 auto; }'
+  + '.bulk-slip-inst { font-weight:800; font-size:11px; color:#1e293b; line-height:1.15; }'
+  + '.bulk-slip-sub { font-size:7.5px; color:#64748b; }'
+  + '.bulk-slip-no { font-size:8px; font-weight:700; color:#b45309; }'
+  + '.bulk-slip-table { width:100%; border-collapse:collapse; font-size:9px; flex:1; }'
+  + '.bulk-slip-table td { padding:1.5px 0; border-bottom:1px dotted #f1f5f9; vertical-align:top; }'
+  + '.bulk-slip-table td:first-child { color:#64748b; white-space:nowrap; padding-right:6px; }'
+  + '.bulk-slip-table td:last-child { text-align:right; font-weight:700; color:#0f172a; }'
+  + '.bulk-slip-table tr.ok td { color:#047857; }'
+  + '.bulk-slip-table tr.tot td { color:#b45309; font-weight:800; font-size:9.5px; }'
+  + '.bulk-slip-foot { display:flex; justify-content:space-between; font-size:7.5px; color:#64748b; border-top:1px solid #cbd5e1; padding-top:3px; margin-top:3px; }';
+
+function buildBulkFeeSlipBox(s, mKey, copyType){
+  var details = feeBreakdown(s.id, mKey);
+  var rec = details.rec;
+  var institute = DB.meta.instituteName || 'Bright Academy';
+  var logo = s.customLogoUrl || DB.meta.logo || DEFAULT_LOGO_SRC;
+  var subtitle = DB.meta.instituteLine || DB.meta.instituteSub || '';
+  var rcNo = 'REC-' + mKey.replace('-', '') + '-' + s.id;
+  var secName = (SECTION_META[s.section] && SECTION_META[s.section].label) || s.section;
+  var mLabel = monthLabel(mKey);
+  var feeAmt = fmtMoney(rec.amount);
+  var paidAmt = fmtMoney(rec.lastPaidAmount || rec.paidAmount || 0);
+  var method = rec.method || 'Cash';
+  var pDate = rec.paidDate || todayISO();
+  var curDue = s.fisabilillah ? 'فی سبیل اللہ' : (details.thisMonthDue > 0 ? fmtMoney(details.thisMonthDue) : 'Nil');
+  var prevDue = s.fisabilillah ? 'فی سبیل اللہ' : (details.previousDue > 0 ? fmtMoney(details.previousDue) : 'Nil');
+  var totalBal = s.fisabilillah ? 'فی سبیل اللہ' : (details.totalDue > 0 ? fmtMoney(details.totalDue) : 'Nil');
+
+  return '<div class="bulk-slip-box">'
+    + '<div class="bulk-slip-copytag">' + copyType + '</div>'
+    + '<div class="bulk-slip-head">'
+      + '<img src="' + logo + '" onerror="this.style.display=\'none\'">'
+      + '<div><div class="bulk-slip-inst">' + institute + '</div>'
+      + (subtitle ? '<div class="bulk-slip-sub">' + subtitle + '</div>' : '')
+      + '<div class="bulk-slip-no">' + rcNo + '</div></div>'
+    + '</div>'
+    + '<table class="bulk-slip-table">'
+      + '<tr><td>Talib-e-Ilm</td><td>' + s.name + ' (' + s.id + ')</td></tr>'
+      + '<tr><td>Section</td><td>' + secName + '</td></tr>'
+      + '<tr><td>Mahina</td><td>' + mLabel + '</td></tr>'
+      + '<tr><td>Maasi Fee</td><td>' + feeAmt + '</td></tr>'
+      + '<tr class="ok"><td>Wasool Shuda</td><td>' + paidAmt + '</td></tr>'
+      + '<tr><td>Zariya / Tareekh</td><td>' + method + ' &middot; ' + pDate + '</td></tr>'
+      + '<tr><td>Is Mahine Baqi</td><td>' + curDue + '</td></tr>'
+      + '<tr><td>Pichla Baqi</td><td>' + prevDue + '</td></tr>'
+      + '<tr class="tot"><td>Kul Bakaya</td><td>' + totalBal + '</td></tr>'
+    + '</table>'
+    + '<div class="bulk-slip-foot"><span>Dastakhat: Cashier ____________</span><span>Mohr / Incharge</span></div>'
+    + '</div>';
+}
+
+function printAllFeeSlips(){
+  var secF = document.getElementById('feeSectionFilter').value;
+  var q = document.getElementById('feeSearch').value.trim().toLowerCase();
+  var list = DB.students.filter(function(s){
+    if(secF && s.section !== secF) return false;
+    if(q && !(s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q))) return false;
+    if(!isEnrolled(s, currentMonth)) return false;
+    return true;
+  });
+
+  if(list.length === 0){
+    alert('Is filter/mahine ke mutabiq koi talib-e-ilm nahi mila.');
+    return;
+  }
+
+  var pagesHtml = '';
+  for(var i = 0; i < list.length; i += 3){
+    var chunk = list.slice(i, i + 3);
+    var pageHtml = '<div class="bulk-slip-page">';
+    chunk.forEach(function(s){
+      pageHtml += buildBulkFeeSlipBox(s, currentMonth, 'OFFICE COPY / دفتری نقل');
+      pageHtml += buildBulkFeeSlipBox(s, currentMonth, 'STUDENT COPY / طالب علم نقل');
+    });
+    pageHtml += '</div>';
+    pagesHtml += pageHtml;
+  }
+
+  var printArea = document.createElement('div');
+  printArea.id = 'bulkFeeSlipsPrintContainer';
+  printArea.innerHTML = '<style>' + BULK_SLIP_PRINT_CSS + '</style>' + pagesHtml;
+
+  document.body.appendChild(printArea);
+  window.print();
+  setTimeout(function(){
+    if(printArea && printArea.parentNode){
+      printArea.parentNode.removeChild(printArea);
+    }
+  }, 1000);
+}
+
+var feeBulkSlipsBtn = document.getElementById('feeBulkSlipsBtn');
+if(feeBulkSlipsBtn){
+  feeBulkSlipsBtn.addEventListener('click', printAllFeeSlips);
+}
+
+/* ---- Excel CSV Export Helpers ---- */
+function downloadCsvFile(filename, csvContent){
+  var blob = new Blob(['\uFEFF' + csvContent], {type: 'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 500);
+}
+
+var expStudBtn = document.getElementById('exportStudentsCsvBtn');
+if(expStudBtn){
+  expStudBtn.onclick = function(){
+    var headers = ['ID', 'Naam', 'Walid ka Naam', 'Section', 'Phone', 'Maasi Fee', 'Dakhla Tareekh', 'Status'];
+    var rows = (DB.students || []).map(function(s){
+      return [
+        s.id,
+        '"' + (s.name || '').replace(/"/g, '""') + '"',
+        '"' + (s.father || '').replace(/"/g, '""') + '"',
+        '"' + ((SECTION_META[s.section] && SECTION_META[s.section].label) || s.section || '') + '"',
+        '"' + (s.phone || '') + '"',
+        s.monthlyFee || 0,
+        s.admissionDate || '',
+        s.active ? 'Active' : 'Inactive'
+      ];
+    });
+    var csv = [headers.join(',')].concat(rows.map(function(r){ return r.join(','); })).join('\n');
+    downloadCsvFile('Bright_Academy_Students_' + todayISO() + '.csv', csv);
+  };
+}
+
+var expFeesBtn = document.getElementById('exportFeesCsvBtn');
+if(expFeesBtn){
+  expFeesBtn.onclick = function(){
+    var mKey = (typeof currentMonth !== 'undefined' && currentMonth) ? currentMonth : monthList()[0];
+    var headers = ['Student ID', 'Naam', 'Section', 'Mahina', 'Fee Maasi', 'Wasool Shuda', 'Tareekh', 'Zariya', 'Is Mahine Baqi', 'Pichla Baqi', 'Kul Bakaya'];
+    var rows = (DB.students || []).filter(function(s){ return isEnrolled(s, mKey); }).map(function(s){
+      var details = feeBreakdown(s.id, mKey);
+      var rec = details.rec;
+      return [
+        s.id,
+        '"' + (s.name || '').replace(/"/g, '""') + '"',
+        '"' + ((SECTION_META[s.section] && SECTION_META[s.section].label) || s.section || '') + '"',
+        mKey,
+        rec.amount || 0,
+        rec.paidAmount || 0,
+        rec.paidDate || '',
+        '"' + (rec.method || '') + '"',
+        details.thisMonthDue || 0,
+        details.previousDue || 0,
+        details.totalDue || 0
+      ];
+    });
+    var csv = [headers.join(',')].concat(rows.map(function(r){ return r.join(','); })).join('\n');
+    downloadCsvFile('Bright_Academy_Fees_' + mKey + '_' + todayISO() + '.csv', csv);
+  };
+}
+
+var expAttBtn = document.getElementById('exportAttendanceCsvBtn');
+if(expAttBtn){
+  expAttBtn.onclick = function(){
+    var headers = ['Date', 'Student ID', 'Naam', 'Section', 'Status'];
+    var rows = [];
+    var att = DB.attendance || {};
+    Object.keys(att).sort().forEach(function(date){
+      var dayRecords = att[date] || {};
+      Object.keys(dayRecords).forEach(function(sid){
+        var s = studentById(sid);
+        rows.push([
+          date,
+          sid,
+          '"' + (s ? s.name : '').replace(/"/g, '""') + '"',
+          '"' + (s && SECTION_META[s.section] ? SECTION_META[s.section].label : '') + '"',
+          dayRecords[sid] || 'P'
+        ]);
+      });
+    });
+    var csv = [headers.join(',')].concat(rows.map(function(r){ return r.join(','); })).join('\n');
+    downloadCsvFile('Bright_Academy_Attendance_' + todayISO() + '.csv', csv);
+  };
+}
+
 </script>
   <!-- ================= STUDENT PROFILE ================= -->
   <div id="dossierModalBackdrop">
