@@ -986,11 +986,11 @@ tbody tr:hover{background:#fbf8f0;}
   background-size: 46px 46px;
 }
 .baq-top-bar {
-  position: relative; z-index: 2; background: #0d2238; height: 40px;
+  position: relative; z-index: 2; background: #0d2238; height: 26px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 16px 16px 0 0;
 }
-.baq-lanyard-slot {
+.baq-lanyard-slot { display: none !important; 
   width: 92px; height: 15px; background: #ffffff;
   border-radius: 999px; border: 1.5px solid #2a405a;
 }
@@ -2269,9 +2269,7 @@ tbody tr:hover{background:#fbf8f0;}
     <div class="idcard-quetta" id="idCardBox">
       <div class="idcard-quetta-bg"></div>
 
-      <div class="baq-top-bar">
-        <div class="baq-lanyard-slot"></div>
-      </div>
+      <div class="baq-top-bar"></div>
       <div class="baq-gold-strip"></div>
 
       <div class="baq-content">
@@ -2437,8 +2435,10 @@ const DB_KEY = 'madrassa_db_v1';
    (newly added) photo with the last successfully-synced cloud copy -
    which is exactly why a photo you just added disappears after refresh. */
 function compressImageFile(file, maxSize, quality, callback){
-  maxSize = maxSize || 130;
-  quality = quality || 0.55;
+  // HD Avatar/Photo setting: up to 200KB (~270,000 base64 chars), crisp 550px resolution
+  maxSize = maxSize || 550;
+  quality = quality || 0.85;
+  const MAX_BASE64_BYTES = 270000; // ~200 KB
   const reader = new FileReader();
   reader.onload = function(e){
     const img = new Image();
@@ -2462,22 +2462,21 @@ function compressImageFile(file, maxSize, quality, callback){
       let dataUrl = '';
       try {
         dataUrl = canvas.toDataURL('image/jpeg', q);
-        // Firebase Firestore document strict limit is 1MB total.
-        // Auto-manage size: reduce quality if photo exceeds 8KB
-        while(dataUrl.length > 10000 && q > 0.25){
-          q -= 0.1;
+        // Ensure photo size stays within 200KB limit for clear resolution
+        while(dataUrl.length > MAX_BASE64_BYTES && q > 0.45){
+          q -= 0.08;
           dataUrl = canvas.toDataURL('image/jpeg', q);
         }
-        // If still > 10KB, scale down dimensions
-        if(dataUrl.length > 10000){
+        // If still > 200KB, scale down slightly
+        if(dataUrl.length > MAX_BASE64_BYTES){
           const sc = document.createElement('canvas');
-          sc.width = Math.round(w * 0.7);
-          sc.height = Math.round(h * 0.7);
+          sc.width = Math.round(w * 0.85);
+          sc.height = Math.round(h * 0.85);
           const sctx = sc.getContext('2d');
           sctx.fillStyle = '#ffffff';
           sctx.fillRect(0, 0, sc.width, sc.height);
           sctx.drawImage(canvas, 0, 0, sc.width, sc.height);
-          dataUrl = sc.toDataURL('image/jpeg', 0.4);
+          dataUrl = sc.toDataURL('image/jpeg', 0.75);
         }
       } catch(err) {
         console.warn('Canvas export error:', err);
@@ -2486,10 +2485,12 @@ function compressImageFile(file, maxSize, quality, callback){
       callback(dataUrl);
     };
     img.onerror = function(){
-      console.warn('Image parse error');
       callback('');
     };
     img.src = e.target.result;
+  };
+  reader.onerror = function(){
+    callback('');
   };
   reader.readAsDataURL(file);
 }
@@ -4445,7 +4446,7 @@ document.getElementById('addTeacherBtn').onclick = ()=>openTeacherModal(null);
 document.getElementById('tf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 130, 0.55, (dataUrl)=>{
+  compressImageFile(file, 550, 0.85, (dataUrl)=>{
     document.getElementById('tf_photo_data').value = dataUrl;
     const prev = document.getElementById('tf_photo_preview');
     prev.src = dataUrl; prev.style.display='block';
@@ -5213,7 +5214,7 @@ function profileSerial(s){
 function dossierUploadPhoto(event){
   const file = event.target.files[0];
   if(!file || !activeDossierId) return;
-  compressImageFile(file, 130, 0.55, (dataUrl)=>{
+  compressImageFile(file, 550, 0.85, (dataUrl)=>{
     if(!dataUrl) return;
     const s = studentById(activeDossierId);
     if(s){
@@ -5486,7 +5487,7 @@ document.getElementById('sf_admdate').addEventListener('input', e=>{
 document.getElementById('sf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 130, 0.55, (dataUrl)=>{
+  compressImageFile(file, 550, 0.85, (dataUrl)=>{
     document.getElementById('sf_photo_data').value = dataUrl;
     const prev = document.getElementById('sf_photo_preview');
     prev.src = dataUrl; prev.style.display='block';
@@ -5563,8 +5564,40 @@ function openIdCard(id){
   if(document.getElementById('idc_institute')) document.getElementById('idc_institute').textContent = 'Bright Academy';
   if(document.getElementById('idc_institute_sub')) document.getElementById('idc_institute_sub').textContent = M.instituteCity || M.instituteSub || 'Quetta';
   if(document.getElementById('idc_contact')) document.getElementById('idc_contact').textContent = s.contact || '-';
-  if(document.getElementById('idc_name')) document.getElementById('idc_name').textContent = s.name || '-';
-  if(document.getElementById('idc_father')) document.getElementById('idc_father').textContent = s.father || '-';
+  function formatIdCardName(rawName){
+    if(!rawName) return '-';
+    let n = String(rawName).trim();
+    // Shorten Muhammad / Mohammad / Mohd to M. specifically for ID Card fitting
+    n = n.replace(/^Muhammad\s+/i, 'M. ')
+         .replace(/^Mohammad\s+/i, 'M. ')
+         .replace(/^Mohd\.?\s+/i, 'M. ')
+         .replace(/^Syed\s+Muhammad\s+/i, 'S. M. ')
+         .replace(/^Hafiz\s+Muhammad\s+/i, 'H. M. ');
+    return n;
+  }
+
+  function applyIdCardTextFit(elementId, text){
+    const el = document.getElementById(elementId);
+    if(!el) return;
+    el.textContent = text;
+    // Dynamic font sizing so text fits perfectly inside the box
+    if(text.length > 24){
+      el.style.fontSize = '10px';
+      el.style.letterSpacing = '-0.3px';
+      el.style.padding = '2px 6px';
+    } else if(text.length > 18){
+      el.style.fontSize = '11.5px';
+      el.style.letterSpacing = '-0.2px';
+      el.style.padding = '2px 8px';
+    } else {
+      el.style.fontSize = '13.5px';
+      el.style.letterSpacing = 'normal';
+      el.style.padding = '3px 10px';
+    }
+  }
+
+  applyIdCardTextFit('idc_name', formatIdCardName(s.name));
+  applyIdCardTextFit('idc_father', formatIdCardName(s.father));
   if(document.getElementById('idc_id')) document.getElementById('idc_id').textContent = s.id || '-';
   if(document.getElementById('idc_section_title')) {
     const secLabel = (SECTION_META[s.section] ? SECTION_META[s.section].label : (s.section||'NAZIMA'));
@@ -6090,7 +6123,7 @@ function renderSettings(){
 document.getElementById('st_logo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 130, 0.55, (dataUrl)=>{
+  compressImageFile(file, 550, 0.85, (dataUrl)=>{
     DB.meta.logo = dataUrl;
     saveDB(DB);
     renderBrand();
