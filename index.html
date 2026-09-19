@@ -1425,6 +1425,7 @@ tbody tr:hover{background:#fbf8f0;}
 
       <div class="tch-tab-panel" data-tch-panel="attendance" style="display:none;">
         <div class="searchbar no-print">
+          <button class="btn green sm" onclick="openTeacherInstr()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:4px;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg> Teachers ko Hidayat</button>
           <input type="date" id="tchAttDate">
           <input type="month" id="tchAttMonth">
           <button class="btn ghost sm" id="tchAttExportBtn">&#11015; Export CSV</button>
@@ -2435,10 +2436,11 @@ const DB_KEY = 'madrassa_db_v1';
    (newly added) photo with the last successfully-synced cloud copy -
    which is exactly why a photo you just added disappears after refresh. */
 function compressImageFile(file, maxSize, quality, callback){
-  // HD Avatar/Photo setting: up to 200KB (~270,000 base64 chars), crisp 550px resolution
-  maxSize = maxSize || 550;
-  quality = quality || 0.85;
-  const MAX_BASE64_BYTES = 270000; // ~200 KB
+  // Safe Avatar photo: 180px, ~15-20KB max base64
+  // Guarantees all student & teacher avatars fit safely inside Firestore 1MB document
+  maxSize = maxSize || 180;
+  quality = quality || 0.72;
+  const MAX_BASE64_BYTES = 26000; // ~20 KB
   const reader = new FileReader();
   reader.onload = function(e){
     const img = new Image();
@@ -2683,14 +2685,89 @@ let suppressCloudEcho = false;
 let CURRENT_ROLE = null;
 let CURRENT_USER = null;
 
+
+/* Auto-optimize photos if total DB size approaches Firestore 1MB hard limit */
+function autoCompressStoredPhotos(doneCallback){
+  try {
+    const jsonStr = JSON.stringify(DB);
+    if(jsonStr.length < 800000){
+      if(doneCallback) doneCallback();
+      return;
+    }
+    const photosToFix = [];
+    if(Array.isArray(DB.students)){
+      DB.students.forEach(s => {
+        if(s.photo && s.photo.length > 25000) photosToFix.push({obj: s, key: 'photo'});
+      });
+    }
+    if(Array.isArray(DB.teachers)){
+      DB.teachers.forEach(t => {
+        if(t.photo && t.photo.length > 25000) photosToFix.push({obj: t, key: 'photo'});
+      });
+    }
+    if(!photosToFix.length){
+      if(doneCallback) doneCallback();
+      return;
+    }
+    let pending = photosToFix.length;
+    photosToFix.forEach(item => {
+      const img = new Image();
+      img.onload = function(){
+        try {
+          const cv = document.createElement('canvas');
+          const maxD = 180;
+          let w = img.width || 180, h = img.height || 180;
+          if(w > h){ if(w > maxD){ h = Math.round(h * (maxD / w)); w = maxD; } }
+          else { if(h > maxD){ w = Math.round(w * (maxD / h)); h = maxD; } }
+          cv.width = Math.max(1, w); cv.height = Math.max(1, h);
+          const ctx = cv.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, cv.width, cv.height);
+          ctx.drawImage(img, 0, 0, cv.width, cv.height);
+          item.obj[item.key] = cv.toDataURL('image/jpeg', 0.72);
+        } catch(e){}
+        pending--;
+        if(pending === 0){
+          localStorage.setItem(DB_KEY, JSON.stringify(DB));
+          if(cloudSyncStarted){
+            suppressCloudEcho = true;
+            CLOUD_DOC.set(DB).catch(e => console.warn('Cloud retry after photo compression:', e))
+              .finally(()=>{ setTimeout(()=>{ suppressCloudEcho = false; }, 400); });
+          }
+          if(doneCallback) doneCallback();
+        }
+      };
+      img.onerror = function(){
+        pending--;
+        if(pending === 0 && doneCallback) doneCallback();
+      };
+      img.src = item.obj[item.key];
+    });
+  } catch(err){
+    console.warn('autoCompressStoredPhotos error:', err);
+    if(doneCallback) doneCallback();
+  }
+}
+
 function saveDB(db){
   localStorage.setItem(DB_KEY, JSON.stringify(db));
   if(cloudSyncStarted){
     suppressCloudEcho = true;
+    const jsonLen = JSON.stringify(db).length;
+    if(jsonLen > 920000){
+      autoCompressStoredPhotos();
+    }
     CLOUD_DOC.set(db)
       .catch(err=>{
         console.error('Cloud save nakaam', err);
-        alert('Warning: cloud sync nakaam ho gaya (' + (err && err.message ? err.message : err) + '). Yeh change sirf isi device par mehfooz hai; agar sync na hua to yeh agli baar cloud se refresh hone par mit sakta hai. Wajah aksar bohat badi/zyada photos hoti hain.');
+        const errMsg = err && err.message ? err.message : String(err);
+        if(errMsg.includes('exceeds') || errMsg.includes('1,048,576') || errMsg.includes('maximum allowed size')){
+          autoCompressStoredPhotos(()=>{
+            console.log('Photos auto-downscaled to fit Firestore limit.');
+          });
+        } else {
+          alert('Warning: cloud sync nakaam ho gaya (' + errMsg + '). Yeh change sirf isi device par mehfooz hai.');
+        }
       })
       .finally(()=>{ setTimeout(()=>{ suppressCloudEcho = false; }, 400); });
   }
@@ -4446,7 +4523,7 @@ document.getElementById('addTeacherBtn').onclick = ()=>openTeacherModal(null);
 document.getElementById('tf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 550, 0.85, (dataUrl)=>{
+  compressImageFile(file, 180, 0.72, (dataUrl)=>{
     document.getElementById('tf_photo_data').value = dataUrl;
     const prev = document.getElementById('tf_photo_preview');
     prev.src = dataUrl; prev.style.display='block';
@@ -4545,11 +4622,6 @@ function toggleTeacherActive(id){
 /* ---- Teacher daily attendance ---- */
 function tchAttRec(date){
   if(!DB.teacherAttendance) DB.teacherAttendance = {};
-  if(cloudData.teacherNotice !== undefined) DB.teacherNotice = cloudData.teacherNotice;
-  if(window.updateActiveNoticeUI) window.updateActiveNoticeUI();
-  if(CURRENT_ROLE === 'teacher' && DB.teacherNotice && DB.teacherNotice.text){
-    if(window.checkAndShowTeacherNotice) window.checkAndShowTeacherNotice();
-  }
   if(!DB.teacherAttendance[date]) DB.teacherAttendance[date] = {};
   return DB.teacherAttendance[date];
 }
@@ -5214,7 +5286,7 @@ function profileSerial(s){
 function dossierUploadPhoto(event){
   const file = event.target.files[0];
   if(!file || !activeDossierId) return;
-  compressImageFile(file, 550, 0.85, (dataUrl)=>{
+  compressImageFile(file, 180, 0.72, (dataUrl)=>{
     if(!dataUrl) return;
     const s = studentById(activeDossierId);
     if(s){
@@ -5487,7 +5559,7 @@ document.getElementById('sf_admdate').addEventListener('input', e=>{
 document.getElementById('sf_photo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 550, 0.85, (dataUrl)=>{
+  compressImageFile(file, 180, 0.72, (dataUrl)=>{
     document.getElementById('sf_photo_data').value = dataUrl;
     const prev = document.getElementById('sf_photo_preview');
     prev.src = dataUrl; prev.style.display='block';
@@ -6123,7 +6195,7 @@ function renderSettings(){
 document.getElementById('st_logo').addEventListener('change', e=>{
   const file = e.target.files[0];
   if(!file) return;
-  compressImageFile(file, 550, 0.85, (dataUrl)=>{
+  compressImageFile(file, 180, 0.72, (dataUrl)=>{
     DB.meta.logo = dataUrl;
     saveDB(DB);
     renderBrand();
@@ -6197,6 +6269,7 @@ populateSectionFilters();
 renderBrand();
 renderTopbar();
 renderDashboard();
+autoCompressStoredPhotos();
 setInterval(renderTopbar, 60000);
 </script>
 <script>
