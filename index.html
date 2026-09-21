@@ -363,6 +363,103 @@ tbody tr:hover{background:#fbf8f0;}
 
 @media(max-width:900px){.chart-grid{grid-template-columns:1fr;}.chart-card.wide{grid-column:auto;}}
 .bottom-nav{display:none;}
+
+/* ===== Mobile app home (icon-grid style) ===== */
+.m-back{display:none;}
+@media(min-width:761px){#page-home{display:none !important;}}
+@media(max-width:760px){
+  /* compact header */
+  .topnav .brand{margin-bottom:0;}
+  .topnav .brand-text span{display:none !important;}
+  .topnav .brand-text h1{font-size:15px;}
+  .topnav .brand-mark{padding:0; background:none;}
+  .topnav .side-user{display:none;}
+  #logoutBtn{padding:7px 13px; font-size:12px;}
+
+  /* back button on inner pages */
+  body:not(.on-home) .m-back{
+    display:inline-flex; align-items:center; gap:4px; margin-bottom:10px; cursor:pointer;
+    background:var(--teal-soft); color:var(--teal-deep); border:none; border-radius:var(--radius-pill);
+    padding:6px 14px 6px 9px; font-size:13px; font-weight:600;
+  }
+  body.on-home .topbar{margin-bottom:0;}
+  body.on-home .topbar > div:first-child, body.on-home .todaybox{display:none;}
+
+  /* popups sit above the header and bottom bar */
+  .modal-backdrop{z-index:500;}
+  .modal-backdrop .modal{margin-bottom:24px;}
+
+  /* bottom bar: only the 5 things you tap most; everything else is on the home grid */
+  .bottom-nav button.bn-more{display:none !important;}
+  .bottom-nav button{min-width:0;}
+
+  /* hero band + profile card */
+  .mh-band{
+    margin:-20px -14px 0; padding:2px 18px 54px; border-radius:0 0 24px 24px;
+    background:linear-gradient(120deg,var(--teal-deep),#0d2622 65%);
+    color:#cfe3dc; display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12.5px;
+  }
+  .mh-band .urdu{font-size:15px; color:#f3e7c4; line-height:2;}
+  .mh-profile{
+    position:relative; display:flex; align-items:center; gap:12px; margin-top:-38px;
+    background:#fff; border-radius:16px; padding:12px 14px; box-shadow:0 8px 24px rgba(18,56,50,.16);
+  }
+  .mh-profile img{width:48px; height:48px; flex:0 0 auto; border-radius:12px; object-fit:contain; background:var(--parchment); padding:3px;}
+  .mh-who{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;}
+  .mh-who b{font-family:'Amiri',serif; font-size:17px; line-height:1.2; color:var(--teal-deep); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .mh-who span{font-size:11.5px; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .mh-btn{border:none; cursor:pointer; background:var(--gold); color:#2b2408; font-weight:700; font-size:12px; padding:8px 14px; border-radius:var(--radius-pill);}
+
+  /* Fee / Student summary cards */
+  .mh-cards{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px;}
+  .mh-card{
+    all:unset; box-sizing:border-box; cursor:pointer; color:#fff; position:relative;
+    display:flex; flex-direction:column; gap:9px; min-height:132px; padding:13px 13px 11px;
+    border-radius:16px; box-shadow:0 8px 18px rgba(0,0,0,.14); -webkit-tap-highlight-color:transparent;
+  }
+  .mh-card.fee{background:linear-gradient(145deg,#2f7be8,#1a4aa8);}
+  .mh-card.stu{background:linear-gradient(145deg,#f9b04a,#ee8420);}
+  .mh-card.wide{grid-column:1 / -1; min-height:0;}
+  .mh-card:active{transform:scale(.98);}
+  .mh-card:focus-visible, .mh-banner:focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+  .mh-card-h{display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:13.5px; font-weight:700;}
+  .mh-card-h i{width:27px; height:27px; border-radius:50%; background:rgba(255,255,255,.24); display:grid; place-items:center; flex:0 0 auto;}
+  .mh-card-h svg{width:15px; height:15px; fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+  .mh-row{display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:11.5px;}
+  .mh-row em{font-style:normal; opacity:.92;}
+  .mh-row b{background:rgba(255,255,255,.26); padding:3px 10px; border-radius:var(--radius-pill); font-size:12px; font-weight:700; white-space:nowrap;}
+  .mh-card-f{font-size:10.5px; opacity:.82; margin-top:auto;}
+
+  /* wide banner */
+  .mh-banner{
+    all:unset; box-sizing:border-box; cursor:pointer; width:100%; margin-top:12px; padding:12px 14px;
+    display:flex; align-items:center; gap:12px; color:#fff; border-radius:16px;
+    background:linear-gradient(100deg,#19b4c8,#3cd3cf); box-shadow:0 8px 18px rgba(25,180,200,.28); -webkit-tap-highlight-color:transparent;
+  }
+  .mh-banner:active{transform:scale(.99);}
+  .mh-banner .ic{width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.26); display:grid; place-items:center; flex:0 0 auto;}
+  .mh-banner .ic svg{width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+  .mh-banner .tx{flex:1; min-width:0; display:flex; flex-direction:column; gap:1px;}
+  .mh-banner .tx b{font-size:14px;}
+  .mh-banner .tx small{font-size:11px; opacity:.9;}
+  .mh-banner .n{min-width:36px; height:36px; padding:0 8px; border-radius:50%; background:#fff; color:#0f8b9c; font-weight:800; font-size:14px; display:grid; place-items:center;}
+
+  /* icon grid */
+  .mh-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:20px 6px; margin-top:12px;
+    background:#fff; border-radius:18px; padding:20px 8px 18px; box-shadow:var(--shadow);
+  }
+  .mh-tile{
+    all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:8px;
+    text-align:center; font-size:11.5px; font-weight:600; line-height:1.25; color:var(--ink); -webkit-tap-highlight-color:transparent;
+  }
+  .mh-ic{width:52px; height:52px; border-radius:16px; display:grid; place-items:center; transition:transform .12s ease;}
+  .mh-ic svg{width:26px; height:26px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round;}
+  .mh-tile:active .mh-ic{transform:scale(.92);}
+  .mh-tile:focus-visible{outline:2px solid var(--teal); outline-offset:4px; border-radius:12px;}
+}
+@media(max-width:340px){ .mh-cards{grid-template-columns:1fr;} .mh-grid{gap:16px 2px;} }
+@media(prefers-reduced-motion:reduce){ .mh-ic, .mh-card, .mh-banner{transition:none; transform:none !important;} }
 @media(max-width:760px){
   .app{display:block;}
   .topnav{padding:10px 14px;}
@@ -1294,17 +1391,18 @@ tbody tr:hover{background:#fbf8f0;}
 
   <!-- ===================== MOBILE BOTTOM NAV ===================== -->
   <nav class="bottom-nav no-print" id="bottomNav">
-    <button data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashb</span></button>
-    <button data-page="students"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.6 2.8-6 6-6s6 2.4 6 6"/></svg><span>Stude</span></button>
-    <button data-page="teachers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M9 7h7M9 11h4"/></svg><span>Teach</span></button>
+    <button data-page="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5L12 4l9 7.5"/><path d="M5.5 10v9.5a1 1 0 001 1H10v-6h4v6h3.5a1 1 0 001-1V10"/></svg><span>Home</span></button>
+    <button data-page="dashboard" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashb</span></button>
+    <button data-page="students"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.6 2.8-6 6-6s6 2.4 6 6"/></svg><span>Students</span></button>
+    <button data-page="teachers" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M9 7h7M9 11h4"/></svg><span>Teach</span></button>
     <button data-page="fees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg><span>Fees</span></button>
-    <button data-page="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3"/><rect x="9" y="9" width="6" height="6"/></svg><span>QR Scan</span></button>
-    <button data-page="attendance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg><span>Atten</span></button>
+    <button data-page="scan" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3"/><rect x="9" y="9" width="6" height="6"/></svg><span>QR Scan</span></button>
+    <button data-page="attendance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg><span>Attendance</span></button>
     <button data-page="sabaq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4.5A2.5 2.5 0 016.5 2H19v18H6.5A2.5 2.5 0 004 17.5v-13z"/></svg><span>Sabaq</span></button>
-    <button data-page="tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>Imtihan</span></button>
-    <button data-page="bulkwa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span>Bulk WA</span></button>
-    <button data-page="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9"/></svg><span>Settings</span></button>
-    <button data-page="backup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>Backup</span></button>
+    <button data-page="tests" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>Imtihan</span></button>
+    <button data-page="bulkwa" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span>Bulk WA</span></button>
+    <button data-page="settings" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9"/></svg><span>Settings</span></button>
+    <button data-page="backup" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>Backup</span></button>
   </nav>
 
   <!-- ===================== MAIN ===================== -->
@@ -1312,6 +1410,7 @@ tbody tr:hover{background:#fbf8f0;}
 
     <div class="topbar">
       <div>
+        <button type="button" class="m-back no-print" onclick="showPage('home'); window.scrollTo(0,0);">&#8249; Home</button>
         <h2 id="pageTitle">Dashboard</h2>
         <div class="sub" id="pageSub">Aaj ka khulasa &mdash; fees, hazri aur talaba ki mukhtasar report</div>
       </div>
@@ -1321,6 +1420,19 @@ tbody tr:hover{background:#fbf8f0;}
         <span id="todayCounts"></span>
       </div>
     </div>
+
+    <!-- ---------- MOBILE HOME (app-style icon grid) ---------- -->
+    <section id="page-home" class="page section-hidden">
+      <div class="mh-band"><span class="urdu">السلام علیکم</span><span id="mhDate"></span></div>
+      <div class="mh-profile">
+        <img id="mhLogo" alt="">
+        <div class="mh-who"><b id="mhName"></b><span id="mhRole"></span></div>
+        <button type="button" class="mh-btn" id="mhSettingsBtn" onclick="mhOpen('settings')">Settings</button>
+      </div>
+      <div class="mh-cards" id="mhCards"></div>
+      <button type="button" class="mh-banner" id="mhBanner" onclick="mhOpen('fees')" style="display:none;"></button>
+      <div class="mh-grid" id="mhGrid"></div>
+    </section>
 
     <!-- ---------- DASHBOARD ---------- -->
     <section id="page-dashboard" class="page">
@@ -2826,7 +2938,7 @@ function refreshAllUI(){
   populateSectionFilters();
   renderTopbar();
   const activeBtn = document.querySelector('#navlist button.active');
-  showPage(activeBtn ? activeBtn.dataset.page : 'dashboard');
+  showPage(CURRENT_PAGE || (activeBtn ? activeBtn.dataset.page : 'dashboard'));
 }
 
 function applyCloudData(cloudData){
@@ -2883,17 +2995,18 @@ const ROLE_PAGES = {
   admin: ['dashboard','students','teachers','fees','scan','attendance','bulkwa','sabaq','tests','settings','backup'],
   teacher: ['attendance','sabaq','tests']
 };
+function isMobileView(){ return !!(window.matchMedia && window.matchMedia('(max-width:760px)').matches); }
 function applyRoleAccess(role){
   const allowed = ROLE_PAGES[role] || [];
   document.querySelectorAll('#navlist button[data-page]').forEach(b=>{
     b.style.display = allowed.includes(b.dataset.page) ? '' : 'none';
   });
   document.querySelectorAll('#bottomNav button[data-page]').forEach(b=>{
-    b.style.display = allowed.includes(b.dataset.page) ? '' : 'none';
+    b.style.display = (allowed.includes(b.dataset.page) || b.dataset.page==='home') ? '' : 'none';
   });
   document.getElementById('sideRoleLabel').textContent = role==='admin' ? 'Admin' : 'Teacher';
   populateSectionFilters();
-  showPage(allowed[0] || 'dashboard'); if(window.checkAndShowTeacherNotice) window.checkAndShowTeacherNotice();
+  showPage(isMobileView() ? 'home' : (allowed[0] || 'dashboard')); if(window.checkAndShowTeacherNotice) window.checkAndShowTeacherNotice();
 }
 window.doLogin = function doLogin(){
   console.log("doLogin clicked");
@@ -3530,8 +3643,9 @@ document.getElementById('bwaStopBtn').addEventListener('click', ()=>{
 });
 
 /* ================= NAVIGATION ================= */
-const pages = ['dashboard','students','teachers','fees','scan','attendance','bulkwa','sabaq','tests','settings','backup'];
+const pages = ['home','dashboard','students','teachers','fees','scan','attendance','bulkwa','sabaq','tests','settings','backup'];
 const pageTitles = {
+  home:['Home','Aaj ka khulasa aur tamam options'],
   dashboard:['Dashboard','Aaj ka khulasa — fees, hazri aur talaba ki mukhtasar report'],
   students:['Students / Admission','Talaba ki mukammal fehrist aur tafseelat'],
   teachers:['Teachers','Ustad/Ustaniyon ki fehrist — add ya delete karein'],
@@ -3544,7 +3658,10 @@ const pageTitles = {
   settings:['Settings','Institute ka naam, logo aur Easypaisa account tabdeel karein'],
   backup:['Backup / Restore','Apna data mehfooz rakhein']
 };
+var CURRENT_PAGE = null;
 function showPage(p){
+  CURRENT_PAGE = p;
+  document.body.classList.toggle('on-home', p==='home');
   pages.forEach(x=>document.getElementById('page-'+x).classList.toggle('section-hidden', x!==p));
   const activeEl = document.getElementById('page-'+p);
   activeEl.style.animation = 'none';
@@ -3555,6 +3672,7 @@ function showPage(p){
   document.getElementById('pageTitle').textContent = pageTitles[p][0];
   document.getElementById('topPageLabel').textContent = pageTitles[p][0];
   document.getElementById('pageSub').textContent = pageTitles[p][1];
+  if(p==='home') renderMobileHome();
   if(p==='dashboard') renderDashboard();
   if(p==='students') renderStudents();
   if(p==='teachers') renderTeachers();
@@ -3580,6 +3698,119 @@ function renderTopbar(){
   document.getElementById('todayDate').textContent = new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Karachi',weekday:'long', year:'numeric', month:'long', day:'numeric'}).format(new Date());
   document.getElementById('todayCounts').textContent = DB.students.filter(s=>s.active).length + ' talaba darj hain';
 }
+
+/* ================= MOBILE HOME (app-style icon grid) ================= */
+const MH_ICONS = {
+  students:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.6 2.8-6 6-6s6 2.4 6 6"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M15.5 14c2.6.3 4.6 2.3 5 5.7"/>',
+  teachers:'<rect x="11" y="3" width="10.5" height="8" rx="1.6"/><path d="M13.5 7h6"/><circle cx="6.5" cy="12" r="2.8"/><path d="M1.5 21c0-3.2 2.3-5.4 5-5.4s5 2.2 5 5.4"/>',
+  fees:'<rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/><path d="M6.5 15h4"/>',
+  scan:'<path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3"/><rect x="9" y="9" width="6" height="6"/>',
+  attendance:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8 14l2.5 2.5L16 11"/>',
+  sabaq:'<path d="M4 4.5A2.5 2.5 0 016.5 2H19v18H6.5A2.5 2.5 0 004 17.5v-13z"/><path d="M8 8h8M8 12h6"/>',
+  tests:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>',
+  bulkwa:'<path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>',
+  holiday:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  dashboard:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
+  settings:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h11M19 18h1"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="17" cy="18" r="2"/>',
+  backup:'<path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>',
+  due:'<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L2.6 17a2 2 0 001.7 3h15.4a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/>'
+};
+const MH_TILES = [
+  {page:'students',   label:'Students',   color:'#2464c9', bg:'#e6eefc'},
+  {page:'teachers',   label:'Teachers',   color:'#7c4fd1', bg:'#efe8fb'},
+  {page:'fees',       label:'Fees',       color:'#2f8a4f', bg:'#e3f3e8'},
+  {page:'scan',       label:'QR Scan',    color:'#0e8fb0', bg:'#dcf1f7'},
+  {page:'attendance', label:'Attendance', color:'#c1436a', bg:'#fbe6ed'},
+  {page:'sabaq',      label:'Sabaq',      color:'#d9822b', bg:'#fdeedb'},
+  {page:'tests',      label:'Imtihan',    color:'#4b56c9', bg:'#e8eafb'},
+  {page:'bulkwa',     label:'WhatsApp',   color:'#12967f', bg:'#dcf4ee'},
+  {page:'holiday',    label:'Chutti',     color:'#c98a00', bg:'#fff1cc', adminOnly:true},
+  {page:'dashboard',  label:'Dashboard',  color:'#3f5f7a', bg:'#e4edf3'},
+  {page:'settings',   label:'Settings',   color:'#5b6b7f', bg:'#eaedf1'},
+  {page:'backup',     label:'Backup',     color:'#8d6142', bg:'#f3e9e2'}
+];
+function mhSvg(key){ return `<svg viewBox="0 0 24 24" aria-hidden="true">${MH_ICONS[key]||''}</svg>`; }
+function mhOpen(page){
+  if(page==='holiday'){ showPage('attendance'); openHolidayModal('attDate'); }
+  else showPage(page);
+  window.scrollTo(0,0);
+}
+function renderMobileHome(){
+  const isAdmin = CURRENT_ROLE==='admin';
+  const allowed = ROLE_PAGES[CURRENT_ROLE] || [];
+  const today = todayISO();
+
+  document.getElementById('mhDate').textContent = new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Karachi',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date());
+  document.getElementById('mhLogo').src = DB.meta.logo || DEFAULT_LOGO_SRC;
+  document.getElementById('mhName').textContent = DB.meta.instituteName;
+  const me = (DB.teachers||[]).find(t=>t.username===CURRENT_USER);
+  document.getElementById('mhRole').textContent = isAdmin
+    ? 'Admin' + (CURRENT_USER ? ' \u00b7 '+CURRENT_USER : '')
+    : 'Teacher' + (me ? ' \u00b7 '+me.name : (CURRENT_USER ? ' \u00b7 '+CURRENT_USER : ''));
+  document.getElementById('mhSettingsBtn').style.display = isAdmin ? '' : 'none';
+
+  /* --- Student summary (teachers only see their own sections) --- */
+  const sections = allowedSectionKeys();
+  const mine = DB.students.filter(s=>s.active && sections.includes(s.section));
+  let present = 0;
+  mine.forEach(s=>{ if((((DB.attendance[s.section]||{})[today])||{})[s.id]==='P') present++; });
+  const hol = holidayInfo(today,'student');
+  const todayRow = (hol && present===0)
+    ? `<div class="mh-row"><em>Aaj</em><b>Chutti</b></div>`
+    : `<div class="mh-row"><em>Aaj Hazir</em><b>${present}</b></div>`;
+  const stuCard = `<button type="button" class="mh-card stu${isAdmin?'':' wide'}" onclick="mhOpen('attendance')">
+      <div class="mh-card-h"><span>Student Summary</span><i>${mhSvg('students')}</i></div>
+      <div class="mh-row"><em>Total Talaba</em><b>${mine.length}</b></div>
+      ${todayRow}
+      <div class="mh-card-f">Hazri ke liye tap karein</div>
+    </button>`;
+
+  /* --- Fee summary (admin only) --- */
+  let feeCard = '', dueCount = 0;
+  if(isAdmin){
+    const active = DB.students.filter(s=>s.active && isEnrolled(s, currentMonth));
+    let collected = 0, due = 0;
+    active.forEach(s=>{
+      const rec = getFeeRecord(s.id, currentMonth);
+      collected += (rec.paidAmount||0);
+      if(!feeIsPaid(rec, s)){ due += runningBalance(s.id, currentMonth); dueCount++; }
+    });
+    feeCard = `<button type="button" class="mh-card fee" onclick="mhOpen('fees')">
+      <div class="mh-card-h"><span>Fee Summary</span><i>${mhSvg('fees')}</i></div>
+      <div class="mh-row"><em>Bakaya</em><b>${compactMoney(due)}</b></div>
+      <div class="mh-row"><em>Wasool</em><b>${compactMoney(collected)}</b></div>
+      <div class="mh-card-f">${monthLabel(currentMonth)}</div>
+    </button>`;
+  }
+  document.getElementById('mhCards').innerHTML = feeCard + stuCard;
+
+  /* --- Banner: students with fee due (admin only) --- */
+  const banner = document.getElementById('mhBanner');
+  if(isAdmin){
+    banner.style.display = '';
+    banner.innerHTML = `<span class="ic">${mhSvg('due')}</span>
+      <span class="tx"><b>Fee Bakaya Talaba</b><small>${monthLabel(currentMonth)} \u2014 jama karwana baqi hai</small></span>
+      <span class="n">${dueCount}</span>`;
+  } else {
+    banner.style.display = 'none';
+  }
+
+  /* --- Icon grid, only what this login is allowed to open --- */
+  document.getElementById('mhGrid').innerHTML = MH_TILES
+    .filter(t => t.adminOnly ? isAdmin : (t.page==='holiday' ? isAdmin : allowed.includes(t.page)))
+    .map(t=>`<button type="button" class="mh-tile" onclick="mhOpen('${t.page}')">
+        <span class="mh-ic" style="background:${t.bg}; color:${t.color};">${mhSvg(t.page)}</span>${t.label}
+      </button>`).join('');
+}
+/* If the window grows to desktop size while Home is open, jump to a normal page */
+(function(){
+  if(!window.matchMedia) return;
+  const mq = window.matchMedia('(max-width:760px)');
+  const onChange = ()=>{
+    if(!mq.matches && CURRENT_PAGE==='home' && CURRENT_ROLE) showPage((ROLE_PAGES[CURRENT_ROLE]||[])[0] || 'dashboard');
+  };
+  if(mq.addEventListener) mq.addEventListener('change', onChange); else if(mq.addListener) mq.addListener(onChange);
+})();
 
 /* ================= DASHBOARD ================= */
 function compactMoney(n){
