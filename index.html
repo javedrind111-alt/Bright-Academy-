@@ -227,6 +227,10 @@ table.daygrid td.dg-id{text-align:left; color:var(--ink-soft); font-size:10.5px;
 .dg-sum.P{color:var(--ok); font-weight:700;}
 .dg-sum.A{color:var(--due); font-weight:700;}
 .dg-sum.L{color:#b5810f; font-weight:700;}
+.dg-cell.H{background:rgba(36,100,201,.14); color:#2464c9;}
+.dg-sum.H{color:#2464c9; font-weight:700;}
+table.daygrid th.dg-hol{background:rgba(36,100,201,.12); color:#2464c9; border-radius:4px 4px 0 0;}
+.holiday-banner{background:#e8f0fd; border:1px solid #b7cdf3; color:#1c4c9c; border-radius:10px; padding:11px 15px; font-size:13px; line-height:1.6; margin-bottom:14px;}
 
 /* ===== File-style admission modal ===== */
 .modal.file-modal{max-width:660px; position:relative;}
@@ -1428,13 +1432,15 @@ tbody tr:hover{background:#fbf8f0;}
           <button class="btn green sm" onclick="openTeacherInstr()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:4px;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg> Teachers ko Hidayat</button>
           <input type="date" id="tchAttDate">
           <input type="month" id="tchAttMonth">
+          <button type="button" class="btn blue sm" id="tchHolidayBtn" onclick="openHolidayModal('tchAttDate')">&#127958;&#65039; Chutti / Holiday</button>
           <button class="btn ghost sm" id="tchAttExportBtn">&#11015; Export CSV</button>
           <button class="btn ghost sm" id="tchAttPrintBtn">&#128424; Print Sheet</button>
         </div>
+        <div id="tchHolidayBanner"></div>
         <div class="card islamic-card">
           <h3>Teacher Hazri &mdash; <span id="tchAttDateLabel"></span> <span class="tag" id="tchAttSummaryTag"></span></h3>
           <div class="table-wrap"><table id="tchAttendanceTable"></table></div>
-          <p class="note">Sirf <b>Active</b> teachers yahan nazar aate hain. Har teacher ke aage Present / Absent / Leave darj karein.</p>
+          <p class="note">Sirf <b>Active</b> teachers yahan nazar aate hain. Har teacher ke aage Present / Absent / Leave / Holiday darj karein. Itwar aur announce shuda chuttiyon par Holiday khud-b-khud lag jata hai (tankhwah nahi katti).</p>
         </div>
         <div class="card islamic-card">
           <div class="report-toolbar">
@@ -1762,11 +1768,13 @@ tbody tr:hover{background:#fbf8f0;}
         <div class="searchbar no-print">
           <select id="attSectionFilter"></select>
           <input type="date" id="attDate">
+          <button type="button" class="btn blue sm" id="attHolidayBtn" onclick="openHolidayModal('attDate')">&#127958;&#65039; Chutti / Holiday</button>
         </div>
+        <div id="attHolidayBanner"></div>
         <div class="card islamic-card">
           <h3>Hazri &mdash; <span id="attDateLabel"></span> <span class="tag" id="attSummaryTag"></span></h3>
           <div class="table-wrap"><table id="attendanceTable"></table></div>
-          <p class="note">Har naam par click karke Present / Absent tabdeel karein.</p>
+          <p class="note">Har naam par click karke Present / Absent / Leave / Holiday tabdeel karein. Itwar aur announce shuda chuttiyon par Holiday khud-b-khud lag jata hai.</p>
         </div>
       </div>
 
@@ -2358,6 +2366,45 @@ tbody tr:hover{background:#fbf8f0;}
   </div>
 </div>
 
+<!-- ================= HOLIDAY / CHUTTI MANAGER ================= -->
+<div class="modal-backdrop" id="holidayModalBackdrop">
+  <div class="modal" style="max-width:660px;">
+    <button class="modal-close" data-close>&times;</button>
+    <h3>&#127958;&#65039; Chutti / Holiday Manager</h3>
+
+    <div class="file-section">
+      <div class="file-section-title">&#128226; Nayi Chutti Announce Karein</div>
+      <div class="row">
+        <div class="field"><label>Se (From)</label><input type="date" id="hol_from"></div>
+        <div class="field"><label>Tak (To) &mdash; ek din ki ho to khali chhorein</label><input type="date" id="hol_to"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Wajah / Naam</label><input type="text" id="hol_title" placeholder="e.g. Eid ul Adha, Barish, Ijtimai Chutti"></div>
+        <div class="field"><label>Kis ke liye</label>
+          <select id="hol_scope">
+            <option value="all">Sab (Talaba + Asatiza)</option>
+            <option value="students">Sirf Talaba</option>
+            <option value="teachers">Sirf Asatiza</option>
+          </select>
+        </div>
+      </div>
+      <div class="btnbar"><button type="button" class="btn blue" id="hol_addBtn" onclick="addHoliday()">Chutti Announce Karein</button></div>
+      <div class="note" id="hol_msg"></div>
+    </div>
+
+    <div class="file-section">
+      <div class="file-section-title">&#128197; Haftawar Chutti (Weekly Off)</div>
+      <div class="checkbox-grid" id="hol_weekly"></div>
+      <p class="note">Jo din tick hain woh har hafte khud-b-khud chutti shumar honge (default: Itwar). Hazri mein woh din <b>Holiday</b> nazar ayenge aur Absent count nahi honge.</p>
+    </div>
+
+    <div class="file-section" style="margin-bottom:0;">
+      <div class="file-section-title">&#128467;&#65039; Announce Shuda Chuttiyan</div>
+      <div class="table-wrap"><table id="hol_list"></table></div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="paymentModalBackdrop">
   <div class="modal" style="max-width:420px;">
     <button class="modal-close" data-close>&times;</button>
@@ -2640,11 +2687,12 @@ function loadDB(){
       if(!db.tests) db.tests = {};
       if(!db.teachers) db.teachers = [];
       if(!db.teacherAttendance) db.teacherAttendance = {};
+      if(!db.holidays) db.holidays = {};
       db.students.forEach(s=>{ if(s.joinMonth===undefined) s.joinMonth=null; if(s.photo===undefined) s.photo=''; if(s.gender===undefined) s.gender=''; if(!SECTION_META[s.section]) s.section = 'iqra'; });
       return db;
     }catch(e){ /* fall through to reseed */ }
   }
-  const db = { students: seedStudents(), fees:{}, attendance:{}, sabaq:{}, tests:{}, teachers:[], teacherAttendance:{}, meta:{...DEFAULT_META} };
+  const db = { students: seedStudents(), fees:{}, attendance:{}, sabaq:{}, tests:{}, teachers:[], teacherAttendance:{}, holidays:{}, meta:{...DEFAULT_META} };
   saveDB(db);
   return db;
 }
@@ -2804,6 +2852,7 @@ function applyCloudData(cloudData){
   if(!DB.tests) DB.tests = {};
   if(!DB.teachers) DB.teachers = [];
   if(!DB.teacherAttendance) DB.teacherAttendance = {};
+  if(!DB.holidays) DB.holidays = {};
   if(cloudData.teacherNotice !== undefined) DB.teacherNotice = cloudData.teacherNotice;
   if(window.updateActiveNoticeUI) window.updateActiveNoticeUI();
   if(CURRENT_ROLE === 'teacher' && DB.teacherNotice && DB.teacherNotice.text){
@@ -4640,10 +4689,11 @@ function renderTeacherAttendance(){
   document.getElementById('tchAttDateLabel').textContent = new Date(date+'T00:00:00').toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   const rec = tchAttRec(date);
   const list = activeTeachers();
-  let present=0, absent=0, leave=0;
+  const holInfo = holidayInfo(date,'teacher');
+  let present=0, absent=0, leave=0, holiday=0;
   const rows = list.map(t=>{
-    const st = rec[t.id] || '';
-    if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++;
+    const st = rec[t.id] || (holInfo ? 'H' : '');
+    if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++; else if(st==='H') holiday++;
     return `<tr>
       <td><b>${t.id}</b></td>
       <td>${esc(t.name)}</td>
@@ -4653,22 +4703,25 @@ function renderTeacherAttendance(){
         <button class="btn sm ${st==='P'?'green':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','P')">&#10003; Present</button>
         <button class="btn sm ${st==='A'?'danger':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','A')">&#10007; Absent</button>
         <button class="btn sm ${st==='L'?'amber':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','L')">&#128197; Leave</button>
+        <button class="btn sm ${st==='H'?'blue':'ghost'}" onclick="setTeacherAttendance('${date}','${t.id}','H')">&#127958;&#65039; Holiday</button>
         ${st==='A' && CURRENT_ROLE==='admin' ? waBtn('WhatsApp', `sendTeacherAbsentMessage('${t.id}','${date}')`, {title:'Ustad ko WhatsApp par ghair hazri ki wajah poochein'}) : ''}
       </td>
     </tr>`;
   }).join('');
-  document.getElementById('tchAttSummaryTag').textContent = `${present} Present \u00b7 ${absent} Absent \u00b7 ${leave} Leave`;
+  document.getElementById('tchAttSummaryTag').textContent = `${present} Present \u00b7 ${absent} Absent \u00b7 ${leave} Leave \u00b7 ${holiday} Holiday`;
+  document.getElementById('tchHolidayBanner').innerHTML = holidayBannerHTML(date,'teacher');
+  document.getElementById('tchHolidayBtn').style.display = CURRENT_ROLE==='admin' ? '' : 'none';
   document.getElementById('tchAttendanceTable').innerHTML = `<thead><tr><th>ID</th><th>Naam</th><th>Walid</th><th>Rabta</th><th class="no-print">Hazri</th></tr></thead><tbody>${rows || '<tr><td colspan=5 class="empty-state">Koi active teacher nahi</td></tr>'}</tbody>`;
   renderTeacherAttendanceSheet();
 }
 function teacherMonthStats(t, mKey){
   const daysTotal = daysInMonthCount(mKey);
-  let present=0, absent=0, leave=0;
+  let present=0, absent=0, leave=0, holiday=0;
   const days = [];
   for(let d=1; d<=daysTotal; d++){
     const dateStr = mKey+'-'+String(d).padStart(2,'0');
-    const st = ((DB.teacherAttendance||{})[dateStr]||{})[t.id] || '';
-    if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++;
+    const st = teacherDayStatus(dateStr, t.id);
+    if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++; else if(st==='H') holiday++;
     days.push(st);
   }
   const marked = present+absent+leave;
@@ -4678,17 +4731,17 @@ function teacherMonthStats(t, mKey){
   const perDay = monthDays > 0 ? (salary / monthDays) : 0;
   const deduction = Math.round(perDay * absent);
   const payable = Math.max(0, salary - deduction);
-  return {teacher:t, present, absent, leave, marked, daysTotal: monthDays, pct, days, salary, perDay: Math.round(perDay * 10) / 10, deduction, payable};
+  return {teacher:t, present, absent, leave, holiday, marked, daysTotal: monthDays, pct, days, salary, perDay: Math.round(perDay * 10) / 10, deduction, payable};
 }
 function renderTeacherAttendanceSheet(){
   const mKey = document.getElementById('tchAttMonth').value || currentMonth;
   const daysTotal = daysInMonthCount(mKey);
-  document.getElementById('tchAttReportTag').textContent = monthLabel(mKey);
-  const dayHeaders = Array.from({length:daysTotal}, (_,i)=>`<th>${i+1}</th>`).join('');
+  document.getElementById('tchAttReportTag').textContent = monthLabel(mKey)+' · '+holidayCountInMonth(mKey,'teacher')+' Chutti';
+  const dayHeaders = holidayHeadersHTML(mKey, 'teacher');
   const rows = activeTeachers().map(t=>{
     const r = teacherMonthStats(t, mKey);
     const dayCells = r.days.map(st=>{
-      const cls = st==='P'?'P':st==='A'?'A':st==='L'?'L':'dash';
+      const cls = st==='P'?'P':st==='A'?'A':st==='L'?'L':st==='H'?'H':'dash';
       return `<td><span class="dg-cell ${cls}">${st || '-'}</span></td>`;
     }).join('');
     return `<tr>
@@ -4698,10 +4751,11 @@ function renderTeacherAttendanceSheet(){
       <td class="dg-sum P">${r.present}</td>
       <td class="dg-sum A">${r.absent}</td>
       <td class="dg-sum L">${r.leave}</td>
+      <td class="dg-sum H">${r.holiday}</td>
       <td>${r.pct}%</td>
     </tr>`;
   }).join('');
-  document.getElementById('tchAttReportTable').innerHTML = `<thead><tr><th>Teacher</th><th>ID</th>${dayHeaders}<th>P</th><th>A</th><th>L</th><th>%</th></tr></thead><tbody>${rows || `<tr><td colspan=${daysTotal+6} class="empty-state">Koi record nahi</td></tr>`}</tbody>`;
+  document.getElementById('tchAttReportTable').innerHTML = `<thead><tr><th>Teacher</th><th>ID</th>${dayHeaders}<th>P</th><th>A</th><th>L</th><th>H</th><th>%</th></tr></thead><tbody>${rows || `<tr><td colspan=${daysTotal+7} class="empty-state">Koi record nahi</td></tr>`}</tbody>`;
 }
 
 /* ---- Pay slip ---- */
@@ -4836,7 +4890,7 @@ function createSlipHtml(d, index) {
       '<span><strong>Total Days:</strong> ' + d.totalDays + '</span>' +
     '</div>' +
     '<div class="slip-row">' +
-      '<span><strong>Attendance:</strong> Present: <b style="color:#059669;">' + d.present + '</b> | Absent: <b style="color:#dc2626;">' + d.absent + '</b>' + (d.leave > 0 ? ' | Leave: <b>' + d.leave + '</b>' : '') + '</span>' +
+      '<span><strong>Attendance:</strong> Present: <b style="color:#059669;">' + d.present + '</b> | Absent: <b style="color:#dc2626;">' + d.absent + '</b>' + (d.leave > 0 ? ' | Leave: <b>' + d.leave + '</b>' : '') + (d.holiday > 0 ? ' | Holiday: <b>' + d.holiday + '</b>' : '') + '</span>' +
     '</div>' +
     '<div class="slip-row" style="color:#dc2626;">' +
       '<span><strong>Absent Deduction:</strong></span>' +
@@ -4916,6 +4970,7 @@ function batchAllActiveTeachers() {
       present: stats.present != null ? stats.present : 30,
       absent: stats.absent || 0,
       leave: stats.leave || 0,
+      holiday: stats.holiday || 0,
       deduction: stats.deduction || 0,
       netPay: stats.payable || 0,
       monthTxt: monthTxt
@@ -4983,6 +5038,7 @@ function renderTeacherPayslips(){
       <td><span class="dg-cell P">${r.present}</span></td>
       <td><span class="dg-cell A">${r.absent}</span></td>
       <td><span class="dg-cell L">${r.leave}</span></td>
+      <td><span class="dg-cell H">${r.holiday}</span></td>
       <td>${fmtMoney(r.perDay)}</td>
       <td><span class="pill due">${fmtMoney(r.deduction)}</span></td>
       <td><span class="pill paid">${fmtMoney(r.payable)}</span></td>
@@ -4991,7 +5047,7 @@ function renderTeacherPayslips(){
       </td>
     </tr>`;
   }).join('');
-  document.getElementById('tchPayTable').innerHTML = `<thead><tr><th>Teacher</th><th>Salary</th><th>Marked Days</th><th>P</th><th>A</th><th>L</th><th>Fi-din</th><th>Kitoti</th><th>Qabil-e-Adaigi</th><th class="no-print">Amal</th></tr></thead><tbody>${rows || '<tr><td colspan=10 class="empty-state">Koi active teacher nahi</td></tr>'}</tbody>`;
+  document.getElementById('tchPayTable').innerHTML = `<thead><tr><th>Teacher</th><th>Salary</th><th>Marked Days</th><th>P</th><th>A</th><th>L</th><th>H</th><th>Fi-din</th><th>Kitoti</th><th>Qabil-e-Adaigi</th><th class="no-print">Amal</th></tr></thead><tbody>${rows || '<tr><td colspan=11 class="empty-state">Koi active teacher nahi</td></tr>'}</tbody>`;
 }
 function printTeacherPayslip(id){
   const t = teacherById(id); if(!t) return;
@@ -5010,6 +5066,7 @@ function printTeacherPayslip(id){
     present: (r.present != null) ? r.present : 30,
     absent: r.absent || 0,
     leave: r.leave || 0,
+    holiday: r.holiday || 0,
     deduction: r.deduction || 0,
     netPay: r.payable || 0,
     monthTxt: monthTxt
@@ -5048,6 +5105,7 @@ function oldPrintTeacherPayslipTable(id){
     ['\u06a9\u0644 \u062f\u0631\u062c \u0634\u062f\u06c1 \u062f\u0646 / Marked Days', r.marked],
     ['\u062d\u0627\u0636\u0631 / Present', r.present],
     ['\u0631\u062e\u0635\u062a / Leave', r.leave],
+    ['\u0686\u06be\u0679\u06cc / Holiday', r.holiday],
     ['\u063a\u06cc\u0631 \u062d\u0627\u0636\u0631 / Absent', r.absent],
     ['\u062d\u0627\u0636\u0631\u06cc \u0641\u06cc\u0635\u062f / Attendance %', r.pct+'%'],
     ['\u0641\u06cc \u062f\u0646 \u062a\u0646\u062e\u0648\u0627\u06c1 / Per Day', fmtMoney(r.perDay)],
@@ -5108,19 +5166,19 @@ document.getElementById('tchPayMonth').addEventListener('change', renderTeacherP
 document.getElementById('tchAttPrintBtn').addEventListener('click', ()=>printElement('tchAttReportTable'));
 document.getElementById('tchAttExportBtn').addEventListener('click', ()=>{
   const mKey = document.getElementById('tchAttMonth').value || currentMonth;
-  const lines = ['Teacher,ID,Present,Absent,Leave,Attendance %'];
+  const lines = ['Teacher,ID,Present,Absent,Leave,Holiday,Attendance %'];
   activeTeachers().forEach(t=>{
     const r = teacherMonthStats(t, mKey);
-    lines.push([t.name, t.id, r.present, r.absent, r.leave, r.pct+'%'].map(csvEscape).join(','));
+    lines.push([t.name, t.id, r.present, r.absent, r.leave, r.holiday, r.pct+'%'].map(csvEscape).join(','));
   });
   downloadCSV(lines.join('\n'), `teacher_attendance_${mKey}.csv`);
 });
 document.getElementById('tchPayExportBtn').addEventListener('click', ()=>{
   const mKey = document.getElementById('tchPayMonth').value || currentMonth;
-  const lines = ['Teacher,ID,Salary,Marked Days,Present,Absent,Leave,Per Day,Deduction,Payable'];
+  const lines = ['Teacher,ID,Salary,Marked Days,Present,Absent,Leave,Holiday,Per Day,Deduction,Payable'];
   activeTeachers().forEach(t=>{
     const r = teacherMonthStats(t, mKey);
-    lines.push([t.name, t.id, r.salary, r.marked, r.present, r.absent, r.leave, r.perDay, r.deduction, r.payable].map(csvEscape).join(','));
+    lines.push([t.name, t.id, r.salary, r.marked, r.present, r.absent, r.leave, r.holiday, r.perDay, r.deduction, r.payable].map(csvEscape).join(','));
   });
   downloadCSV(lines.join('\n'), `teacher_payslips_${mKey}.csv`);
 });
@@ -5903,6 +5961,175 @@ function stopScanner(){
 document.getElementById('startScanBtn').onclick = startScanner;
 document.getElementById('stopScanBtn').onclick = stopScanner;
 
+/* ================= HOLIDAYS / CHUTTI ================= */
+/* Do qism ki chutti:
+   1) Haftawar (weekly off)  -> DB.meta.weeklyOff = [0]  (0 = Itwar/Sunday)
+   2) Announce shuda          -> DB.holidays['YYYY-MM-DD'] = {title, scope}   scope: all | students | teachers
+   Kisi din ki chutti ka status alag se save nahi hota — usay date se hisab kiya jata hai.
+   Agar kisi ke naam par khud P/A/L/H mark ho to wohi chalta hai (mas'lan Itwar ko koi aaya to Present laga dein). */
+var HOL_WEEKDAYS = ['Itwar (Sunday)','Peer (Monday)','Mangal (Tuesday)','Budh (Wednesday)','Jumerat (Thursday)','Jumma (Friday)','Hafta (Saturday)'];
+var HOL_SCOPE_LABEL = {all:'Sab (Talaba + Asatiza)', students:'Sirf Talaba', teachers:'Sirf Asatiza'};
+var HOL_LAST = null;
+
+function weeklyOffDays(){
+  const w = DB.meta && DB.meta.weeklyOff;
+  return Array.isArray(w) ? w : [0];
+}
+function addDaysISO(dateStr, n){
+  const dt = new Date(dateStr+'T00:00:00');
+  dt.setDate(dt.getDate()+n);
+  return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+}
+function holFmtDate(d){
+  return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+}
+/* who: 'student' | 'teacher'  ->  null ya {kind:'declared'|'weekly', title} */
+function holidayInfo(dateStr, who){
+  const h = DB.holidays && DB.holidays[dateStr];
+  if(h){
+    const sc = h.scope || 'all';
+    if(sc==='all' || (sc==='students' && who==='student') || (sc==='teachers' && who==='teacher')){
+      return {kind:'declared', title:h.title || 'Chutti'};
+    }
+  }
+  const dow = new Date(dateStr+'T00:00:00').getDay();
+  if(weeklyOffDays().includes(dow)) return {kind:'weekly', title:HOL_WEEKDAYS[dow].split(' ')[0]};
+  return null;
+}
+/* Asal status: khud mark kiya hua, warna chutti ho to 'H', warna '' */
+function studentDayStatus(sec, date, sid){
+  const st = ((((DB.attendance||{})[sec])||{})[date]||{})[sid] || '';
+  return st || (holidayInfo(date,'student') ? 'H' : '');
+}
+function teacherDayStatus(date, tid){
+  const st = (((DB.teacherAttendance||{})[date])||{})[tid] || '';
+  return st || (holidayInfo(date,'teacher') ? 'H' : '');
+}
+function holidayCountInMonth(mKey, who){
+  let n = 0;
+  for(let d=1; d<=daysInMonthCount(mKey); d++){
+    if(holidayInfo(mKey+'-'+String(d).padStart(2,'0'), who)) n++;
+  }
+  return n;
+}
+/* Mahana grid ke din-headers (chutti wale din neele) */
+function holidayHeadersHTML(mKey, who){
+  let h = '';
+  for(let d=1; d<=daysInMonthCount(mKey); d++){
+    const hi = holidayInfo(mKey+'-'+String(d).padStart(2,'0'), who);
+    h += hi ? `<th class="dg-hol" title="${esc(hi.title)}">${d}</th>` : `<th>${d}</th>`;
+  }
+  return h;
+}
+function holidayBannerHTML(date, who){
+  const h = holidayInfo(date, who);
+  if(!h) return '';
+  const tail = ' Jin ka naam mark nahi hoga woh <b>Holiday</b> shumar honge (Absent nahi). Agar koi aaya ho to uske aage Present dabayen.';
+  if(h.kind==='weekly') return `<div class="holiday-banner">&#127958;&#65039; <b>${esc(h.title)}</b> &mdash; haftawar chutti hai.${tail}</div>`;
+  return `<div class="holiday-banner">&#127881; <b>Chutti announce shuda:</b> ${esc(h.title)}.${tail}</div>`;
+}
+
+/* ---- Holiday Manager (modal) ---- */
+function holidayGroups(){
+  const groups = [];
+  Object.keys(DB.holidays||{}).sort().forEach(d=>{
+    const h = DB.holidays[d];
+    const title = h.title || '', scope = h.scope || 'all';
+    const last = groups[groups.length-1];
+    if(last && last.title===title && last.scope===scope && addDaysISO(last.to,1)===d){ last.to = d; last.dates.push(d); }
+    else groups.push({from:d, to:d, title, scope, dates:[d]});
+  });
+  return groups;
+}
+function renderHolidayModal(){
+  const wk = weeklyOffDays();
+  document.getElementById('hol_weekly').innerHTML = HOL_WEEKDAYS.map((n,i)=>
+    `<label><input type="checkbox" ${wk.includes(i)?'checked':''} onchange="toggleWeeklyOff(${i}, this.checked)"> ${n}</label>`).join('');
+  const today = todayISO();
+  const groups = holidayGroups();
+  const upcoming = groups.filter(g=>g.to>=today).sort((a,b)=>a.from<b.from?-1:1);
+  const past = groups.filter(g=>g.to<today).sort((a,b)=>a.from<b.from?1:-1);
+  const rowHtml = (g, isPast)=>`<tr style="${isPast?'opacity:.55;':''}">
+      <td>${g.from===g.to ? holFmtDate(g.from) : holFmtDate(g.from)+' &rarr; '+holFmtDate(g.to)}</td>
+      <td>${esc(g.title)}</td>
+      <td>${HOL_SCOPE_LABEL[g.scope] || esc(g.scope)}</td>
+      <td>${g.dates.length}</td>
+      <td><button type="button" class="btn danger sm" onclick="deleteHolidayGroup('${g.from}')">Hatayein</button></td>
+    </tr>`;
+  const rows = upcoming.map(g=>rowHtml(g,false)).join('') + past.map(g=>rowHtml(g,true)).join('');
+  document.getElementById('hol_list').innerHTML = `<thead><tr><th>Tareekh</th><th>Wajah</th><th>Kis ke liye</th><th>Din</th><th></th></tr></thead><tbody>${rows || '<tr><td colspan=5 class="empty-state">Abhi koi chutti announce nahi hui</td></tr>'}</tbody>`;
+}
+function refreshHolidayViews(){
+  renderHolidayModal();
+  if(!document.getElementById('page-attendance').classList.contains('section-hidden')){ renderAttendance(); renderAttendanceReport(); }
+  if(!document.getElementById('page-teachers').classList.contains('section-hidden')){ renderTeacherAttendance(); }
+}
+function openHolidayModal(srcId){
+  if(CURRENT_ROLE!=='admin') return;
+  const src = document.getElementById(srcId);
+  document.getElementById('hol_from').value = (src && src.value) || todayISO();
+  document.getElementById('hol_to').value = '';
+  document.getElementById('hol_title').value = '';
+  document.getElementById('hol_scope').value = 'all';
+  document.getElementById('hol_msg').innerHTML = '';
+  renderHolidayModal();
+  document.getElementById('holidayModalBackdrop').classList.add('open');
+}
+function holSetMsg(html, isErr){
+  const el = document.getElementById('hol_msg');
+  el.style.color = isErr ? 'var(--due)' : 'var(--ok)';
+  el.innerHTML = html;
+}
+function addHoliday(){
+  if(CURRENT_ROLE!=='admin') return;
+  const from = document.getElementById('hol_from').value;
+  const to = document.getElementById('hol_to').value || from;
+  const title = document.getElementById('hol_title').value.trim() || 'Chutti';
+  const scope = document.getElementById('hol_scope').value;
+  if(!from){ holSetMsg('Pehle chutti ki tareekh chunein.', true); return; }
+  if(to < from){ holSetMsg('"Tak" ki tareekh "Se" se pehle nahi ho sakti.', true); return; }
+  const dates = [];
+  for(let d=from; d<=to && dates.length<=60; d=addDaysISO(d,1)) dates.push(d);
+  if(dates.length > 60){ holSetMsg('Ek dafa mein 60 din se zyada ki chutti announce nahi ho sakti.', true); return; }
+  if(!DB.holidays) DB.holidays = {};
+  dates.forEach(d=>{ DB.holidays[d] = {title, scope}; });
+  saveDB(DB);
+  HOL_LAST = {from, to, title, scope};
+  document.getElementById('hol_to').value = '';
+  document.getElementById('hol_title').value = '';
+  refreshHolidayViews();
+  const waHtml = scope!=='teachers' ? ' ' + waBtn('Walidain ko WhatsApp par Batayen', 'holidayWhatsApp()') : '';
+  holSetMsg(`&#10003; ${dates.length} din ki chutti announce ho gayi.${waHtml}`, false);
+}
+function deleteHolidayGroup(from){
+  if(CURRENT_ROLE!=='admin') return;
+  const g = holidayGroups().find(x=>x.from===from);
+  if(!g) return;
+  if(!confirm(`"${g.title}" ki chutti (${g.dates.length} din) hata di jaye?`)) return;
+  g.dates.forEach(d=>{ delete DB.holidays[d]; });
+  saveDB(DB);
+  refreshHolidayViews();
+}
+function toggleWeeklyOff(dayIdx, on){
+  if(CURRENT_ROLE!=='admin') return;
+  const set = new Set(weeklyOffDays());
+  if(on) set.add(dayIdx); else set.delete(dayIdx);
+  DB.meta.weeklyOff = Array.from(set).sort((a,b)=>a-b);
+  saveDB(DB);
+  refreshHolidayViews();
+}
+/* Announce ke baad walidain ko Bulk WhatsApp se batane ka shortcut */
+function holidayWhatsApp(){
+  if(!HOL_LAST) return;
+  const {from, to, title} = HOL_LAST;
+  const when = from===to ? holFmtDate(from) : `${holFmtDate(from)} سے ${holFmtDate(to)} تک`;
+  const msg = `السلام علیکم!\n{name} کے والدین کو مطلع کیا جاتا ہے کہ مدرسہ میں ${when} چھٹی کا اعلان کیا گیا ہے۔\nوجہ: ${title}\nجزاک اللہ خیر`;
+  closeModals();
+  showPage('bulkwa');
+  bwaSetMode('custom');
+  document.getElementById('bwaMessage').value = msg;
+}
+
 /* ================= ATTENDANCE ================= */
 function renderAttendance(){
   const dateInput = document.getElementById('attDate');
@@ -5918,21 +6145,25 @@ function renderAttendance(){
   if(!DB.attendance[sec][date]) DB.attendance[sec][date] = {};
   const dayRec = DB.attendance[sec][date];
 
-  let present=0, absent=0, leave=0;
+  const holInfo = holidayInfo(date,'student');
+  let present=0, absent=0, leave=0, holiday=0;
   const rows = list.map(s=>{
-    const status = dayRec[s.id] || 'unmarked';
-    if(status==='P') present++; else if(status==='A') absent++; else if(status==='L') leave++;
+    const status = dayRec[s.id] || (holInfo ? 'H' : 'unmarked');
+    if(status==='P') present++; else if(status==='A') absent++; else if(status==='L') leave++; else if(status==='H') holiday++;
     return `<tr>
       <td><b>${s.id}</b></td><td>${s.name}</td><td>${s.father||'-'}</td>
       <td class="no-print" style="white-space:nowrap;">
         <button class="btn sm ${status==='P'?'green':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','P')">&#10003; Present</button>
         <button class="btn sm ${status==='A'?'danger':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','A')">&#10007; Absent</button>
         <button class="btn sm ${status==='L'?'amber':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','L')">&#128197; Leave</button>
+        <button class="btn sm ${status==='H'?'blue':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','H')">&#127958;&#65039; Holiday</button>
         ${status==='A' && CURRENT_ROLE==='admin' ? waBtn('Walidain ko Batayen', `sendAbsentMessage('${sec}','${date}','${s.id}')`, {title:'Walidain ko WhatsApp par ghair hazri ki khabar bhejein'}) : ''}
       </td>
     </tr>`;
   }).join('');
-  document.getElementById('attSummaryTag').textContent = `${present} Present · ${absent} Absent · ${leave} Leave`;
+  document.getElementById('attSummaryTag').textContent = `${present} Present · ${absent} Absent · ${leave} Leave · ${holiday} Holiday`;
+  document.getElementById('attHolidayBanner').innerHTML = holidayBannerHTML(date,'student');
+  document.getElementById('attHolidayBtn').style.display = CURRENT_ROLE==='admin' ? '' : 'none';
   document.getElementById('attendanceTable').innerHTML = `<thead><tr><th>ID</th><th>Naam</th><th>Walid</th><th class="no-print">Hazri</th></tr></thead><tbody>${rows || '<tr><td colspan=4 class="empty-state">Is section mein koi talib-e-ilm nahi</td></tr>'}</tbody>`;
 }
 function setAttendance(sec,date,studentId,status){
@@ -5963,18 +6194,17 @@ function monthlyAttendanceStats(section, mKey){
     DB.students.filter(s=>s.section===sec).forEach(s=>list.push({student:s, section:sec}));
   });
   return list.map(({student:s, section:sec})=>{
-    const records = DB.attendance[sec] || {};
-    let present=0, absent=0, leave=0;
+    let present=0, absent=0, leave=0, holiday=0;
     const days = [];
     for(let d=1; d<=daysTotal; d++){
       const dateStr = mKey+'-'+String(d).padStart(2,'0');
-      const st = (records[dateStr]||{})[s.id] || '';
-      if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++;
+      const st = studentDayStatus(sec, dateStr, s.id);
+      if(st==='P') present++; else if(st==='A') absent++; else if(st==='L') leave++; else if(st==='H') holiday++;
       days.push(st);
     }
     const totalMarked = present+absent+leave;
     const pct = (present+absent) ? Math.round(present/(present+absent)*100) : 0;
-    return {student:s, section:sec, present, absent, leave, totalMarked, pct, days};
+    return {student:s, section:sec, present, absent, leave, holiday, totalMarked, pct, days};
   });
 }
 function renderAttendanceReport(){
@@ -6003,12 +6233,12 @@ function renderAttendanceReport(){
     <div class="metric"><div class="metric-value">${presentTotal}</div><div class="metric-label">Kul present days</div></div>
     <div class="metric"><div class="metric-value">${absentTotal}</div><div class="metric-label">Kul absent days</div></div>
     <div class="metric"><div class="metric-value">${leaveTotal}</div><div class="metric-label">Kul leave days</div></div>`;
-  document.getElementById('attReportTag').textContent = monthLabel(mKey)+' · '+(sec?SECTION_META[sec].label:'Tamam Sections');
+  document.getElementById('attReportTag').textContent = monthLabel(mKey)+' · '+(sec?SECTION_META[sec].label:'Tamam Sections')+' · '+holidayCountInMonth(mKey,'student')+' Chutti';
 
-  const dayHeaders = Array.from({length:daysTotal}, (_,i)=>`<th>${i+1}</th>`).join('');
+  const dayHeaders = holidayHeadersHTML(mKey, 'student');
   const rows = stats.map(r=>{
     const dayCells = r.days.map(st=>{
-      const cls = st==='P'?'P':st==='A'?'A':st==='L'?'L':'dash';
+      const cls = st==='P'?'P':st==='A'?'A':st==='L'?'L':st==='H'?'H':'dash';
       const label = st || '-';
       return `<td><span class="dg-cell ${cls}">${label}</span></td>`;
     }).join('');
@@ -6019,18 +6249,19 @@ function renderAttendanceReport(){
       <td class="dg-sum P">${r.present}</td>
       <td class="dg-sum A">${r.absent}</td>
       <td class="dg-sum L">${r.leave}</td>
+      <td class="dg-sum H">${r.holiday}</td>
       <td>${r.pct}%</td>
       <td class="no-print" style="white-space:nowrap;">${CURRENT_ROLE==='admin' ? waBtn('', `sendMonthlyAttendanceReport('${r.section}','${mKey}','${r.student.id}')`, {title:'Walidain ko Urdu attendance report WhatsApp par bhejein'}) : ''}</td>
     </tr>`;
   }).join('');
-  document.getElementById('attReportTable').innerHTML = `<thead><tr><th>Student</th><th>ID</th>${dayHeaders}<th>P</th><th>A</th><th>L</th><th>%</th><th class="no-print">Walidain</th></tr></thead><tbody>${rows || `<tr><td colspan=${daysTotal+7} class="empty-state">Is section/mahine mein koi hazri record nahi</td></tr>`}</tbody>`;
+  document.getElementById('attReportTable').innerHTML = `<thead><tr><th>Student</th><th>ID</th>${dayHeaders}<th>P</th><th>A</th><th>L</th><th>H</th><th>%</th><th class="no-print">Walidain</th></tr></thead><tbody>${rows || `<tr><td colspan=${daysTotal+8} class="empty-state">Is section/mahine mein koi hazri record nahi</td></tr>`}</tbody>`;
 }
 document.getElementById('attReportExportBtn').addEventListener('click', ()=>{
   const sec = document.getElementById('attReportSection').value;
   const mKey = document.getElementById('attReportMonth').value;
   const stats = monthlyAttendanceStats(sec, mKey);
-  const lines = ['Student,ID,Present Days,Absent Days,Leave Days,Attendance %'];
-  stats.forEach(r=>lines.push([r.student.name, r.student.id, r.present, r.absent, r.leave, r.pct+'%'].map(csvEscape).join(',')));
+  const lines = ['Student,ID,Present Days,Absent Days,Leave Days,Holiday Days,Attendance %'];
+  stats.forEach(r=>lines.push([r.student.name, r.student.id, r.present, r.absent, r.leave, r.holiday, r.pct+'%'].map(csvEscape).join(',')));
   downloadCSV(lines.join('\n'), `attendance_report_${sec||'all'}_${mKey}.csv`);
 });
 document.getElementById('attReportPrintBtn').addEventListener('click', ()=>{
@@ -6244,6 +6475,7 @@ document.getElementById('importFile').addEventListener('change', e=>{
       if(!data.meta) data.meta = {...DEFAULT_META};
       else data.meta = {...DEFAULT_META, ...data.meta};
       if(!data.tests) data.tests = {};
+      if(!data.holidays) data.holidays = {};
       data.students.forEach(s=>{ if(s.gender===undefined) s.gender=''; if(s.joinMonth===undefined) s.joinMonth=null; if(s.photo===undefined) s.photo=''; });
       DB = data;
       saveDB(DB);
