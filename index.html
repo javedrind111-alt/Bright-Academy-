@@ -2694,10 +2694,27 @@ const SURAH_LIST = [
 "106 - قُرَيْشٍ","107 - الْمَاعُونِ","108 - الْكَوْثَرِ","109 - الْكَافِرُونَ","110 - النَّصْرِ",
 "111 - الْمَسَدِ","112 - الْإِخْلَاصِ","113 - الْفَلَقِ","114 - النَّاسِ"
 ];
-const ALIF_LIST = [
-"01 - مُفْرَدَات","02 - مُرَكَّبَات","03 - حُرُوفِ مُقَطَّعَات","04 - حَرَكَات","05 - تَنْوِين"
+const TAKHTI_LIST = [
+"تختی نمبر 1 — مفردات",
+"تختی نمبر 2 — مرکبات",
+"تختی نمبر 3 — حروفِ مقطعات",
+"تختی نمبر 4 — حرکات",
+"تختی نمبر 5 — تنوین",
+"تختی نمبر 6 — مشقِ حرکات و تنوین",
+"تختی نمبر 7 — کھڑی حرکات",
+"تختی نمبر 8 — حروفِ مد و لین",
+"تختی نمبر 9 — مشقِ کھڑی حرکات، مد و لین",
+"تختی نمبر 10 — جزم",
+"تختی نمبر 11 — مشقِ جزم",
+"تختی نمبر 12 — تشدید",
+"تختی نمبر 13 — مشقِ تشدید",
+"تختی نمبر 14 — مشقِ تشدید",
+"تختی نمبر 15 — مشقِ تشدید",
+"تختی نمبر 16 — مشقِ تشدید",
+"خاتمہ — اجراءِ قواعدِ ضروریہ"
 ];
-function sabaqLessonList(sectionKey){ return sectionKey==='alif' ? ALIF_LIST : SURAH_LIST; }
+/* Al-Alif and At-Tarteel use the Takhti list; other sections use the Surah list */
+function sabaqLessonList(sectionKey){ return (sectionKey==='alif' || sectionKey==='tarteel') ? TAKHTI_LIST : SURAH_LIST; }
 function sabaqLessonOptions(sectionKey, current){
   const list = sabaqLessonList(sectionKey);
   let opts = '<option value="">-- Muntakhib Karein --</option>';
