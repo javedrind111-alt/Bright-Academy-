@@ -2,7 +2,7 @@
 <html lang="ur" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Bright Academy Nazra &mdash; Talaba Intizami Nizam</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#123832">
@@ -1298,6 +1298,470 @@ tbody tr:hover{background:#fbf8f0;}
 }
 
 </style>
+<style id="mobile-pro">
+/* =====================================================================
+   MOBILE PRO  —  phone-only polish (<=760px). Desktop is not affected.
+   Palette: deep teal + gold on cream, white surfaces, semantic red/green.
+   ===================================================================== */
+.m-back-top{display:none;}
+
+@media screen and (max-width:760px){
+:root{
+  --m-shadow:0 1px 2px rgba(18,56,50,.06), 0 4px 14px rgba(18,56,50,.05);
+  --m-line:#e6dfca;
+  --m-safe-b:env(safe-area-inset-bottom, 0px);
+}
+html{-webkit-text-size-adjust:100%;}
+body{background:#f6f2e7; -webkit-tap-highlight-color:transparent;}
+
+/* ---------- App header ---------- */
+.topnav{
+  background:#123832; box-shadow:none; gap:10px;
+  padding:calc(10px + env(safe-area-inset-top, 0px)) 14px 10px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.topnav .brand-text h1{font-size:16px; letter-spacing:.2px;}
+.topnav .brand-mark{width:34px; height:34px; border-radius:9px;}
+.m-back-top{
+  display:none; width:36px; height:36px; flex:0 0 auto; padding:0; cursor:pointer;
+  place-items:center; border-radius:50%; border:none; color:#fff;
+  background:rgba(255,255,255,.12);
+}
+.m-back-top svg{width:20px; height:20px;}
+.m-back-top:active{background:rgba(255,255,255,.22);}
+body:not(.on-home) .m-back-top{display:grid;}
+body:not(.on-home) .topnav .brand{display:none;}
+body:not(.on-home) .topnav-center{display:block; flex:1; min-width:0; text-align:left;}
+body.on-home .topnav-center{display:none;}
+.topnav-center .cp{display:none;}
+.topnav-center h2{
+  margin:0; font-size:20px; line-height:1.2; color:#fbf7ea; font-weight:700;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.topnav .topnav-right{gap:8px;}
+.topnav #logoutBtn{
+  background:transparent; border:1px solid rgba(255,255,255,.32); color:#f3e7c4;
+  padding:6px 13px; font-size:12px; font-weight:600;
+}
+.topnav #logoutBtn:hover{background:rgba(255,255,255,.08); transform:none;}
+
+/* old in-page title block is replaced by the header above */
+.topbar{margin-bottom:0; gap:0;}
+.topbar > div:first-child, .todaybox, .topbar .m-back{display:none !important;}
+.main{padding:14px 12px calc(88px + var(--m-safe-b));}
+
+/* ---------- Bottom navigation ---------- */
+.bottom-nav{
+  background:#fff; border-top:1px solid var(--m-line);
+  box-shadow:0 -6px 20px rgba(18,56,50,.08);
+  padding-bottom:var(--m-safe-b);
+}
+.bottom-nav button{
+  position:relative; color:#75807b; font-size:11px; font-weight:500; gap:3px;
+  padding:9px 6px 8px; min-width:64px;
+}
+.bottom-nav button svg{position:relative; z-index:1; width:21px; height:21px; margin-top:3px;}
+.bottom-nav button span{position:relative; z-index:1;}
+.bottom-nav button.active{color:var(--teal-deep); font-weight:700;}
+.bottom-nav button.active svg{stroke:var(--teal-deep);}
+.bottom-nav button.active::before{
+  content:''; position:absolute; top:7px; left:50%; width:54px; height:30px;
+  transform:translateX(-50%); border-radius:15px; background:var(--teal-soft);
+}
+
+/* ---------- Home screen ---------- */
+.mh-band{margin:-14px -12px 0; background:#123832; padding:0 18px 56px;}
+.mh-band .urdu{font-size:16px;}
+.mh-profile{border:1px solid var(--m-line); box-shadow:0 8px 24px rgba(18,56,50,.12);}
+.mh-who b{font-size:18px;}
+.mh-btn{background:var(--teal-soft); color:var(--teal-deep); font-weight:700; padding:8px 14px;}
+
+.mh-cards{gap:10px; margin-top:12px;}
+.mh-card{min-height:124px; border-radius:18px; box-shadow:var(--m-shadow);}
+.mh-card.fee{background:linear-gradient(155deg,#1f5a50,#123832); color:#f8f4e9;}
+.mh-card.fee .mh-card-h i{background:rgba(199,154,60,.22);}
+.mh-card.fee .mh-card-h svg{stroke:#e8cf8f;}
+.mh-card.fee .mh-row b{background:rgba(255,255,255,.12); color:#f3dc9c;}
+.mh-card.stu{background:#fff; color:var(--ink); border:1px solid var(--m-line);}
+.mh-card.stu .mh-card-h{color:var(--teal-deep);}
+.mh-card.stu .mh-card-h i{background:var(--teal-soft);}
+.mh-card.stu .mh-card-h svg{stroke:var(--teal);}
+.mh-card.stu .mh-row b{background:var(--parchment); color:var(--teal-deep);}
+.mh-card.stu .mh-card-f{color:var(--ink-soft); opacity:1;}
+.mh-card-h{font-size:14px;}
+.mh-row{font-size:12px;}
+.mh-banner{
+  background:#fbeee9; color:var(--due); border:1px solid #efd3ca; box-shadow:none; margin-top:10px;
+}
+.mh-banner .ic{background:rgba(168,65,43,.12);}
+.mh-banner .ic svg{stroke:var(--due);}
+.mh-banner .tx b{font-size:14px; color:#7c2c1c;}
+.mh-banner .tx small{opacity:1; color:#8f5a4d;}
+.mh-banner .n{background:var(--due); color:#fff;}
+
+.mh-grid{
+  margin-top:10px; padding:10px 8px; gap:2px 4px; border-radius:18px;
+  border:1px solid var(--m-line); box-shadow:var(--m-shadow);
+}
+.mh-tile{padding:12px 2px 10px; border-radius:14px; font-size:12px; font-weight:600; color:var(--teal-deep);}
+.mh-tile:active{background:var(--teal-soft);}
+.mh-ic{
+  width:48px; height:48px; border-radius:15px;
+  background:var(--teal-soft) !important; color:var(--teal) !important;
+}
+.mh-ic svg{width:24px; height:24px;}
+
+/* ---------- Cards / headings ---------- */
+.card{padding:16px; border-radius:16px; box-shadow:var(--m-shadow); border-color:var(--m-line);}
+.card:hover{box-shadow:var(--m-shadow);}
+.card + .card{margin-top:12px;}
+.card h3{font-size:16px; margin:0 0 12px; justify-content:flex-start; gap:8px;}
+.card > h3 > .btn{margin-left:0 !important; flex:1 1 auto; justify-content:center; white-space:normal; text-align:center;}
+.card h3 .tag{font-size:11.5px; padding:3px 10px;}
+.note{font-size:12px; line-height:1.55;}
+.page{animation-duration:.22s;}
+
+.metric-grid{gap:10px; margin-bottom:12px;}
+.metric{padding:12px 14px; border-radius:14px; background:#fff; border-color:var(--m-line); box-shadow:var(--m-shadow);}
+.metric:after{display:none;}
+.metric .metric-value{font-size:21px; line-height:1.2;}
+.metric .metric-label{font-size:11.5px; margin-top:3px;}
+
+/* Dashboard stat cards */
+.grid.cols-4{gap:10px;}
+.stat{padding:14px; border-radius:16px; animation:none; box-shadow:var(--m-shadow);}
+.stat:hover{transform:none; box-shadow:var(--m-shadow);}
+.stat .badge-icon{width:34px; height:34px; border-radius:10px; margin-bottom:8px;}
+.stat .badge-icon svg{width:18px; height:18px;}
+.stat .n{font-size:22px; line-height:1.15; white-space:nowrap;}
+.stat .l{font-size:11.5px; line-height:1.35;}
+.dashboard-hero{padding:16px; gap:12px; margin:12px 0; border-radius:16px;}
+.dashboard-logo{width:56px; height:48px; flex:0 0 auto;}
+.dashboard-hero h3{font-size:19px; line-height:1.2;}
+.dashboard-hero p{font-size:12px;}
+.dashboard-hero .arabic{font-size:14px;}
+.dashboard-hero:after{font-size:110px; right:14px;}
+.chart-card{padding:14px; border-radius:16px; box-shadow:var(--m-shadow); border-color:var(--m-line);}
+
+/* ---------- Filters & form controls ---------- */
+.searchbar{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;}
+.searchbar > *{min-width:0 !important; width:100%;}
+.searchbar input[type="text"], .searchbar input[type="search"]{grid-column:1 / -1; order:-1;}
+input, select, textarea{font-size:16px; padding:10px 12px; min-height:44px; border-radius:10px; border-color:var(--m-line);}
+input[type="checkbox"], input[type="radio"]{min-height:0; width:auto;}
+textarea{min-height:92px;}
+label{font-size:12.5px; font-weight:600; margin-bottom:6px;}
+.field{margin-bottom:14px;}
+.row > *{min-width:130px;}
+button.btn{min-height:42px; border-radius:10px; padding:10px 16px; font-size:14px; justify-content:center;}
+button.btn.sm{min-height:36px; padding:7px 12px; font-size:13px;}
+.btn:hover{transform:none;}
+.btnbar{gap:8px;}
+.tabbar{display:flex; width:100%; margin-bottom:12px;}
+.tabbar button{flex:1; padding:10px 8px; font-size:13px;}
+.pill{font-size:12px; padding:4px 10px;}
+
+/* ---------- Stacked-card tables (labels are added by script) ---------- */
+table.m-cards, table.m-cards tbody{display:block; width:100%;}
+table.m-cards thead{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);}
+table.m-cards tr{
+  display:block; background:#fff; border:1px solid var(--m-line); border-radius:14px;
+  padding:10px 14px; margin-bottom:10px; box-shadow:var(--m-shadow);
+}
+table.m-cards tbody tr:hover{background:#fff;}
+table.m-cards td{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:6px 0; border:0; text-align:right; min-width:0; font-size:13.5px;
+}
+table.m-cards td + td{border-top:1px solid #f1ead8;}
+table.m-cards td::before{
+  content:attr(data-label); flex:0 0 auto; max-width:45%; text-align:left;
+  font-size:11.5px; font-weight:600; color:var(--ink-soft);
+}
+table.m-cards td[data-label=""]::before, table.m-cards td:not([data-label])::before{display:none;}
+table.m-cards td[colspan]{display:block; text-align:center; border:0;}
+table.m-cards td.empty-state{padding:26px 10px;}
+.table-wrap{overflow-x:visible;}
+.table-wrap:has(> table.m-cards){overflow:visible;}
+/* when a card only wraps a card-table, let the inner cards carry the surface */
+.card:has(> .table-wrap > table.m-cards){background:transparent; border:0; box-shadow:none; padding:0;}
+.card:has(> .table-wrap > table.m-cards) > h3{padding:0 2px;}
+.card:has(> .table-wrap > table.m-cards) > .note{padding:0 2px;}
+
+/* — Fees — */
+#feesTable tr{display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:0 8px; padding:14px;}
+#feesTable td{display:block; padding:0; border:0 !important; text-align:left;}
+#feesTable td::before{display:block; margin-bottom:3px; max-width:none;}
+#feesTable td:nth-child(1){display:none;}
+#feesTable td:nth-child(3){grid-area:1 / 1 / 2 / 4; font:700 17px/1.25 'Amiri',serif; color:var(--ink);}
+#feesTable td:nth-child(8){grid-area:1 / 4 / 2 / 7; justify-self:end; align-self:start;}
+#feesTable td:nth-child(8) .pill{white-space:nowrap;}
+#feesTable td:nth-child(2){grid-area:2 / 1 / 3 / 3; font-size:12px; color:var(--ink-soft); margin-top:2px;}
+#feesTable td:nth-child(4){grid-area:2 / 3 / 3 / 7; justify-self:end; margin-top:2px;}
+#feesTable td:nth-child(3)::before, #feesTable td:nth-child(8)::before,
+#feesTable td:nth-child(2)::before, #feesTable td:nth-child(4)::before, #feesTable td:nth-child(12)::before{display:none;}
+#feesTable td:nth-child(5){grid-area:3 / 1 / 4 / 3;}
+#feesTable td:nth-child(6){grid-area:3 / 3 / 4 / 5;}
+#feesTable td:nth-child(7){grid-area:3 / 5 / 4 / 7;}
+#feesTable td:nth-child(9){grid-area:4 / 1 / 5 / 3;}
+#feesTable td:nth-child(10){grid-area:4 / 3 / 5 / 5;}
+#feesTable td:nth-child(11){grid-area:4 / 5 / 5 / 7;}
+#feesTable td:nth-child(n+5):nth-child(-n+7){margin-top:14px;}
+#feesTable td:nth-child(n+9):nth-child(-n+11){margin-top:10px;}
+#feesTable td:nth-child(12){grid-area:5 / 1 / 6 / 7; display:flex !important; flex-wrap:wrap; gap:8px; margin-top:14px; padding-top:12px; border-top:1px solid #f1ead8 !important;}
+#feesTable td:nth-child(12) > *{flex:1 1 auto; justify-content:center;}
+#feesTable .progress-track{width:60%; margin-right:6px;}
+#feesTable .progress-cell{font-size:12px;}
+#feesTable td.empty-state{grid-area:auto; display:block !important;}
+
+/* — Attendance (students) — */
+#attendanceTable tr{display:grid; grid-template-columns:1fr auto; gap:1px 10px; padding:12px 14px;}
+#attendanceTable td{display:block; padding:0; border:0 !important; text-align:left;}
+#attendanceTable td::before{display:none;}
+#attendanceTable td:nth-child(1){grid-area:1 / 2; font-size:11.5px; color:var(--ink-soft); align-self:center;}
+#attendanceTable td:nth-child(1) b{font-weight:600; background:var(--parchment); padding:2px 8px; border-radius:6px;}
+#attendanceTable td:nth-child(2){grid-area:1 / 1; font-size:15.5px; font-weight:700; color:var(--ink);}
+#attendanceTable td:nth-child(3){grid-area:2 / 1 / 3 / 3; font-size:12px; color:var(--ink-soft);}
+#attendanceTable td:nth-child(3)::before{display:inline; content:'Walid: '; font-weight:400; font-size:12px; color:var(--ink-soft);}
+#attendanceTable td:nth-child(4){
+  grid-area:3 / 1 / 4 / 3; display:grid !important; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;
+  margin-top:10px; white-space:normal !important;
+}
+#attendanceTable td:nth-child(4) .btn{padding:8px 2px; min-height:38px; font-size:11.5px; gap:3px; justify-content:center; width:100%; white-space:nowrap;}
+#attendanceTable td:nth-child(4) > :nth-child(n+5){grid-column:1 / -1;}
+#attendanceTable td.empty-state{grid-area:auto; display:block !important;}
+
+/* — Attendance (teachers) — */
+#tchAttendanceTable tr{display:grid; grid-template-columns:1fr auto; gap:1px 10px; padding:12px 14px;}
+#tchAttendanceTable td{display:block; padding:0; border:0 !important; text-align:left;}
+#tchAttendanceTable td::before{display:none;}
+#tchAttendanceTable td:nth-child(1){grid-area:1 / 2; font-size:11.5px; color:var(--ink-soft);}
+#tchAttendanceTable td:nth-child(2){grid-area:1 / 1; font-size:15.5px; font-weight:700;}
+#tchAttendanceTable td:nth-child(3){grid-area:2 / 1; font-size:12px; color:var(--ink-soft);}
+#tchAttendanceTable td:nth-child(4){grid-area:2 / 2; font-size:12px; color:var(--ink-soft);}
+#tchAttendanceTable td:nth-child(5){grid-area:3 / 1 / 4 / 3; display:grid !important; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; margin-top:10px; white-space:normal !important;}
+#tchAttendanceTable td:nth-child(5) .btn{padding:8px 2px; min-height:38px; font-size:11.5px; gap:3px; justify-content:center; width:100%; white-space:nowrap;}
+#tchAttendanceTable td:nth-child(5) > :nth-child(n+5){grid-column:1 / -1;}
+#tchAttendanceTable td.empty-state{grid-area:auto; display:block !important;}
+
+/* — Sabaq report — */
+#sabaqTable tr{display:grid; grid-template-columns:1fr 1fr; gap:12px 10px; padding:14px;}
+#sabaqTable td{display:block; padding:0; border:0 !important; text-align:left; white-space:normal !important;}
+#sabaqTable td::before{display:block; max-width:none; margin-bottom:5px;}
+#sabaqTable td:nth-child(1){grid-area:1 / 1; font-size:15.5px; line-height:1.3;}
+#sabaqTable td:nth-child(1)::before{display:none;}
+#sabaqTable td:nth-child(8){grid-area:1 / 2; text-align:right;}
+#sabaqTable td:nth-child(2){grid-area:2 / 1 / 3 / 3;}
+#sabaqTable td:nth-child(3){grid-area:3 / 1 / 4 / 3;}
+#sabaqTable td:nth-child(4){grid-area:4 / 1;}
+#sabaqTable td:nth-child(5){grid-area:4 / 2;}
+#sabaqTable td:nth-child(6){grid-area:5 / 1;}
+#sabaqTable td:nth-child(7){grid-area:5 / 2;}
+#sabaqTable td:nth-child(9){grid-area:6 / 1 / 7 / 3;}
+#sabaqTable td:nth-child(10){grid-area:7 / 1 / 8 / 3;}
+#sabaqTable td:nth-child(10)::before{display:none;}
+#sabaqTable td:nth-child(10) .btn{width:100%;}
+#sabaqTable td.empty-state{grid-area:auto; display:block !important;}
+.sabaq-select, .yad-select, .sabaq-remarks{width:100% !important; min-width:0 !important;}
+.yad-select{font-size:16px;}
+
+/* — Fee status (teacher view) — */
+#feeStatTable tr{display:grid; grid-template-columns:1fr auto; gap:3px 10px; padding:12px 14px;}
+#feeStatTable td{display:block; padding:0; border:0 !important; text-align:left;}
+#feeStatTable td::before{display:none;}
+#feeStatTable td:nth-child(1){display:none;}
+#feeStatTable td:nth-child(2){grid-area:1 / 1; font-size:15.5px;}
+#feeStatTable td:nth-child(5){grid-area:1 / 2; align-self:center;}
+#feeStatTable td:nth-child(3){grid-area:2 / 1; font-size:12px; color:var(--ink-soft);}
+#feeStatTable td:nth-child(3):not(:empty)::before{display:inline; content:'Walid: '; font-size:12px; color:var(--ink-soft);}
+#feeStatTable td:nth-child(4){grid-area:2 / 2; justify-self:end;}
+#feeStatTable td.empty-state{grid-area:auto; display:block !important;}
+
+/* — Test marks (name + marks field on one line) — */
+#testMarksTable tr{display:flex; align-items:center; gap:12px; padding:10px 14px;}
+#testMarksTable td{border:0 !important; padding:0;}
+#testMarksTable td::before{display:none;}
+#testMarksTable td:first-child{flex:1; min-width:0; text-align:left; font-weight:600;}
+#testMarksTable td:last-child{flex:0 0 112px;}
+#testMarksTable td:last-child input{text-align:center;}
+#testMarksTable td.empty-state{display:block;}
+
+/* ---------- Students list ---------- */
+.dir-toolbar{gap:8px; margin-bottom:12px;}
+.dir-controls{display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%;}
+.dir-controls > input{grid-column:1 / -1; min-width:0 !important;}
+.dir-controls .view-toggle{grid-column:1 / -1; display:flex; width:100%;}
+.view-toggle-btn{flex:1; padding:9px 8px; font-size:13px;}
+.dir-controls > .btn{grid-column:1 / -1; width:100%;}
+#dirHintText{display:none;}
+.student-grid{grid-template-columns:1fr; gap:10px;}
+.student-card{
+  display:grid; grid-template-columns:54px minmax(0,1fr) auto;
+  grid-template-areas:"av sr st" "av body body" "dock dock dock";
+  column-gap:12px; row-gap:2px; padding:12px 14px; border-radius:16px;
+  box-shadow:var(--m-shadow); border-color:var(--m-line);
+}
+.student-card:hover{transform:none; box-shadow:var(--m-shadow); border-color:var(--m-line);}
+.student-card:active{background:#fbf8ef;}
+.card-header-row{display:contents;}
+.student-sr-badge{grid-area:sr; justify-self:start; align-self:center; font-size:10.5px; padding:2px 7px;}
+.status-pill{grid-area:st; justify-self:end; font-size:10px; padding:2px 8px;}
+.card-avatar-wrap{grid-area:av; margin:0; align-self:center;}
+.avatar-ring{width:54px; height:54px; padding:2px; box-shadow:none; background:linear-gradient(135deg,var(--teal),var(--gold)) !important;}
+.avatar-fallback{font-size:20px;}
+.card-body{grid-area:body; text-align:left; min-width:0;}
+.student-card-name{font-size:17px; margin:0; line-height:1.25;}
+.student-card-father{justify-content:flex-start; margin:1px 0 6px; font-size:12px;}
+.student-meta-row{justify-content:flex-start; margin-bottom:0;}
+.class-badge{background:var(--teal-soft); color:var(--teal-deep); border-color:#cfe0da;}
+.card-action-dock{
+  grid-area:dock; margin-top:10px; padding-top:10px; gap:8px; justify-content:stretch;
+  border-top:1px solid #f1ead8;
+}
+.card-action-dock > *{flex:1; width:auto; height:38px; border-radius:10px;}
+
+/* ---------- Bottom-sheet popups ---------- */
+.modal-backdrop{align-items:flex-end; padding:0; background:rgba(14,26,22,.55);}
+.modal-backdrop .modal, .modal{
+  max-width:none; width:100%; margin:0 !important; border-radius:22px 22px 0 0;
+  max-height:92vh; max-height:92dvh; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:18px 18px calc(20px + var(--m-safe-b));
+}
+.modal::before{content:''; display:block; width:40px; height:4px; border-radius:2px; background:#d8d0b8; margin:0 auto 14px;}
+.modal-backdrop.open .modal{animation:mSheetUp .26s cubic-bezier(.2,.8,.2,1);}
+@keyframes mSheetUp{from{transform:translateY(28px); opacity:.6;} to{transform:none; opacity:1;}}
+.modal h3{font-size:18px; margin:0 0 14px; padding-right:40px;}
+.modal-close{
+  position:absolute; top:10px; right:12px; width:36px; height:36px; float:none; border-radius:50%;
+  font-size:22px; line-height:1; background:var(--parchment); color:var(--ink-soft);
+}
+.modal{position:relative;}
+.modal.file-modal .modal-close{background:rgba(255,255,255,.18); color:#fff;}
+.file-modal .file-ribbon{margin:-18px -18px 16px; padding:16px 52px 16px 18px; border-radius:22px 22px 0 0;}
+.file-modal .file-ribbon + *{margin-top:0;}
+.modal .btnbar{margin-top:8px;}
+.modal .btnbar .btn, .modal form > .btn{flex:1 1 auto;}
+#paymentModalBackdrop .modal .btn, #holidayModalBackdrop .modal .btn{flex:1 1 auto;}
+.receipt, .idcard{max-width:100%;}
+.idcard{width:100%;}
+
+/* ---------- Home-first login polish ---------- */
+.login-form-side{padding-left:22px; padding-right:22px;}
+.login-box input{font-size:16px;}
+}
+
+@media screen and (max-width:760px) and (prefers-reduced-motion:reduce){
+  .modal-backdrop.open .modal, .page{animation:none !important;}
+}
+
+/* ===== pass 2 fixes ===== */
+@media screen and (max-width:760px){
+/* home */
+body.on-home .topnav{border-bottom:0;}
+.mh-card-h{font-size:13px; gap:4px;}
+.mh-card-h i{width:24px; height:24px;}
+.mh-card-h svg{width:14px; height:14px;}
+
+/* card-header buttons keep the UI font, not the serif heading font */
+.card > h3 > .btn{font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600;}
+
+/* students: equal-width action icons */
+.card-action-dock > *{flex:1 1 0; width:0; min-width:0; padding:0; display:flex; align-items:center; justify-content:center;}
+
+/* filters: a lone dropdown spans the row */
+.searchbar select:only-of-type{grid-column:1 / -1;}
+
+/* sabaq */
+.sabaq-select{height:50px; min-height:50px; line-height:1.3; padding:0 12px; font-size:17px; font-family:'Amiri','Noto Nastaliq Urdu',serif;}
+#sabaqTable td:nth-child(1) small{color:var(--ink-soft); font-size:12px;}
+#sabaqTable td:nth-child(8){display:flex; align-items:center; justify-content:flex-end; gap:8px; align-self:start;}
+#sabaqTable td:nth-child(8)::before{display:inline; margin:0;}
+
+/* tab strips scroll instead of wrapping */
+.tabbar{overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;}
+.tabbar::-webkit-scrollbar{display:none;}
+.tabbar button{flex:1 0 auto; white-space:nowrap; padding:10px 14px;}
+
+/* forms stack; primary buttons are full width */
+.row{flex-direction:column; gap:0;}
+.row > *{min-width:0; width:100%; flex:0 0 auto;}
+.card > button.btn:not(.sm), .card form > button.btn:not(.sm){width:100%;}
+
+/* dashboard "Bakaya" list: compact */
+#dueTable tr{display:grid; grid-template-columns:1fr auto; gap:2px 10px; padding:12px 14px;}
+#dueTable td{display:block; padding:0; border:0 !important; text-align:left;}
+#dueTable td::before{display:none;}
+#dueTable td:nth-child(1){grid-area:1 / 1; font-size:15.5px; font-weight:700; color:var(--ink);}
+#dueTable td:nth-child(5){grid-area:1 / 2; align-self:center;}
+#dueTable td:nth-child(2){grid-area:2 / 1; font-size:12px; color:var(--ink-soft);}
+#dueTable td:nth-child(2):not(:empty)::before{display:inline; content:'Walid: ';}
+#dueTable td:nth-child(3){grid-area:2 / 2; justify-self:end;}
+#dueTable td:nth-child(4){grid-area:3 / 1 / 4 / 3; font-size:12px; color:var(--ink-soft); margin-top:4px;}
+#dueTable td.empty-state{grid-area:1 / 1 / 2 / 3; display:block !important; font:400 13.5px 'Inter',sans-serif; text-align:center; padding:22px 8px;}
+
+/* bulk WhatsApp list: compact with checkbox */
+#bwaStudentTable tr{display:grid; grid-template-columns:30px 1fr auto; gap:2px 10px; padding:12px 14px;}
+#bwaStudentTable td{display:block; padding:0; border:0 !important; text-align:left;}
+#bwaStudentTable td::before{display:none;}
+#bwaStudentTable td:nth-child(1){grid-area:1 / 1 / 4 / 2; align-self:center;}
+#bwaStudentTable td:nth-child(2){grid-area:1 / 2; font-size:15.5px; font-weight:700; color:var(--ink);}
+#bwaStudentTable td:nth-child(6){grid-area:1 / 3; align-self:center;}
+#bwaStudentTable td:nth-child(3){grid-area:2 / 2; font-size:12px; color:var(--ink-soft);}
+#bwaStudentTable td:nth-child(3):not(:empty)::before{display:inline; content:'Walid: ';}
+#bwaStudentTable td:nth-child(4){grid-area:2 / 3; justify-self:end;}
+#bwaStudentTable td:nth-child(5){grid-area:3 / 2 / 4 / 4; font-size:12px; color:var(--ink-soft); margin-top:3px;}
+#bwaStudentTable td.empty-state{grid-area:1 / 1 / 2 / 4; display:block !important; text-align:center; padding:22px 8px;}
+
+/* action cells (buttons) wrap instead of forcing sideways scroll */
+table.m-cards td[style*="nowrap"]{white-space:normal !important; flex-wrap:wrap; justify-content:flex-end;}
+
+/* teachers list: compact */
+#teachersTable tr{display:grid; grid-template-columns:44px 1fr auto; gap:2px 12px; padding:12px 14px;}
+#teachersTable td{display:block; padding:0; border:0 !important; text-align:left; white-space:normal !important;}
+#teachersTable td::before{display:none;}
+#teachersTable td:nth-child(1){grid-area:1 / 1 / 3 / 2; align-self:center;}
+#teachersTable td:nth-child(2){grid-area:1 / 2; font-size:15.5px; font-weight:700; color:var(--ink);}
+#teachersTable td:nth-child(7){grid-area:1 / 3; align-self:center;}
+#teachersTable td:nth-child(3){grid-area:2 / 2; font-size:12px; color:var(--ink-soft);}
+#teachersTable td:nth-child(3):not(:empty)::before{display:inline; content:'@';}
+#teachersTable td:nth-child(4){grid-area:2 / 3; justify-self:end;}
+#teachersTable td:nth-child(5){grid-area:3 / 1 / 4 / 4; margin-top:10px; display:flex; flex-wrap:wrap; gap:6px;}
+#teachersTable td:nth-child(6){grid-area:4 / 1 / 5 / 4; margin-top:8px; font-size:13px;}
+#teachersTable td:nth-child(8){grid-area:5 / 1 / 6 / 4; display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; padding-top:12px; border-top:1px solid #f1ead8 !important;}
+#teachersTable td:nth-child(8) > *{flex:1 1 auto; justify-content:center;}
+#teachersTable td.empty-state{grid-area:1 / 1 / 2 / 4; display:block !important; text-align:center; padding:22px 8px;}
+
+/* fee status (teacher): tidy */
+#feeStatCards{grid-template-columns:repeat(3, minmax(0,1fr));}
+#feeStatCards .metric{padding:12px;}
+#feeStatCards .metric-value{font-size:24px;}
+#feeStatCards .metric-label{font-size:11px; line-height:1.3;}
+#feeStatFilter{grid-column:1 / -1;}
+#feeStatTable td:nth-child(4) .pill{background:none; padding:0; color:var(--ink-soft); font-weight:500; font-size:12px;}
+#feeStatTable td:nth-child(5){justify-self:end;}
+.modal.file-modal{padding-top:0;}
+.modal.file-modal::before{display:none;}
+.file-modal .file-ribbon{margin:0 -18px 16px;}
+/* profile popups: compact header, sheet-style */
+#dossierModalBackdrop, #teacherDossierModalBackdrop{padding:0; align-items:flex-end;}
+.pf-sheet{border-radius:22px 22px 0 0; max-height:94vh; max-height:94dvh; overflow-y:auto; -webkit-overflow-scrolling:touch;}
+.pf-banner{padding:14px 16px; gap:12px; border-bottom-width:4px;}
+.pf-logo{width:52px; height:52px; border-width:2px;}
+.pf-brand{flex:1 1 0; min-width:0;}
+.pf-brand h2{font-size:22px;}
+.pf-brand .pf-sub{font-size:10.5px; letter-spacing:1px; line-height:1.4;}
+.pf-addr{display:none;}
+.pf-banner-right{flex:1 1 100%; margin:0; display:flex; align-items:center; justify-content:space-between; gap:10px; text-align:left;}
+.pf-title-chip{padding:8px 14px; font-size:13px; letter-spacing:1.2px;}
+.pf-status{margin-top:0;}
+.pf-hero{padding:16px;}
+.pf-hero-photo{width:92px; height:92px;}
+.pf-close{top:8px; right:10px; width:34px; height:34px;}
+/* batch pay-slip generator: unlabeled inputs need one column on a phone */
+.form-grid{grid-template-columns:1fr !important;}
+}
+</style>
+
 </head>
 <body>
 
@@ -1336,7 +1800,7 @@ tbody tr:hover{background:#fbf8f0;}
         <div class="login-error" id="loginError"></div>
         <div class="login-loading" id="loginLoading"></div>
         <div class="btnbar">
-          <button class="btn gold" id="loginBtn" type="button" onclick="doLogin()" style="width:100%;justify-content:center;cursor:pointer;pointer-events:auto;position:relative;z-index:20;">Sign In Securely &rarr;</button>Sign In Securely &rarr;</button>
+          <button class="btn gold" id="loginBtn" type="button" onclick="doLogin()" style="width:100%;justify-content:center;cursor:pointer;pointer-events:auto;position:relative;z-index:20;">Sign In Securely &rarr;</button>
         </div>
         <div class="login-footer">System by <b>Bright Academy Nazra</b> &middot; Since 2026</div>
       </div>
@@ -1347,6 +1811,7 @@ tbody tr:hover{background:#fbf8f0;}
 <div class="app app-locked" id="appRoot">
   <!-- ===================== SIDEBAR ===================== -->
   <header class="topnav no-print">
+    <button type="button" class="m-back-top no-print" aria-label="Home par wapas jayein" onclick="showPage('home'); window.scrollTo(0,0);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <div class="brand">
       <div class="brand-mark" id="brandMarkBox">
         <svg viewBox="0 0 40 40" fill="none" width="38" height="38">
@@ -1382,6 +1847,7 @@ tbody tr:hover{background:#fbf8f0;}
       <button data-page="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3"/><rect x="9" y="9" width="6" height="6"/></svg>QR Fee Scanner</button>
       <button data-page="attendance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8 14l2.5 2.5L16 11"/></svg>Attendance</button>
       <button data-page="sabaq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4.5A2.5 2.5 0 016.5 2H19v18H6.5A2.5 2.5 0 004 17.5v-13z"/><path d="M8 8h8M8 12h6"/></svg>Sabaq Report</button>
+      <button data-page="feestatus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/><path d="M8 15l2 2 4-4"/></svg>Fee Status</button>
       <button data-page="bulkwa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Bulk WhatsApp</button>
       <button data-page="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>Settings</button>
       <button data-page="backup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>Backup / Restore</button>
@@ -1399,6 +1865,7 @@ tbody tr:hover{background:#fbf8f0;}
     <button data-page="scan" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3"/><rect x="9" y="9" width="6" height="6"/></svg><span>QR Scan</span></button>
     <button data-page="attendance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/></svg><span>Attendance</span></button>
     <button data-page="sabaq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4.5A2.5 2.5 0 016.5 2H19v18H6.5A2.5 2.5 0 004 17.5v-13z"/></svg><span>Sabaq</span></button>
+    <button data-page="feestatus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/><path d="M8 15l2 2 4-4"/></svg><span>Fee Status</span></button>
     <button data-page="tests" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span>Imtihan</span></button>
     <button data-page="bulkwa" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span>Bulk WA</span></button>
     <button data-page="settings" class="bn-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9"/></svg><span>Settings</span></button>
@@ -1839,6 +2306,26 @@ tbody tr:hover{background:#fbf8f0;}
         <h3>Fee Wasooli &mdash; <span id="feeMonthLabel"></span> <span class="tag" id="feeSummaryTag"></span> <button class="btn gold sm no-print" id="feeBulkSlipsBtn" style="margin-left:auto;">&#128424; Print All Fee Slips (3 Talaba / 6 Copies per A4)</button> <button class="btn ghost sm no-print" id="feeExportBtn">&#11015; Export CSV</button></h3>
         <div class="table-wrap"><table id="feesTable"></table></div>
         <p class="note">"Fees Wasool Karein" se poori ya jitni raqam mili ho utni darj karein. Misal: Rs. 500 fee mein Rs. 100 jama hon to <b>Is Mahine Baqi = Rs. 400</b>; agar pichle mahino ka Rs. 2,500 ho to <b>Kul Bakaya = Rs. 2,900</b>. Receipt aur WhatsApp dono mein yeh poori breakdown nazar aayegi. &#128172; WhatsApp button Urdu text bhejta hai.</p>
+      </div>
+    </section>
+
+    <!-- ---------- FEE STATUS (teacher, read-only) ---------- -->
+    <section id="page-feestatus" class="page section-hidden">
+      <div class="searchbar no-print">
+        <select id="feeStatSectionFilter"></select>
+        <select id="feeStatMonthPicker"></select>
+        <select id="feeStatFilter">
+          <option value="all">Sab Talaba</option>
+          <option value="remaining">Sirf Fee Baqi</option>
+          <option value="paid">Sirf Fee Jama</option>
+        </select>
+        <input type="text" id="feeStatSearch" placeholder="Naam se dhoondein...">
+      </div>
+      <div class="metric-grid" id="feeStatCards"></div>
+      <div class="card">
+        <h3>Fee Status &mdash; <span id="feeStatMonthLabel"></span> <span class="tag" id="feeStatTag"></span></h3>
+        <div class="table-wrap"><table id="feeStatTable"></table></div>
+        <p class="note">Yahan sirf yeh nazar aata hai ke kis talib-e-ilm ne is mahine ki fee jama karwa di hai aur kis ki baqi hai. Jin ki fee baqi hai unhein yaad dihani karwayen ke wo fee jama karwayen.</p>
       </div>
     </section>
 
@@ -2527,7 +3014,7 @@ tbody tr:hover{background:#fbf8f0;}
       <div class="field"><label>Talib-e-Ilm</label><input id="pf_pay_name" disabled></div>
       <div class="row">
         <div class="field"><label>Mahina</label><input id="pf_monthLabel" disabled></div>
-        <div class="field"><label>Fee Breakdown</label><input id="pf_due" disabled></div>
+        <div class="field"><label>Fee Breakdown</label><textarea id="pf_due" disabled rows="2" style="resize:none; min-height:0; line-height:1.45;"></textarea></div>
       </div>
       <div class="row">
         <div class="field"><label>Wasool Shuda Raqam (Rs.)</label><input type="number" id="pf_amount" required min="1"></div>
@@ -3010,7 +3497,7 @@ function initCloudSync(){
 /* ================= LOGIN ================= */
 const ROLE_PAGES = {
   admin: ['dashboard','students','teachers','fees','scan','attendance','bulkwa','sabaq','tests','settings','backup'],
-  teacher: ['attendance','sabaq','tests']
+  teacher: ['attendance','sabaq','feestatus','tests']
 };
 function isMobileView(){ return !!(window.matchMedia && window.matchMedia('(max-width:760px)').matches); }
 function applyRoleAccess(role){
@@ -3660,7 +4147,7 @@ document.getElementById('bwaStopBtn').addEventListener('click', ()=>{
 });
 
 /* ================= NAVIGATION ================= */
-const pages = ['home','dashboard','students','teachers','fees','scan','attendance','bulkwa','sabaq','tests','settings','backup'];
+const pages = ['home','dashboard','students','teachers','fees','scan','attendance','bulkwa','sabaq','feestatus','tests','settings','backup'];
 const pageTitles = {
   home:['Home','Aaj ka khulasa aur tamam options'],
   dashboard:['Dashboard','Aaj ka khulasa — fees, hazri aur talaba ki mukhtasar report'],
@@ -3671,6 +4158,7 @@ const pageTitles = {
   attendance:['Attendance','Roz-marra hazri darj karein'],
   bulkwa:['Bulk WhatsApp','Walidain ko ek sath paigham bhejein — fees, hazri ya announcements'],
   sabaq:['Sabaq Report','Nazira/Sabaq progress aur deeni maloomat ka record'],
+  feestatus:['Fee Status','Kis ne fee jama karwai aur kis ki baqi hai'],
   tests:['Test / Imtihan','Test banayein aur talaba ke marks darj karein'],
   settings:['Settings','Institute ka naam, logo aur Easypaisa account tabdeel karein'],
   backup:['Backup / Restore','Apna data mehfooz rakhein']
@@ -3697,6 +4185,7 @@ function showPage(p){
   if(p==='attendance'){ renderAttendance(); renderAttendanceReport(); }
   if(p==='bulkwa') renderBulkWA();
   if(p==='sabaq') renderSabaq();
+  if(p==='feestatus') renderFeeStatus();
   if(p==='tests') renderTestList();
   if(p==='settings') renderSettings();
   if(p!=='scan') stopScanner();
@@ -3708,6 +4197,30 @@ document.getElementById('navlist').addEventListener('click', e=>{
 document.getElementById('bottomNav').addEventListener('click', e=>{
   const btn = e.target.closest('button[data-page]');
   if(btn) showPage(btn.dataset.page);
+});
+
+/* ================= MOBILE: WIDE TABLES -> STACKED CARDS ================= */
+/* CSS (max-width:760px) turns these tables into cards; every cell gets its column name as a label. Desktop is unchanged. */
+const M_CARD_TABLES = ['feesTable','sabaqTable','attendanceTable','feeStatTable','testMarksTable','dueTable','sectionSummaryTable','teachersTable','tchAttendanceTable','tchPayTable','hol_list','bwaStudentTable','studentsTable'];
+function labelCardTable(tbl){
+  const heads = Array.from(tbl.querySelectorAll('thead th')).map(th=>th.textContent.trim());
+  if(!heads.length) return;
+  tbl.querySelectorAll('tbody tr').forEach(tr=>{
+    let i = 0;
+    Array.from(tr.children).forEach(td=>{
+      if(td.tagName!=='TD') return;
+      if(td.colSpan>1){ i += td.colSpan; return; }
+      td.setAttribute('data-label', heads[i] || '');
+      i++;
+    });
+  });
+}
+M_CARD_TABLES.forEach(id=>{
+  const t = document.getElementById(id);
+  if(!t) return;
+  t.classList.add('m-cards');
+  new MutationObserver(()=>labelCardTable(t)).observe(t, {childList:true});
+  labelCardTable(t);
 });
 
 /* ================= TOP CLOCK ================= */
@@ -3724,6 +4237,7 @@ const MH_ICONS = {
   scan:'<path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3"/><rect x="9" y="9" width="6" height="6"/>',
   attendance:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8 14l2.5 2.5L16 11"/>',
   sabaq:'<path d="M4 4.5A2.5 2.5 0 016.5 2H19v18H6.5A2.5 2.5 0 004 17.5v-13z"/><path d="M8 8h8M8 12h6"/>',
+  feestatus:'<rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/><path d="M8 15l2 2 4-4"/>',
   tests:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>',
   bulkwa:'<path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>',
   holiday:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
@@ -3739,6 +4253,7 @@ const MH_TILES = [
   {page:'scan',       label:'QR Scan',    color:'#0e8fb0', bg:'#dcf1f7'},
   {page:'attendance', label:'Attendance', color:'#c1436a', bg:'#fbe6ed'},
   {page:'sabaq',      label:'Sabaq',      color:'#d9822b', bg:'#fdeedb'},
+  {page:'feestatus',  label:'Fee Status', color:'#2f8a4f', bg:'#e3f3e8'},
   {page:'tests',      label:'Imtihan',    color:'#4b56c9', bg:'#e8eafb'},
   {page:'bulkwa',     label:'WhatsApp',   color:'#12967f', bg:'#dcf4ee'},
   {page:'holiday',    label:'Chutti',     color:'#c98a00', bg:'#fff1cc', adminOnly:true},
@@ -3801,13 +4316,25 @@ function renderMobileHome(){
   }
   document.getElementById('mhCards').innerHTML = feeCard + stuCard;
 
-  /* --- Banner: students with fee due (admin only) --- */
+  /* --- Banner: students whose fee is still due (admin: Fees page, teacher: Fee Status page) --- */
   const banner = document.getElementById('mhBanner');
+  let bannerCount = null, bannerPage = 'fees', bannerSub = 'jama karwana baqi hai';
   if(isAdmin){
+    bannerCount = dueCount;
+  } else if(allowed.includes('feestatus')){
+    bannerCount = 0; bannerPage = 'feestatus'; bannerSub = 'yaad dihani karwayen \u2014 Fee Status dekhein';
+    mine.forEach(s=>{
+      if(!isEnrolled(s, currentMonth)) return;
+      const f = feeStatusPeek(s, currentMonth);
+      if(!f.exempt && f.due>0) bannerCount++;
+    });
+  }
+  if(bannerCount !== null){
     banner.style.display = '';
+    banner.onclick = ()=>mhOpen(bannerPage);
     banner.innerHTML = `<span class="ic">${mhSvg('due')}</span>
-      <span class="tx"><b>Fee Bakaya Talaba</b><small>${monthLabel(currentMonth)} \u2014 jama karwana baqi hai</small></span>
-      <span class="n">${dueCount}</span>`;
+      <span class="tx"><b>Fee Bakaya Talaba</b><small>${monthLabel(currentMonth)} \u2014 ${bannerSub}</small></span>
+      <span class="n">${bannerCount}</span>`;
   } else {
     banner.style.display = 'none';
   }
@@ -3972,6 +4499,7 @@ function populateSectionFilters(){
   document.getElementById('sf_section').innerHTML = sectionOptionsHTML();
   document.getElementById('attSectionFilter').innerHTML = sectionOptionsHTML();
   document.getElementById('sabaqSectionFilter').innerHTML = sectionOptionsHTML();
+  document.getElementById('feeStatSectionFilter').innerHTML = '<option value="">Tamam Sections</option>'+sectionOptionsHTML();
   document.getElementById('testSectionFilter').innerHTML = sectionOptionsHTML();
 }
 
@@ -6515,6 +7043,78 @@ document.getElementById('attReportExportBtn').addEventListener('click', ()=>{
 document.getElementById('attReportPrintBtn').addEventListener('click', ()=>{
   printElement('attReportTable');
 });
+
+/* ================= FEE STATUS (read-only view for teachers) ================= */
+/* Reads fee data without creating/changing any fee record. */
+function feeStatusPeek(student, mKey){
+  if(student.fisabilillah) return {exempt:true, amount:0, paid:0, due:0};
+  const rec = (DB.fees[mKey] || {})[student.id];
+  const cur = (Number(student.fee)>0) ? Number(student.fee) : (sectionMetaOf(student.section).fee||0);
+  let paid = 0, amount = cur;
+  if(rec){
+    paid = (rec.paidAmount!==undefined) ? (rec.paidAmount||0) : (rec.paid ? (rec.amount||0) : 0);
+    amount = (rec.amount>0 || paid>0) ? (rec.amount||0) : cur;
+  }
+  return {exempt:false, amount, paid, due:Math.max(amount-paid,0)};
+}
+function renderFeeStatus(){
+  const monthSel = document.getElementById('feeStatMonthPicker');
+  if(!monthSel.dataset.built){
+    monthSel.innerHTML = monthList().map(m=>`<option value="${m}">${monthLabel(m)}</option>`).join('');
+    monthSel.dataset.built = '1';
+    monthSel.addEventListener('change', ()=>{ currentMonth = monthSel.value; renderFeeStatus(); });
+  }
+  monthSel.value = currentMonth;
+  document.getElementById('feeStatMonthLabel').textContent = monthLabel(currentMonth);
+
+  const secF = document.getElementById('feeStatSectionFilter').value;
+  const statF = document.getElementById('feeStatFilter').value;
+  const q = document.getElementById('feeStatSearch').value.trim().toLowerCase();
+  const allowed = allowedSectionKeys();
+
+  // Everyone in the teacher's own class(es) for this month (counts are not affected by status/search filters)
+  const base = DB.students.filter(s=> s.active && allowed.includes(s.section) && (!secF || s.section===secF) && isEnrolled(s, currentMonth));
+  const info = base.map(s=>({s, f:feeStatusPeek(s, currentMonth)}));
+  const payers = info.filter(x=>!x.f.exempt);
+  const paidN = payers.filter(x=>x.f.due<=0).length;
+  const remN = payers.length - paidN;
+
+  const shown = info.filter(x=>{
+    if(q && !x.s.name.toLowerCase().includes(q)) return false;
+    if(statF==='remaining') return !x.f.exempt && x.f.due>0;
+    if(statF==='paid') return x.f.exempt || x.f.due<=0;
+    return true;
+  }).sort((a,b)=>{
+    // Fee-baqi students first so they are easy to spot
+    const ra = (!a.f.exempt && a.f.due>0) ? 0 : 1, rb = (!b.f.exempt && b.f.due>0) ? 0 : 1;
+    return ra-rb || a.s.name.localeCompare(b.s.name);
+  });
+
+  document.getElementById('feeStatCards').innerHTML = `
+    <div class="metric"><div class="metric-value">${payers.length}</div><div class="metric-label">Kul Talaba (fee wale)</div></div>
+    <div class="metric"><div class="metric-value" style="color:var(--ok);">${paidN}</div><div class="metric-label">Fee Jama Karwa Di</div></div>
+    <div class="metric"><div class="metric-value" style="color:var(--due);">${remN}</div><div class="metric-label">Fee Baqi Hai</div></div>`;
+  document.getElementById('feeStatTag').textContent = `${paidN} jama · ${remN} baqi`;
+
+  const rows = shown.map((x,i)=>{
+    const {s,f} = x;
+    let pill;
+    if(f.exempt) pill = fisabilillahPill();
+    else if(f.due<=0) pill = '<span class="pill paid">&#10003; Fee Jama</span>';
+    else if(f.paid>0) pill = '<span class="pill due">Kuch Jama &middot; Baqi</span>';
+    else pill = '<span class="pill due">Fee Baqi</span>';
+    return `<tr>
+      <td>${i+1}</td>
+      <td><b>${esc(s.name)}</b></td>
+      <td>${esc(s.father||'')}</td>
+      <td><span class="pill section">${esc(sectionMetaOf(s.section).label)}</span></td>
+      <td>${pill}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('feeStatTable').innerHTML = `<thead><tr><th>#</th><th>Naam</th><th>Walid</th><th>Section</th><th>Fee Status</th></tr></thead><tbody>${rows || '<tr><td colspan=5 class="empty-state">Koi talib-e-ilm nahi mila</td></tr>'}</tbody>`;
+}
+['feeStatSectionFilter','feeStatFilter'].forEach(id=>document.getElementById(id).addEventListener('change', renderFeeStatus));
+document.getElementById('feeStatSearch').addEventListener('input', renderFeeStatus);
 
 /* ================= SABAQ REPORT ================= */
 function getSabaq(id){
