@@ -3524,6 +3524,8 @@ function applyRoleAccess(role){
   document.getElementById('sideRoleLabel').textContent = role==='admin' ? 'Admin' : 'Teacher';
   populateSectionFilters();
   showPage(isMobileView() ? 'home' : (allowed[0] || 'dashboard')); if(window.checkAndShowTeacherNotice) window.checkAndShowTeacherNotice();
+  const aiFab = document.getElementById('aiAgentFab');
+  if(aiFab) aiFab.style.display = 'flex';
 }
 window.doLogin = function doLogin(){
   console.log("doLogin clicked");
@@ -8078,6 +8080,450 @@ window.checkAndShowTeacherNotice = function(){
     </div>
   </div>
 </div>
+
+<!-- ================= AI AGENT (VOICE ASSISTANT) ================= -->
+<style>
+.ai-fab{ position:fixed; right:20px; bottom:24px; z-index:9998; width:58px; height:58px; border-radius:50%; border:none; cursor:pointer;
+  background:linear-gradient(135deg,var(--gold),#a97f2c); color:#fff; box-shadow:0 8px 22px rgba(18,56,50,.35), 0 0 0 4px rgba(199,154,60,.18);
+  display:none; align-items:center; justify-content:center; transition:transform .18s ease, box-shadow .18s ease;
+}
+.ai-fab:hover{ transform:translateY(-3px) scale(1.04); }
+.ai-fab svg{ width:26px; height:26px; }
+.ai-panel{ position:fixed; right:20px; bottom:92px; z-index:9999; width:368px; max-width:calc(100vw - 28px); max-height:min(560px, calc(100vh - 140px));
+  background:#fff; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.28); border:1px solid var(--line);
+  display:none; flex-direction:column; overflow:hidden; animation:fadeInUp .25s ease both;
+}
+.ai-panel.open{ display:flex; }
+.ai-panel-head{ background:linear-gradient(120deg,var(--teal-deep),#0d2622 65%); color:#fff; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:8px; flex:0 0 auto; }
+.ai-panel-head .t{ display:flex; align-items:center; gap:9px; }
+.ai-panel-head .t svg{ width:20px; height:20px; color:var(--gold); flex:0 0 auto; }
+.ai-panel-head h4{ margin:0; font-size:14.5px; font-family:'Amiri',serif; }
+.ai-panel-head span{ display:block; font-size:10.5px; color:#c9b98a; margin-top:1px; }
+.ai-head-btns{ display:flex; align-items:center; gap:6px; }
+.ai-lang-toggle{ all:unset; cursor:pointer; font-size:10.5px; font-weight:700; color:#fbf7ea; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:4px 9px; }
+.ai-close{ all:unset; cursor:pointer; color:#fff; font-size:18px; line-height:1; padding:2px 4px; }
+.ai-panel-body{ flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; background:var(--cream); }
+.ai-msg{ max-width:88%; padding:10px 13px; border-radius:12px; font-size:12.8px; line-height:1.65; }
+.ai-msg.bot{ align-self:flex-start; background:#fff; border:1px solid var(--line); color:var(--ink); border-bottom-left-radius:3px; box-shadow:var(--shadow); }
+.ai-msg.user{ align-self:flex-end; background:var(--teal-deep); color:#fff; border-bottom-right-radius:3px; }
+.ai-suggest{ display:flex; flex-wrap:wrap; gap:6px; padding:0 14px 10px; background:var(--cream); flex:0 0 auto; }
+.ai-suggest button{ all:unset; cursor:pointer; font-size:11px; background:#fff; border:1px solid var(--line); color:var(--ink-soft); padding:6px 10px; border-radius:999px; }
+.ai-suggest button:hover{ background:var(--teal-soft); color:var(--teal-deep); }
+.ai-panel-foot{ display:flex; align-items:center; gap:8px; padding:10px 12px; border-top:1px solid var(--line); background:#fff; flex:0 0 auto; }
+.ai-panel-foot input{ flex:1; min-width:0; border:1px solid var(--line); border-radius:999px; padding:10px 14px; font-size:13px; outline:none; font-family:inherit; }
+.ai-panel-foot input:focus{ border-color:var(--gold); }
+.ai-mic-btn{ all:unset; cursor:pointer; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--teal-soft); color:var(--teal-deep); flex:0 0 auto; transition:background .15s ease, color .15s ease; }
+.ai-mic-btn svg{ width:18px; height:18px; }
+.ai-mic-btn.listening{ background:var(--due); color:#fff; animation:pulseDot 1.2s infinite; }
+.ai-send-btn{ all:unset; cursor:pointer; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--gold); color:#fff; flex:0 0 auto; }
+.ai-send-btn svg{ width:16px; height:16px; }
+.ai-typing{ display:inline-flex; gap:3px; align-items:center; }
+.ai-typing span{ width:5px; height:5px; border-radius:50%; background:var(--ink-soft); opacity:.5; animation:aiBlink 1s infinite; }
+.ai-typing span:nth-child(2){ animation-delay:.15s; }
+.ai-typing span:nth-child(3){ animation-delay:.3s; }
+@keyframes aiBlink{ 0%,80%,100%{opacity:.25;} 40%{opacity:1;} }
+@media(max-width:760px){
+  .ai-fab{ right:14px; bottom:78px; }
+  .ai-panel{ right:10px; left:10px; width:auto; bottom:136px; max-height:min(480px, calc(100vh - 200px)); }
+}
+</style>
+
+<button type="button" class="ai-fab no-print" id="aiAgentFab" onclick="toggleAIPanel()" title="AI Agent">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V5a4 4 0 0 0-4-4z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+</button>
+
+<div class="ai-panel no-print" id="aiAgentPanel">
+  <div class="ai-panel-head">
+    <div class="t">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V5a4 4 0 0 0-4-4z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      <div>
+        <h4>Bright Academy AI Agent</h4>
+        <span>Poochein &mdash; ya bol kar batayein</span>
+      </div>
+    </div>
+    <div class="ai-head-btns">
+      <button type="button" class="ai-lang-toggle" id="aiLangToggle" onclick="toggleAILang()" title="Awaz ki zaban">UR</button>
+      <button type="button" class="ai-close" onclick="toggleAIPanel(false)">&times;</button>
+    </div>
+  </div>
+  <div class="ai-panel-body" id="aiPanelBody"></div>
+  <div class="ai-suggest" id="aiSuggestRow"></div>
+  <div class="ai-panel-foot">
+    <button type="button" class="ai-mic-btn" id="aiMicBtn" onclick="toggleAIVoice()" title="Bol kar poochein">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V5a4 4 0 0 0-4-4z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
+    <input type="text" id="aiTextInput" placeholder="Sawal likhein... e.g. fee baqi kitni hai?" autocomplete="off">
+    <button type="button" class="ai-send-btn" onclick="aiSend()" title="Bhejein">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  let panelOpen = false, recognizer = null, listening = false, aiLang = 'ur-PK', greeted = false, lastQueryType = null;
+  const SUGGESTIONS = ['Fee baqi kitni hai?','Aaj ki hazri','Ghair hazir walidain ko WhatsApp bhej do','Fee baqi walidain ko WhatsApp bhej do'];
+  function el(id){ return document.getElementById(id); }
+
+  window.toggleAIPanel = function(force){
+    const panel = el('aiAgentPanel');
+    panelOpen = (force!==undefined) ? !!force : !panelOpen;
+    panel.classList.toggle('open', panelOpen);
+    if(panelOpen){
+      if(!greeted){ renderGreeting(); greeted = true; }
+      setTimeout(()=>{ const i = el('aiTextInput'); if(i) i.focus(); }, 150);
+    } else {
+      stopListening();
+    }
+  };
+
+  function renderGreeting(){
+    addBotMessage('Assalam-o-Alaikum! Main aapka AI Agent hoon. Mujh se talaba ki fee, hazri, admissions waghera ke baare mein poochein, aur phir "WhatsApp bhej do" bol kar unke walidain ko seedha paigham bhi bhijwa saktay hain &mdash; type karke ya mic se bol kar.');
+    renderSuggestions();
+  }
+  function renderSuggestions(){
+    const row = el('aiSuggestRow');
+    if(!row) return;
+    row.innerHTML = SUGGESTIONS.map(s=>`<button type="button" onclick="aiAskDirect(this.textContent)">${esc(s)}</button>`).join('');
+  }
+  window.aiAskDirect = function(text){ el('aiTextInput').value = text; aiSend(); };
+
+  function addUserMessage(text){
+    const body = el('aiPanelBody');
+    const div = document.createElement('div');
+    div.className = 'ai-msg user';
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+  function addBotMessage(html){
+    const body = el('aiPanelBody');
+    const div = document.createElement('div');
+    div.className = 'ai-msg bot';
+    div.innerHTML = html;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+  function addTyping(){
+    const body = el('aiPanelBody');
+    const div = document.createElement('div');
+    div.className = 'ai-msg bot';
+    div.id = 'aiTypingBubble';
+    div.innerHTML = '<span class="ai-typing"><span></span><span></span><span></span></span>';
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+  function removeTyping(){ const t = el('aiTypingBubble'); if(t) t.remove(); }
+
+  window.aiSend = function(){
+    const input = el('aiTextInput');
+    const text = (input.value||'').trim();
+    if(!text) return;
+    addUserMessage(text);
+    input.value = '';
+    addTyping();
+    setTimeout(()=>{
+      removeTyping();
+      let answer;
+      try{ answer = answerAIQuery(text); }
+      catch(err){ console.error('AI agent error:', err); answer = 'Maazrat, jawab tayar karte waqt masla pesh aaya.'; }
+      addBotMessage(answer);
+    }, 260);
+  };
+  document.addEventListener('DOMContentLoaded', function(){
+    const inp = el('aiTextInput');
+    if(inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); aiSend(); } });
+  });
+  // In case this script runs after DOMContentLoaded already fired
+  if(document.readyState!=='loading'){
+    const inp = el('aiTextInput');
+    if(inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); aiSend(); } });
+  }
+
+  /* ---------- Voice recognition ---------- */
+  function getRecognizerCtor(){ return window.SpeechRecognition || window.webkitSpeechRecognition || null; }
+  window.toggleAILang = function(){
+    aiLang = (aiLang==='ur-PK') ? 'en-US' : 'ur-PK';
+    el('aiLangToggle').textContent = aiLang==='ur-PK' ? 'UR' : 'EN';
+  };
+  function stopListening(){
+    if(recognizer && listening){ try{ recognizer.stop(); }catch(e){} }
+    listening = false;
+    const mic = el('aiMicBtn');
+    if(mic) mic.classList.remove('listening');
+  }
+  window.toggleAIVoice = function(){
+    const Ctor = getRecognizerCtor();
+    if(!Ctor){
+      addBotMessage('Maazrat, is browser mein awazi (voice) sahulat dastyab nahi hai. Barah-e-karam neeche type kar ke poochein.');
+      return;
+    }
+    if(listening){ stopListening(); return; }
+    recognizer = new Ctor();
+    recognizer.lang = aiLang;
+    recognizer.interimResults = false;
+    recognizer.maxAlternatives = 1;
+    listening = true;
+    el('aiMicBtn').classList.add('listening');
+    recognizer.onresult = function(e){
+      const transcript = e.results[0][0].transcript;
+      el('aiTextInput').value = transcript;
+      aiSend();
+    };
+    recognizer.onerror = function(e){
+      stopListening();
+      let msg = 'Awaz samajhne mein masla hua, dobara koshish karein.';
+      if(e.error==='not-allowed' || e.error==='service-not-allowed') msg = 'Microphone ki ijazat nahi mili. Browser settings mein mic allow karein.';
+      if(e.error==='no-speech') msg = 'Koi awaz sunai nahi di. Dobara bolein.';
+      addBotMessage(msg);
+    };
+    recognizer.onend = function(){ stopListening(); };
+    try{ recognizer.start(); }
+    catch(err){ stopListening(); addBotMessage('Mic shuru nahi ho saka.'); }
+  };
+
+  /* ---------- NLU / answer engine (works fully offline on local data) ---------- */
+  function has(q, arr){ return arr.some(k=>q.includes(k)); }
+  function fmtNum(n){ return (n||0).toLocaleString('en-US'); }
+
+  function findStudentByName(q){
+    if(!DB || !Array.isArray(DB.students)) return null;
+    const cleaned = q.replace(/[?؟]/g,'').trim();
+    let best = null, bestLen = 0;
+    DB.students.forEach(s=>{
+      if(!s.name) return;
+      const n = s.name.toLowerCase();
+      if(n.length>2 && cleaned.includes(n) && n.length>bestLen){ best = s; bestLen = n.length; }
+    });
+    return best;
+  }
+
+  function feeDueReport(){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    const mKey = currentMonth;
+    const active = DB.students.filter(s=>s.active!==false && allowed.includes(s.section) && isEnrolled(s,mKey));
+    const info = active.map(s=>({s,f:feeStatusPeek(s,mKey)}));
+    const payers = info.filter(x=>!x.f.exempt);
+    const dueList = payers.filter(x=>x.f.due>0);
+    const paidN = payers.length - dueList.length;
+    const totalDue = dueList.reduce((sum,x)=>sum+x.f.due,0);
+    const bySec = {};
+    dueList.forEach(x=>{ bySec[x.s.section] = (bySec[x.s.section]||0)+1; });
+    const secLine = allowed.filter(k=>bySec[k]).map(k=>`${sectionMetaOf(k).label}: <b>${bySec[k]}</b>`).join(' &middot; ');
+    return `📌 <b>${monthLabel(mKey)} &mdash; Fee Baqi Report</b><br>
+      Kul fee wale talaba: <b>${fmtNum(payers.length)}</b><br>
+      Fee jama karwa chuke: <b style="color:var(--ok)">${fmtNum(paidN)}</b><br>
+      Fee abhi baqi hai: <b style="color:var(--due)">${fmtNum(dueList.length)}</b><br>
+      Kul baqaya raqam: <b style="color:var(--due)">Rs ${fmtNum(totalDue)}</b>
+      ${secLine ? `<br><span style="font-size:11.5px;color:var(--ink-soft)">Section-wise baqi: ${secLine}</span>` : ''}`;
+  }
+
+  function feeCollectionReport(){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    const mKey = currentMonth;
+    const active = DB.students.filter(s=>s.active!==false && allowed.includes(s.section) && isEnrolled(s,mKey));
+    const info = active.map(s=>({s,f:feeStatusPeek(s,mKey)}));
+    const payers = info.filter(x=>!x.f.exempt);
+    const paidN = payers.filter(x=>x.f.due<=0).length;
+    const collected = payers.reduce((sum,x)=>sum+x.f.paid,0);
+    const expected = payers.reduce((sum,x)=>sum+x.f.amount,0);
+    return `💰 <b>${monthLabel(mKey)} &mdash; Fee Wasooli</b><br>
+      Fee jama karne wale: <b style="color:var(--ok)">${fmtNum(paidN)}</b> / ${fmtNum(payers.length)}<br>
+      Wasool shuda raqam: <b>Rs ${fmtNum(collected)}</b><br>
+      Mutawaqqa kul raqam: <b>Rs ${fmtNum(expected)}</b>`;
+  }
+
+  function attendanceReport(){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    const dateKey = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
+    let present=0, absent=0, leave=0, unmarked=0, total=0;
+    allowed.forEach(sec=>{
+      const secStudents = DB.students.filter(s=>s.active!==false && s.section===sec);
+      total += secStudents.length;
+      const rec = ((DB.attendance||{})[sec]||{})[dateKey] || {};
+      secStudents.forEach(s=>{
+        const st = rec[s.id];
+        if(st==='P' || st==='Lt') present++;
+        else if(st==='A') absent++;
+        else if(st==='L') leave++;
+        else unmarked++;
+      });
+    });
+    return `🗓️ <b>Aaj ki Hazri</b> (${dateKey})<br>
+      Kul talaba: <b>${fmtNum(total)}</b><br>
+      Hazir: <b style="color:var(--ok)">${fmtNum(present)}</b><br>
+      Ghair hazir: <b style="color:var(--due)">${fmtNum(absent)}</b>
+      ${leave? `<br>Chutti par: <b>${fmtNum(leave)}</b>` : ''}
+      ${unmarked? `<br>Hazri abhi lagi nahi: <b>${fmtNum(unmarked)}</b>` : ''}`;
+  }
+
+  function studentsTotalReport(){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    const active = DB.students.filter(s=>s.active!==false && allowed.includes(s.section));
+    const bySec = {};
+    active.forEach(s=>{ bySec[s.section] = (bySec[s.section]||0)+1; });
+    const lines = allowed.filter(k=>bySec[k]).map(k=>`${sectionMetaOf(k).label}: <b>${bySec[k]}</b>`).join('<br>');
+    return `👥 <b>Kul Talaba</b><br>
+      Total active talaba: <b>${fmtNum(active.length)}</b>
+      ${lines? '<br><span style="font-size:11.5px;color:var(--ink-soft)">'+lines+'</span>' : ''}`;
+  }
+
+  function admissionsReport(){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    const mKey = currentMonth;
+    const list = DB.students.filter(s=>allowed.includes(s.section) && studentJoinMonth(s)===mKey);
+    return `🆕 <b>${monthLabel(mKey)} &mdash; Nayi Admissions</b><br>
+      Is mahine dakhla lene wale talaba: <b>${fmtNum(list.length)}</b>
+      ${list.length? '<br><span style="font-size:11.5px;color:var(--ink-soft)">'+list.slice(0,8).map(s=>esc(s.name)).join('، ')+(list.length>8?' &hellip;':'')+'</span>' : ''}`;
+  }
+
+  function teachersReport(){
+    if(typeof CURRENT_ROLE!=='undefined' && CURRENT_ROLE!=='admin'){
+      return 'Yeh maloomat sirf Admin dekh sakte hain.';
+    }
+    const list = (DB.teachers||[]);
+    return `🧑‍🏫 <b>Asatiza</b><br>Kul asatiza: <b>${fmtNum(list.length)}</b>`;
+  }
+
+  function studentFeeDetail(s){
+    const mKey = currentMonth;
+    const f = feeStatusPeek(s, mKey);
+    let status;
+    if(f.exempt) status = 'Fi Sabilillah (mauaf)';
+    else if(f.due<=0) status = '<span style="color:var(--ok)">Fee jama ho chuki hai</span>';
+    else status = `<span style="color:var(--due)">Rs ${fmtNum(f.due)} baqi hai</span>`;
+    return `👤 <b>${esc(s.name)}</b> &mdash; ${esc(sectionMetaOf(s.section).label)}<br>
+      ${monthLabel(mKey)} fee: ${status}`;
+  }
+
+  function helpMessage(){
+    return `Aap mujh se yeh sawal pooch sakte hain:<br>
+      &bull; "Fee baqi kitni hai?"<br>
+      &bull; "Kitne talaba ne fee jama nahi ki?"<br>
+      &bull; "Aaj ki hazri kaisi hai?"<br>
+      &bull; "Kul talaba kitne hain?"<br>
+      &bull; "Is mahine kitni admissions hui?"<br>
+      &bull; "&lt;talib-e-ilm ka naam&gt; ki fee"<br>
+      &bull; Phir "WhatsApp bhej do" &mdash; jis group ki tafseel abhi batayi ho unhein paigham chala jayega<br>
+      &bull; "&lt;talib-e-ilm ka naam&gt; ko WhatsApp bhej do" &mdash; sirf usi ek ko paigham`;
+  }
+
+  /* ---------- WhatsApp send actions (reuses the app's own Bulk WhatsApp + reminder functions) ---------- */
+  function isAdminNow(){ return typeof CURRENT_ROLE==='undefined' || CURRENT_ROLE==='admin'; }
+  function waLinkHTML(contact, message, label){
+    const num = (typeof toWaNumber==='function') ? toWaNumber(contact) : null;
+    if(!num) return '';
+    const url = 'https://wa.me/'+num+'?text='+encodeURIComponent(message);
+    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;background:#25D366;color:#fff;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 12px;border-radius:999px;margin-top:8px;">📲 ${esc(label||'WhatsApp Kholein')}</a>`;
+  }
+  function bulkSendAction(kind){
+    if(!isAdminNow()) return 'Yeh sahulat sirf Admin login se dastyab hai.';
+    const ids = (kind==='feeDue' ? bwaFeeDueIds() : bwaTodaysAbsentIds()).filter(id=>{
+      const s = studentById(id); return s && toWaNumber(s.contact);
+    });
+    if(!ids.length){
+      return kind==='feeDue'
+        ? 'Is waqt kisi ka bhi fee bakaya nahi hai (ya unka WhatsApp number darj nahi) &mdash; mubarak!'
+        : 'Aaj koi talib-e-ilm ghair hazir darj nahi hai (ya unka WhatsApp number darj nahi).';
+    }
+    const label = kind==='feeDue' ? 'Fee Bakaya' : 'Aaj Ghair Hazir';
+    setTimeout(()=>{
+      showPage('bulkwa');
+      setTimeout(()=>{
+        if(typeof setBwaChannel==='function') setBwaChannel('wa');
+        const selBtn = el(kind==='feeDue' ? 'bwaSelectDueBtn' : 'bwaSelectAbsentBtn');
+        if(selBtn) selBtn.click();
+        setTimeout(()=>{
+          const startBtn = el('bwaStartBtn');
+          if(startBtn && !startBtn.disabled) startBtn.click();
+          toggleAIPanel(false);
+        }, 90);
+      }, 90);
+    }, 500);
+    lastQueryType = null;
+    return `📨 <b>${label}</b> &mdash; <b>${fmtNum(ids.length)}</b> walidain ko WhatsApp paigham taiyar.<br>
+      Bulk WhatsApp page khul rahi hai &mdash; har walid ke liye "Send" button dabayen, WhatsApp khud khul jayega.`;
+  }
+  function singleSendAction(s, kind){
+    if(!isAdminNow()) return 'Yeh sahulat sirf Admin login se dastyab hai.';
+    let message, contextNote;
+    if(kind==='fee'){
+      const det = feeBreakdown(s.id, currentMonth);
+      if(!(det.totalDue>0)) return `👤 <b>${esc(s.name)}</b> ki fee is waqt baqi nahi hai &mdash; paigham bhejne ki zaroorat nahi.`;
+      message = feeReminderText(s);
+      contextNote = `Rs ${fmtNum(det.totalDue)} baqi`;
+    } else {
+      const today = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
+      const rec = ((DB.attendance||{})[s.section]||{})[today] || {};
+      if(rec[s.id]!=='A') return `👤 <b>${esc(s.name)}</b> aaj ghair hazir darj nahi hai, is liye paigham nahi bheja gaya.`;
+      message = absentMessageText(s, today);
+      contextNote = 'Aaj ghair hazir';
+    }
+    const num = toWaNumber(s.contact);
+    if(!num) return `👤 <b>${esc(s.name)}</b> (${contextNote}) &mdash; is talib-e-ilm ka WhatsApp number darj nahi hai. Pehle "Students" mein number darj karein.`;
+    try{ window.open('https://wa.me/'+num+'?text='+encodeURIComponent(message), '_blank'); }catch(e){}
+    lastQueryType = null;
+    return `👤 <b>${esc(s.name)}</b> &mdash; ${contextNote}<br>WhatsApp khola ja raha hai...${waLinkHTML(s.contact, message, 'Dobara Kholein')}`;
+  }
+
+  window.answerAIQuery = function(raw){
+    const q = String(raw||'').toLowerCase().trim();
+    if(!q) return helpMessage();
+    if(typeof DB==='undefined' || !DB || !Array.isArray(DB.students)) return 'Data abhi load ho raha hai, thori dair mein dobara koshish karein.';
+
+    const feeWord = has(q, ['fee','fees','فیس']);
+    const dueWord = has(q, ['nahi','baqi','due','not paid','pending','baqaya','باقی','نہیں','بقایا']);
+    const paidWord = has(q, ['jama','paid','submit','de di','wasool','ادا','جمع']);
+    const collectionWord = has(q, ['collection','wasooli','وصولی','kitni aa chuki','kitna aaya']);
+    const attWord = has(q, ['hazir','hazri','attendance','present','absent','ہاضر','حاضری']);
+    const admissionWord = has(q, ['admission','dakhla','داخلہ','naya talib','new student']);
+    const teacherWord = has(q, ['teacher','ustad','asatiza','استاد','اساتذہ']);
+    const totalWord = has(q, ['kitne','kitni','total','kul','count','کتنے','کتنی','کل']);
+    const studentWord = has(q, ['talaba','talib','student','bache','بچے','طلبا']);
+    const helpWord = has(q, ['help','madad','مدد','kya kya','commands']);
+    const greetWord = has(q, ['salam','السلام','hello','hi','ہیلو']);
+    const sendWord = has(q, ['bhej','bhijw','send','بھیج','paigham kar','message kar']);
+
+    const namedStudent = findStudentByName(q);
+
+    /* ---- Action intent: send WhatsApp (single student or bulk / follow-up) ---- */
+    if(sendWord){
+      if(namedStudent){
+        if(feeWord || dueWord) return singleSendAction(namedStudent, 'fee');
+        if(attWord) return singleSendAction(namedStudent, 'absent');
+        const det = feeBreakdown(namedStudent.id, currentMonth);
+        if(det.totalDue>0) return singleSendAction(namedStudent, 'fee');
+        const today = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
+        const rec = ((DB.attendance||{})[namedStudent.section]||{})[today] || {};
+        if(rec[namedStudent.id]==='A') return singleSendAction(namedStudent, 'absent');
+        return `👤 <b>${esc(namedStudent.name)}</b> ki fee baqi nahi hai aur woh aaj hazir hai &mdash; paigham bhejne ki zaroorat nahi.`;
+      }
+      if(feeWord || dueWord) return bulkSendAction('feeDue');
+      if(attWord) return bulkSendAction('absent');
+      if(lastQueryType==='feeDue') return bulkSendAction('feeDue');
+      if(lastQueryType==='absent') return bulkSendAction('absent');
+      return 'Kis group ko paigham bhejna hai? Pehle poochein "kin bachon ki fee baqi hai" ya "aaj kon ghair hazir hai", phir "WhatsApp bhej do" kahain.';
+    }
+
+    /* ---- Informational intents ---- */
+    if(feeWord && dueWord){ lastQueryType = 'feeDue'; return feeDueReport(); }
+    if(feeWord && paidWord) return feeCollectionReport();
+    if(collectionWord) return feeCollectionReport();
+    if(attWord){ lastQueryType = 'absent'; return attendanceReport(); }
+    if(admissionWord) return admissionsReport();
+    if(teacherWord) return teachersReport();
+    if(studentWord && totalWord) return studentsTotalReport();
+    if(studentWord && !feeWord) return studentsTotalReport();
+    if(helpWord) return helpMessage();
+
+    if(namedStudent) return studentFeeDetail(namedStudent);
+
+    if(greetWord) return 'Wa alaikum assalam! Bataein, main aapki kis tarah madad kar sakta hoon?';
+
+    return `Maazrat, main yeh sawal samajh nahi saka. ${helpMessage()}`;
+  };
+})();
+</script>
 
 </body>
 </html>
