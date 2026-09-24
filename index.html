@@ -3862,6 +3862,9 @@ function absentMessageText(s, date){
   const dateLabel = new Date(date+'T00:00:00').toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'});
   return `السلام علیکم!\n${childPhrase(s)} ${s.name} آج (${dateLabel}) مدرسہ میں غیر حاضر ہے۔\nبراہ کرم وجہ سے آگاہ فرمائیں۔\nجزاک اللہ خیر\n- ${DB.meta.instituteName}`;
 }
+function photoReminderText(s){
+  return `السلام علیکم!\n${childPhrase(s)} ${s.name} کی پروفائل میں ابھی تک تصویر شامل نہیں کی گئی۔\nبراہ کرم بچے کی ایک واضح تصویر واٹس ایپ پر بھیج دیں تاکہ ہم اسے پروفائل میں لگا سکیں۔\nجزاک اللہ خیر\n- ${DB.meta.instituteName}`;
+}
 function sendTeacherAbsentMessage(tId, date){
   const t = teacherById(tId);
   if(!t){ alert('Teacher nahi mili.'); return; }
@@ -4030,7 +4033,7 @@ const BWA_TEMPLATES = {
 let BWA_SELECTED = new Set();
 let BWA_QUEUE = [];
 let BWA_QUEUE_INDEX = 0;
-let BWA_MODE = 'custom'; /* 'custom' | 'absent' | 'fee' */
+let BWA_MODE = 'custom'; /* 'custom' | 'absent' | 'fee' | 'photo' */
 
 function bwaSetMode(mode, label){
   BWA_MODE = mode;
@@ -4140,6 +4143,7 @@ document.getElementById('bwaStudentTable').addEventListener('change', e=>{
 function bwaMessageFor(s){
   if(BWA_MODE==='absent') return absentMessageText(s, todayISO());
   if(BWA_MODE==='fee') return feeReminderText(s);
+  if(BWA_MODE==='photo') return photoReminderText(s);
   const tpl = document.getElementById('bwaMessage').value || '';
   return tpl
     .replaceAll('{name}', s.name)
@@ -8162,7 +8166,7 @@ window.checkAndShowTeacherNotice = function(){
 <script>
 (function(){
   let panelOpen = false, recognizer = null, listening = false, aiLang = 'ur-PK', greeted = false, lastQueryType = null;
-  const SUGGESTIONS = ['Fee baqi kitni hai?','Aaj ki hazri','Ghair hazir walidain ko WhatsApp bhej do','Fee baqi walidain ko WhatsApp bhej do'];
+  const SUGGESTIONS = ['Fee baqi kitni hai?','Aaj ki hazri','Aaj kaunse ustad ghair hazir hain?','Kis bache ki tasveer nahi lagi?','Kitne bachon ka number nahi hai?'];
   function el(id){ return document.getElementById(id); }
 
   window.toggleAIPanel = function(force){
@@ -8178,7 +8182,7 @@ window.checkAndShowTeacherNotice = function(){
   };
 
   function renderGreeting(){
-    addBotMessage('Assalam-o-Alaikum! Main aapka AI Agent hoon. Mujh se talaba ki fee, hazri, admissions waghera ke baare mein poochein, aur phir "WhatsApp bhej do" bol kar unke walidain ko seedha paigham bhi bhijwa saktay hain &mdash; type karke ya mic se bol kar.');
+    addBotMessage('Assalam-o-Alaikum! Main aapka AI Agent hoon. Mujh se talaba aur asatiza ki fee, hazri, tasveer, rabta number waghera ke baare mein poochein, aur phir "WhatsApp bhej do" bol kar seedha paigham bhi bhijwa saktay hain &mdash; type karke ya mic se bol kar.');
     renderSuggestions();
   }
   function renderSuggestions(){
@@ -8298,6 +8302,65 @@ window.checkAndShowTeacherNotice = function(){
     return best;
   }
 
+  function findTeacherByName(q){
+    if(!DB || !Array.isArray(DB.teachers)) return null;
+    const cleaned = q.replace(/[?؟]/g,'').trim();
+    let best = null, bestLen = 0;
+    DB.teachers.forEach(t=>{
+      if(!t.name) return;
+      const n = t.name.toLowerCase();
+      if(n.length>2 && cleaned.includes(n) && n.length>bestLen){ best = t; bestLen = n.length; }
+    });
+    return best;
+  }
+
+  function missingPhotoIds(){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    return DB.students.filter(s=>s.active!==false && allowed.includes(s.section) && !s.photo).map(s=>s.id);
+  }
+  function sectionGroupedLines(students){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    const bySec = {};
+    students.forEach(s=>{ (bySec[s.section] = bySec[s.section]||[]).push(s.name); });
+    return allowed.filter(k=>bySec[k]).map(k=>
+      `<b>${esc(sectionMetaOf(k).label)}</b> (${bySec[k].length}): ${bySec[k].map(esc).join('، ')}`
+    ).join('<br>');
+  }
+  function missingPhotoReport(){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    const list = DB.students.filter(s=>s.active!==false && allowed.includes(s.section) && !s.photo);
+    lastQueryType = list.length ? 'photo' : null;
+    if(!list.length) return '📷 Sab talaba ki tasveerein profile mein mojood hain &mdash; koi kami nahi.';
+    return `📷 <b>Bughair Tasveer Talaba</b><br>Kul: <b>${fmtNum(list.length)}</b><br>
+      <span style="font-size:11.5px;color:var(--ink-soft)">${sectionGroupedLines(list)}</span>`;
+  }
+  function missingContactReport(){
+    const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
+    const list = DB.students.filter(s=>s.active!==false && allowed.includes(s.section) && !toWaNumber(s.contact));
+    if(!list.length) return '📵 Sab talaba ka rabta number darj hai &mdash; koi kami nahi.';
+    return `📵 <b>Bughair Number Talaba</b><br>Kul: <b>${fmtNum(list.length)}</b><br>
+      <span style="font-size:11.5px;color:var(--ink-soft)">${sectionGroupedLines(list)}</span>`;
+  }
+  function teacherAttendanceReport(){
+    const today = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
+    const rec = (DB.teacherAttendance||{})[today] || {};
+    const list = DB.teachers||[];
+    let present=0, absent=0, leave=0, unmarked=0;
+    const absentNames = [];
+    list.forEach(t=>{
+      const st = rec[t.id];
+      if(st==='P') present++;
+      else if(st==='A'){ absent++; absentNames.push(t.name); }
+      else if(st==='L') leave++;
+      else unmarked++;
+    });
+    lastQueryType = absent>0 ? 'teacherAbsent' : null;
+    return `🧑‍🏫 <b>Aaj Asatiza ki Hazri</b><br>Kul asatiza: <b>${fmtNum(list.length)}</b><br>
+      Hazir: <b style="color:var(--ok)">${fmtNum(present)}</b><br>
+      Ghair hazir: <b style="color:var(--due)">${fmtNum(absent)}</b>
+      ${absentNames.length ? '<br><span style="font-size:11.5px;color:var(--ink-soft)">'+absentNames.map(esc).join('، ')+'</span>' : ''}`;
+  }
+
   function feeDueReport(){
     const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
     const mKey = currentMonth;
@@ -8307,15 +8370,13 @@ window.checkAndShowTeacherNotice = function(){
     const dueList = payers.filter(x=>x.f.due>0);
     const paidN = payers.length - dueList.length;
     const totalDue = dueList.reduce((sum,x)=>sum+x.f.due,0);
-    const bySec = {};
-    dueList.forEach(x=>{ bySec[x.s.section] = (bySec[x.s.section]||0)+1; });
-    const secLine = allowed.filter(k=>bySec[k]).map(k=>`${sectionMetaOf(k).label}: <b>${bySec[k]}</b>`).join(' &middot; ');
+    const secLines = sectionGroupedLines(dueList.map(x=>x.s));
     return `📌 <b>${monthLabel(mKey)} &mdash; Fee Baqi Report</b><br>
       Kul fee wale talaba: <b>${fmtNum(payers.length)}</b><br>
       Fee jama karwa chuke: <b style="color:var(--ok)">${fmtNum(paidN)}</b><br>
       Fee abhi baqi hai: <b style="color:var(--due)">${fmtNum(dueList.length)}</b><br>
       Kul baqaya raqam: <b style="color:var(--due)">Rs ${fmtNum(totalDue)}</b>
-      ${secLine ? `<br><span style="font-size:11.5px;color:var(--ink-soft)">Section-wise baqi: ${secLine}</span>` : ''}`;
+      ${secLines ? `<br><span style="font-size:11.5px;color:var(--ink-soft)">${secLines}</span>` : ''}`;
   }
 
   function feeCollectionReport(){
@@ -8337,6 +8398,7 @@ window.checkAndShowTeacherNotice = function(){
     const allowed = (typeof allowedSectionKeys==='function') ? allowedSectionKeys() : SECTION_KEYS;
     const dateKey = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
     let present=0, absent=0, leave=0, unmarked=0, total=0;
+    const absentStudents = [];
     allowed.forEach(sec=>{
       const secStudents = DB.students.filter(s=>s.active!==false && s.section===sec);
       total += secStudents.length;
@@ -8344,15 +8406,20 @@ window.checkAndShowTeacherNotice = function(){
       secStudents.forEach(s=>{
         const st = rec[s.id];
         if(st==='P' || st==='Lt') present++;
-        else if(st==='A') absent++;
+        else if(st==='A'){ absent++; absentStudents.push(s); }
         else if(st==='L') leave++;
         else unmarked++;
       });
     });
+    if(total>0 && unmarked===total){
+      return `🗓️ <b>Aaj ki Hazri</b> (${dateKey})<br>Abhi tak kisi bhi section ki hazri mark nahi hui. Pehle "Attendance" page se hazri lagayen, phir dobara poochein.`;
+    }
+    const secLines = sectionGroupedLines(absentStudents);
     return `🗓️ <b>Aaj ki Hazri</b> (${dateKey})<br>
       Kul talaba: <b>${fmtNum(total)}</b><br>
       Hazir: <b style="color:var(--ok)">${fmtNum(present)}</b><br>
       Ghair hazir: <b style="color:var(--due)">${fmtNum(absent)}</b>
+      ${secLines ? '<br><span style="font-size:11.5px;color:var(--ink-soft)">'+secLines+'</span>' : ''}
       ${leave? `<br>Chutti par: <b>${fmtNum(leave)}</b>` : ''}
       ${unmarked? `<br>Hazri abhi lagi nahi: <b>${fmtNum(unmarked)}</b>` : ''}`;
   }
@@ -8399,13 +8466,13 @@ window.checkAndShowTeacherNotice = function(){
   function helpMessage(){
     return `Aap mujh se yeh sawal pooch sakte hain:<br>
       &bull; "Fee baqi kitni hai?"<br>
-      &bull; "Kitne talaba ne fee jama nahi ki?"<br>
       &bull; "Aaj ki hazri kaisi hai?"<br>
-      &bull; "Kul talaba kitne hain?"<br>
-      &bull; "Is mahine kitni admissions hui?"<br>
-      &bull; "&lt;talib-e-ilm ka naam&gt; ki fee"<br>
-      &bull; Phir "WhatsApp bhej do" &mdash; jis group ki tafseel abhi batayi ho unhein paigham chala jayega<br>
-      &bull; "&lt;talib-e-ilm ka naam&gt; ko WhatsApp bhej do" &mdash; sirf usi ek ko paigham`;
+      &bull; "Aaj kaunse ustad ghair hazir hain?"<br>
+      &bull; "Kis bache ki tasveer profile mein nahi lagi?"<br>
+      &bull; "Kitne bachon ka number darj nahi hai?"<br>
+      &bull; "Kul talaba kitne hain?" / "Is mahine kitni admissions hui?"<br>
+      &bull; "&lt;naam&gt; ki fee" ya "&lt;naam&gt; ko WhatsApp bhej do"<br>
+      &bull; Kisi bhi report ke baad sirf "WhatsApp bhej do" bolein &mdash; usi group ko paigham chala jayega`;
   }
 
   /* ---------- WhatsApp send actions (reuses the app's own Bulk WhatsApp + reminder functions) ---------- */
@@ -8418,21 +8485,35 @@ window.checkAndShowTeacherNotice = function(){
   }
   function bulkSendAction(kind){
     if(!isAdminNow()) return 'Yeh sahulat sirf Admin login se dastyab hai.';
-    const ids = (kind==='feeDue' ? bwaFeeDueIds() : bwaTodaysAbsentIds()).filter(id=>{
-      const s = studentById(id); return s && toWaNumber(s.contact);
-    });
-    if(!ids.length){
-      return kind==='feeDue'
-        ? 'Is waqt kisi ka bhi fee bakaya nahi hai (ya unka WhatsApp number darj nahi) &mdash; mubarak!'
-        : 'Aaj koi talib-e-ilm ghair hazir darj nahi hai (ya unka WhatsApp number darj nahi).';
+    let ids, label, emptyMsg;
+    if(kind==='feeDue'){
+      ids = bwaFeeDueIds().filter(id=>{ const s=studentById(id); return s && toWaNumber(s.contact); });
+      label = 'Fee Bakaya';
+      emptyMsg = 'Is waqt kisi ka bhi fee bakaya nahi hai (ya unka WhatsApp number darj nahi) &mdash; mubarak!';
+    } else if(kind==='absent'){
+      ids = bwaTodaysAbsentIds().filter(id=>{ const s=studentById(id); return s && toWaNumber(s.contact); });
+      label = 'Aaj Ghair Hazir';
+      emptyMsg = 'Aaj koi talib-e-ilm ghair hazir darj nahi hai (ya unka WhatsApp number darj nahi).';
+    } else { // photo
+      ids = missingPhotoIds().filter(id=>{ const s=studentById(id); return s && toWaNumber(s.contact); });
+      label = 'Tasveer Baqi';
+      emptyMsg = 'Jin bachon ki tasveer nahi hai unka WhatsApp number bhi darj nahi hai, is liye paigham nahi bheja ja sakta.';
     }
-    const label = kind==='feeDue' ? 'Fee Bakaya' : 'Aaj Ghair Hazir';
+    if(!ids.length) return emptyMsg;
     setTimeout(()=>{
       showPage('bulkwa');
       setTimeout(()=>{
         if(typeof setBwaChannel==='function') setBwaChannel('wa');
-        const selBtn = el(kind==='feeDue' ? 'bwaSelectDueBtn' : 'bwaSelectAbsentBtn');
-        if(selBtn) selBtn.click();
+        if(kind==='photo'){
+          BWA_SELECTED = new Set(ids);
+          if(typeof bwaSetMode==='function') bwaSetMode('photo', '📷 Mode: Tasveer Baqi \u2014 har walid ko tasveer bhejne ki darkhwast');
+          const msgBox = el('bwaMessage');
+          if(msgBox) msgBox.value = '';
+          if(typeof renderBulkWA==='function') renderBulkWA();
+        } else {
+          const selBtn = el(kind==='feeDue' ? 'bwaSelectDueBtn' : 'bwaSelectAbsentBtn');
+          if(selBtn) selBtn.click();
+        }
         setTimeout(()=>{
           const startBtn = el('bwaStartBtn');
           if(startBtn && !startBtn.disabled) startBtn.click();
@@ -8452,6 +8533,10 @@ window.checkAndShowTeacherNotice = function(){
       if(!(det.totalDue>0)) return `👤 <b>${esc(s.name)}</b> ki fee is waqt baqi nahi hai &mdash; paigham bhejne ki zaroorat nahi.`;
       message = feeReminderText(s);
       contextNote = `Rs ${fmtNum(det.totalDue)} baqi`;
+    } else if(kind==='photo'){
+      if(s.photo) return `👤 <b>${esc(s.name)}</b> ki tasveer profile mein mojood hai &mdash; paigham bhejne ki zaroorat nahi.`;
+      message = photoReminderText(s);
+      contextNote = 'Tasveer baqi';
     } else {
       const today = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
       const rec = ((DB.attendance||{})[s.section]||{})[today] || {};
@@ -8466,6 +8551,39 @@ window.checkAndShowTeacherNotice = function(){
     return `👤 <b>${esc(s.name)}</b> &mdash; ${contextNote}<br>WhatsApp khola ja raha hai...${waLinkHTML(s.contact, message, 'Dobara Kholein')}`;
   }
 
+  /* ---------- Teacher absent messaging (no bulk page exists for teachers, so we render one WhatsApp link per teacher inline) ---------- */
+  function todaysAbsentTeachers(){
+    const today = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
+    const rec = (DB.teacherAttendance||{})[today] || {};
+    return (DB.teachers||[]).filter(t=>rec[t.id]==='A');
+  }
+  function singleTeacherSendAction(t){
+    if(!isAdminNow()) return 'Yeh sahulat sirf Admin login se dastyab hai.';
+    const today = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
+    const rec = (DB.teacherAttendance||{})[today] || {};
+    if(rec[t.id]!=='A') return `👤 <b>${esc(t.name)}</b> aaj ghair hazir darj nahi hain, is liye paigham nahi bheja gaya.`;
+    const message = teacherAbsentMessageText(t, today);
+    const num = toWaNumber(t.phone);
+    if(!num) return `👤 <b>${esc(t.name)}</b> (Aaj ghair hazir) &mdash; inka WhatsApp number darj nahi hai. Pehle "Teachers" mein number darj karein.`;
+    try{ window.open('https://wa.me/'+num+'?text='+encodeURIComponent(message), '_blank'); }catch(e){}
+    lastQueryType = null;
+    return `👤 <b>${esc(t.name)}</b> &mdash; Aaj ghair hazir<br>WhatsApp khola ja raha hai...${waLinkHTML(t.phone, message, 'Dobara Kholein')}`;
+  }
+  function bulkTeacherAbsentSend(){
+    if(!isAdminNow()) return 'Yeh sahulat sirf Admin login se dastyab hai.';
+    const today = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
+    const absentTeachers = todaysAbsentTeachers();
+    if(!absentTeachers.length) return '🧑‍🏫 Aaj koi ustad ghair hazir darj nahi hain.';
+    const withNum = absentTeachers.filter(t=>toWaNumber(t.phone));
+    if(!withNum.length) return '🧑‍🏫 Aaj ghair hazir asatiza ka WhatsApp number darj nahi hai.';
+    lastQueryType = null;
+    const links = withNum.map(t=>{
+      const message = teacherAbsentMessageText(t, today);
+      return `<div style="margin-top:8px;">👤 <b>${esc(t.name)}</b>${waLinkHTML(t.phone, message, 'WhatsApp Bhejein')}</div>`;
+    }).join('');
+    return `🧑‍🏫 <b>Aaj Ghair Hazir Asatiza</b> &mdash; <b>${fmtNum(withNum.length)}</b> ko paigham bhej sakte hain:${links}`;
+  }
+
   window.answerAIQuery = function(raw){
     const q = String(raw||'').toLowerCase().trim();
     if(!q) return helpMessage();
@@ -8478,6 +8596,8 @@ window.checkAndShowTeacherNotice = function(){
     const attWord = has(q, ['hazir','hazri','attendance','present','absent','ہاضر','حاضری']);
     const admissionWord = has(q, ['admission','dakhla','داخلہ','naya talib','new student']);
     const teacherWord = has(q, ['teacher','ustad','asatiza','استاد','اساتذہ']);
+    const photoWord = has(q, ['tasveer','tasvir','tasweer','photo','picture','تصویر']);
+    const numberWord = has(q, ['number','contact','phone','رابطہ']);
     const totalWord = has(q, ['kitne','kitni','total','kul','count','کتنے','کتنی','کل']);
     const studentWord = has(q, ['talaba','talib','student','bache','بچے','طلبا']);
     const helpWord = has(q, ['help','madad','مدد','kya kya','commands']);
@@ -8485,10 +8605,13 @@ window.checkAndShowTeacherNotice = function(){
     const sendWord = has(q, ['bhej','bhijw','send','بھیج','paigham kar','message kar']);
 
     const namedStudent = findStudentByName(q);
+    const namedTeacher = findTeacherByName(q);
 
-    /* ---- Action intent: send WhatsApp (single student or bulk / follow-up) ---- */
+    /* ---- Action intent: send WhatsApp (single person, or bulk / follow-up) ---- */
     if(sendWord){
+      if(namedTeacher) return singleTeacherSendAction(namedTeacher);
       if(namedStudent){
+        if(photoWord) return singleSendAction(namedStudent, 'photo');
         if(feeWord || dueWord) return singleSendAction(namedStudent, 'fee');
         if(attWord) return singleSendAction(namedStudent, 'absent');
         const det = feeBreakdown(namedStudent.id, currentMonth);
@@ -8496,16 +8619,24 @@ window.checkAndShowTeacherNotice = function(){
         const today = (typeof todayISO==='function') ? todayISO() : new Date().toISOString().slice(0,10);
         const rec = ((DB.attendance||{})[namedStudent.section]||{})[today] || {};
         if(rec[namedStudent.id]==='A') return singleSendAction(namedStudent, 'absent');
-        return `👤 <b>${esc(namedStudent.name)}</b> ki fee baqi nahi hai aur woh aaj hazir hai &mdash; paigham bhejne ki zaroorat nahi.`;
+        if(!namedStudent.photo) return singleSendAction(namedStudent, 'photo');
+        return `👤 <b>${esc(namedStudent.name)}</b> ka fee, hazri aur tasveer sab theek hai &mdash; paigham bhejne ki zaroorat nahi.`;
       }
+      if(teacherWord) return bulkTeacherAbsentSend();
+      if(photoWord) return bulkSendAction('photo');
       if(feeWord || dueWord) return bulkSendAction('feeDue');
       if(attWord) return bulkSendAction('absent');
+      if(lastQueryType==='teacherAbsent') return bulkTeacherAbsentSend();
+      if(lastQueryType==='photo') return bulkSendAction('photo');
       if(lastQueryType==='feeDue') return bulkSendAction('feeDue');
       if(lastQueryType==='absent') return bulkSendAction('absent');
-      return 'Kis group ko paigham bhejna hai? Pehle poochein "kin bachon ki fee baqi hai" ya "aaj kon ghair hazir hai", phir "WhatsApp bhej do" kahain.';
+      return 'Kis group ko paigham bhejna hai? Pehle poochein "kin bachon ki fee baqi hai", "aaj kon ghair hazir hai" ya "kis ki tasveer nahi lagi", phir "WhatsApp bhej do" kahain.';
     }
 
     /* ---- Informational intents ---- */
+    if(teacherWord && attWord) return teacherAttendanceReport();
+    if(photoWord) return missingPhotoReport();
+    if(numberWord) return missingContactReport();
     if(feeWord && dueWord){ lastQueryType = 'feeDue'; return feeDueReport(); }
     if(feeWord && paidWord) return feeCollectionReport();
     if(collectionWord) return feeCollectionReport();
