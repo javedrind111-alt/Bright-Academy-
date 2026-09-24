@@ -8225,14 +8225,11 @@ window.checkAndShowTeacherNotice = function(){
     if(!text) return;
     addUserMessage(text);
     input.value = '';
+    let answer;
+    try{ answer = answerAIQuery(text); } // computed synchronously so any WhatsApp window.open() stays inside the user's click/tap gesture — doing this inside setTimeout gets it silently popup-blocked
+    catch(err){ console.error('AI agent error:', err); answer = 'Maazrat, jawab tayar karte waqt masla pesh aaya.'; }
     addTyping();
-    setTimeout(()=>{
-      removeTyping();
-      let answer;
-      try{ answer = answerAIQuery(text); }
-      catch(err){ console.error('AI agent error:', err); answer = 'Maazrat, jawab tayar karte waqt masla pesh aaya.'; }
-      addBotMessage(answer);
-    }, 260);
+    setTimeout(()=>{ removeTyping(); addBotMessage(answer); }, 220);
   };
   document.addEventListener('DOMContentLoaded', function(){
     const inp = el('aiTextInput');
@@ -8288,30 +8285,54 @@ window.checkAndShowTeacherNotice = function(){
 
   /* ---------- NLU / answer engine (works fully offline on local data) ---------- */
   function has(q, arr){ return arr.some(k=>q.includes(k)); }
+  function hasWholeWord(q, words){
+    return words.some(w=>{
+      const re = new RegExp('(^|[^a-z0-9\\u0600-\\u06FF])'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'([^a-z0-9\\u0600-\\u06FF]|$)','i');
+      return re.test(q);
+    });
+  }
+  // Different Urdu keyboards / speech-recognition engines output Arabic vs Urdu forms of the same letter
+  // (ي vs ی, ك vs ک, ة vs ہ) and stray diacritics — normalize so our keyword lists match either form.
+  function normalizeUrdu(str){
+    return String(str||'')
+      .replace(/ي/g,'ی').replace(/ك/g,'ک').replace(/ة/g,'ہ').replace(/ۀ/g,'ہ')
+      .replace(/[ًٌٍَُِّْٰ‌‍]/g,'')
+      .replace(/[؟!،۔]/g,' ')
+      .replace(/\s+/g,' ')
+      .trim();
+  }
   function fmtNum(n){ return (n||0).toLocaleString('en-US'); }
 
-  function findStudentByName(q){
-    if(!DB || !Array.isArray(DB.students)) return null;
-    const cleaned = q.replace(/[?؟]/g,'').trim();
-    let best = null, bestLen = 0;
-    DB.students.forEach(s=>{
-      if(!s.name) return;
-      const n = s.name.toLowerCase();
-      if(n.length>2 && cleaned.includes(n) && n.length>bestLen){ best = s; bestLen = n.length; }
+  function bestPersonMatch(q, list, nameField){
+    if(!Array.isArray(list) || !list.length) return null;
+    const cleaned = q.replace(/[?؟!.,،۔]/g,' ').trim();
+    if(cleaned.length<2) return null;
+    const qTokens = cleaned.split(/\s+/).filter(t=>t.length>=3);
+    let best = null, bestScore = 0;
+    list.forEach(person=>{
+      const raw = person[nameField];
+      if(!raw) return;
+      const n = normalizeUrdu(raw.toLowerCase()).trim();
+      if(n.length<2) return;
+      let score = 0;
+      if(cleaned.includes(n)) score = n.length + 100; // full stored name appears in the question — most confident
+      else if(n.includes(cleaned) && cleaned.length>=3) score = cleaned.length + 50; // short/partial name typed, name contains it
+      else {
+        const nameTokens = n.split(/\s+/).filter(t=>t.length>=3);
+        const matchedTokens = nameTokens.filter(t=>qTokens.includes(t));
+        if(matchedTokens.length) score = matchedTokens.reduce((a,t)=>a+t.length,0);
+      }
+      if(score>bestScore){ bestScore=score; best=person; }
     });
     return best;
   }
-
+  function findStudentByName(q){
+    if(!DB || !Array.isArray(DB.students)) return null;
+    return bestPersonMatch(q, DB.students, 'name');
+  }
   function findTeacherByName(q){
     if(!DB || !Array.isArray(DB.teachers)) return null;
-    const cleaned = q.replace(/[?؟]/g,'').trim();
-    let best = null, bestLen = 0;
-    DB.teachers.forEach(t=>{
-      if(!t.name) return;
-      const n = t.name.toLowerCase();
-      if(n.length>2 && cleaned.includes(n) && n.length>bestLen){ best = t; bestLen = n.length; }
-    });
-    return best;
+    return bestPersonMatch(q, DB.teachers, 'name');
   }
 
   function missingPhotoIds(){
@@ -8481,7 +8502,7 @@ window.checkAndShowTeacherNotice = function(){
     const num = (typeof toWaNumber==='function') ? toWaNumber(contact) : null;
     if(!num) return '';
     const url = 'https://wa.me/'+num+'?text='+encodeURIComponent(message);
-    return `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;background:#25D366;color:#fff;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 12px;border-radius:999px;margin-top:8px;">📲 ${esc(label||'WhatsApp Kholein')}</a>`;
+    return `<a href="${url}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#25D366;color:#fff;text-decoration:none;font-size:12.5px;font-weight:700;padding:9px 14px;border-radius:10px;margin-top:8px;">📲 ${esc(label||'WhatsApp Par Bhejein')}</a>`;
   }
   function bulkSendAction(kind){
     if(!isAdminNow()) return 'Yeh sahulat sirf Admin login se dastyab hai.';
@@ -8548,7 +8569,7 @@ window.checkAndShowTeacherNotice = function(){
     if(!num) return `👤 <b>${esc(s.name)}</b> (${contextNote}) &mdash; is talib-e-ilm ka WhatsApp number darj nahi hai. Pehle "Students" mein number darj karein.`;
     try{ window.open('https://wa.me/'+num+'?text='+encodeURIComponent(message), '_blank'); }catch(e){}
     lastQueryType = null;
-    return `👤 <b>${esc(s.name)}</b> &mdash; ${contextNote}<br>WhatsApp khola ja raha hai...${waLinkHTML(s.contact, message, 'Dobara Kholein')}`;
+    return `👤 <b>${esc(s.name)}</b> &mdash; ${contextNote}<br>Paigham taiyar hai.${waLinkHTML(s.contact, message, 'WhatsApp Par Bhejein')}`;
   }
 
   /* ---------- Teacher absent messaging (no bulk page exists for teachers, so we render one WhatsApp link per teacher inline) ---------- */
@@ -8567,7 +8588,7 @@ window.checkAndShowTeacherNotice = function(){
     if(!num) return `👤 <b>${esc(t.name)}</b> (Aaj ghair hazir) &mdash; inka WhatsApp number darj nahi hai. Pehle "Teachers" mein number darj karein.`;
     try{ window.open('https://wa.me/'+num+'?text='+encodeURIComponent(message), '_blank'); }catch(e){}
     lastQueryType = null;
-    return `👤 <b>${esc(t.name)}</b> &mdash; Aaj ghair hazir<br>WhatsApp khola ja raha hai...${waLinkHTML(t.phone, message, 'Dobara Kholein')}`;
+    return `👤 <b>${esc(t.name)}</b> &mdash; Aaj ghair hazir<br>Paigham taiyar hai.${waLinkHTML(t.phone, message, 'WhatsApp Par Bhejein')}`;
   }
   function bulkTeacherAbsentSend(){
     if(!isAdminNow()) return 'Yeh sahulat sirf Admin login se dastyab hai.';
@@ -8585,24 +8606,24 @@ window.checkAndShowTeacherNotice = function(){
   }
 
   window.answerAIQuery = function(raw){
-    const q = String(raw||'').toLowerCase().trim();
+    const q = normalizeUrdu(String(raw||'').toLowerCase().trim());
     if(!q) return helpMessage();
     if(typeof DB==='undefined' || !DB || !Array.isArray(DB.students)) return 'Data abhi load ho raha hai, thori dair mein dobara koshish karein.';
 
-    const feeWord = has(q, ['fee','fees','فیس']);
-    const dueWord = has(q, ['nahi','baqi','due','not paid','pending','baqaya','باقی','نہیں','بقایا']);
-    const paidWord = has(q, ['jama','paid','submit','de di','wasool','ادا','جمع']);
-    const collectionWord = has(q, ['collection','wasooli','وصولی','kitni aa chuki','kitna aaya']);
-    const attWord = has(q, ['hazir','hazri','attendance','present','absent','ہاضر','حاضری']);
-    const admissionWord = has(q, ['admission','dakhla','داخلہ','naya talib','new student']);
-    const teacherWord = has(q, ['teacher','ustad','asatiza','استاد','اساتذہ']);
-    const photoWord = has(q, ['tasveer','tasvir','tasweer','photo','picture','تصویر']);
-    const numberWord = has(q, ['number','contact','phone','رابطہ']);
-    const totalWord = has(q, ['kitne','kitni','total','kul','count','کتنے','کتنی','کل']);
-    const studentWord = has(q, ['talaba','talib','student','bache','بچے','طلبا']);
-    const helpWord = has(q, ['help','madad','مدد','kya kya','commands']);
+    const feeWord = has(q, ['fee','fees','فیس','فيس']);
+    const dueWord = has(q, ['nahi','baqi','due','not paid','pending','baqaya','باقی','بقایا','نہیں','واجب','رہتی','رہتا','بچی']);
+    const paidWord = has(q, ['jama','paid','submit','de di','wasool','ادا','جمع','دےدی','مکمل']);
+    const collectionWord = has(q, ['collection','wasooli','وصولی','اکٹھی','kitni aa chuki','kitna aaya']);
+    const attWord = has(q, ['hazir','hazri','attendance','present','absent','ہاضر','حاضر','حاضری','غیرحاضر','غیر حاضر']);
+    const admissionWord = has(q, ['admission','dakhla','داخلہ','naya talib','new student','نیا داخلہ','نئے طلبا']);
+    const teacherWord = has(q, ['teacher','ustad','ustani','ustania','asatiza','عملہ','استاد','اساتذہ','استانی']) || hasWholeWord(q, ['sir','miss','madam','staff']);
+    const photoWord = has(q, ['tasveer','tasvir','tasweer','photo','picture','تصویر','تصاویر','تصویریں']);
+    const numberWord = has(q, ['number','contact','phone','رابطہ','نمبر','موبائل']);
+    const totalWord = has(q, ['kitne','kitni','total','kul','count','کتنے','کتنی','کل','تعداد']);
+    const studentWord = has(q, ['talaba','talib','student','bache','بچے','طلبا','طالب علم','بچوں']);
+    const helpWord = has(q, ['help','madad','مدد','kya kya','commands','رہنمائی']);
     const greetWord = has(q, ['salam','السلام','hello','hi','ہیلو']);
-    const sendWord = has(q, ['bhej','bhijw','send','بھیج','paigham kar','message kar']);
+    const sendWord = has(q, ['bhej','bhijw','send','بھیج','ارسال','paigham kar','message kar']);
 
     const namedStudent = findStudentByName(q);
     const namedTeacher = findTeacherByName(q);
@@ -8637,14 +8658,14 @@ window.checkAndShowTeacherNotice = function(){
     if(teacherWord && attWord) return teacherAttendanceReport();
     if(photoWord) return missingPhotoReport();
     if(numberWord) return missingContactReport();
-    if(feeWord && dueWord){ lastQueryType = 'feeDue'; return feeDueReport(); }
-    if(feeWord && paidWord) return feeCollectionReport();
+    if(feeWord && paidWord && !dueWord) return feeCollectionReport();
     if(collectionWord) return feeCollectionReport();
+    if(feeWord || (dueWord && !attWord && !admissionWord && !teacherWord)){ lastQueryType = 'feeDue'; return feeDueReport(); } // bare "fee?" or bare "baqi?" defaults to the fee-due report — the most common ask
     if(attWord){ lastQueryType = 'absent'; return attendanceReport(); }
     if(admissionWord) return admissionsReport();
     if(teacherWord) return teachersReport();
-    if(studentWord && totalWord) return studentsTotalReport();
-    if(studentWord && !feeWord) return studentsTotalReport();
+    if(studentWord) return studentsTotalReport();
+    if(totalWord) return studentsTotalReport(); // bare "kitne/kul/total?" with no other subject — assume student count
     if(helpWord) return helpMessage();
 
     if(namedStudent) return studentFeeDetail(namedStudent);
