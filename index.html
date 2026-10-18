@@ -1952,7 +1952,7 @@ table.m-cards td[style*="nowrap"]{white-space:normal !important; flex-wrap:wrap;
     <section id="page-students" class="page section-hidden">
       <div class="dir-toolbar no-print">
         <div class="dir-controls">
-          <input type="text" id="studentSearch" placeholder="🔍 Naam, walid ka naam ya ID dhoondein..." style="min-width:240px;">
+          <input type="text" id="studentSearch" placeholder="🔍 Naam, walid ka naam ya ID (e.g. 102) dhoondein..." style="min-width:240px;">
           <select id="studentSectionFilter"><option value="">Tamam Sections</option></select>
           <select id="studentStatusFilter" onchange="renderStudents()">
             <option value="">Tamam Talaba</option>
@@ -2304,7 +2304,7 @@ table.m-cards td[style*="nowrap"]{white-space:normal !important; flex-wrap:wrap;
       <div class="searchbar no-print">
         <select id="feeSectionFilter"><option value="">Tamam Sections</option></select>
         <select id="feeMonthPicker"></select>
-        <input type="text" id="feeSearch" placeholder="Naam ya ID se dhoondein...">
+        <input type="text" id="feeSearch" placeholder="Naam ya ID (e.g. 102) se dhoondein...">
       </div>
       <div class="metric-grid" id="feeOverviewCards"></div>
       <div class="card">
@@ -2324,7 +2324,7 @@ table.m-cards td[style*="nowrap"]{white-space:normal !important; flex-wrap:wrap;
           <option value="remaining">Sirf Fee Baqi</option>
           <option value="paid">Sirf Fee Jama</option>
         </select>
-        <input type="text" id="feeStatSearch" placeholder="Naam se dhoondein...">
+        <input type="text" id="feeStatSearch" placeholder="Naam ya ID (e.g. 102) se dhoondein...">
       </div>
       <div class="metric-grid" id="feeStatCards"></div>
       <div class="card">
@@ -2347,7 +2347,7 @@ table.m-cards td[style*="nowrap"]{white-space:normal !important; flex-wrap:wrap;
           <div class="field" style="margin-top:14px;">
             <label>Ya Student ID manual darj karein</label>
             <div style="display:flex; gap:8px;">
-              <input type="text" id="manualIdInput" placeholder="e.g. IQR-001">
+              <input type="text" id="manualIdInput" placeholder="e.g. 102 or BAN-102">
               <button class="btn sm" id="manualLookupBtn">Check</button>
             </div>
           </div>
@@ -2424,7 +2424,7 @@ table.m-cards td[style*="nowrap"]{white-space:normal !important; flex-wrap:wrap;
         </div>
 
         <div class="searchbar no-print">
-          <input type="text" id="bwaSearch" placeholder="Naam se dhoondein...">
+          <input type="text" id="bwaSearch" placeholder="Naam ya ID (e.g. 102) se dhoondein...">
           <select id="bwaSectionFilter"></select>
           <span class="tag" id="bwaCountTag">0 muntakhib</span>
         </div>
@@ -2464,7 +2464,7 @@ table.m-cards td[style*="nowrap"]{white-space:normal !important; flex-wrap:wrap;
     <section id="page-sabaq" class="page section-hidden">
       <div class="searchbar no-print">
         <select id="sabaqSectionFilter"></select>
-        <input type="text" id="sabaqSearch" placeholder="Naam se dhoondein...">
+        <input type="text" id="sabaqSearch" placeholder="Naam ya ID (e.g. 102) se dhoondein...">
       </div>
       <div class="card">
         <h3>Sabaq / Nazira Progress Report <span class="tag" id="sabaqMonthTag"></span></h3>
@@ -3286,11 +3286,10 @@ function seedStudents(){
    ["Urhan","M. Awais","","","","alif"],
    ["Zohra","Wali Shah","","","","alif"],
   ];
-  const counters = {};
+  let seq = 0;
   return raw.map(r=>{
     const [name,father,address,contact,dob,section] = r;
-    counters[section] = (counters[section]||0)+1;
-    const id = section.slice(0,3).toUpperCase()+'-'+String(counters[section]).padStart(3,'0');
+    const id = String(++seq); // internal numeric ID (display = BAN-001)
     // joinMonth:null => no restriction (pehle se darj talaba, purani fehrist)
     return {id,name,father,address,contact,dob,section,gender:'',fee:SECTION_META[section].fee, active:true, joinMonth:null, photo:'', fisabilillah:false};
   });
@@ -3306,6 +3305,71 @@ const DEFAULT_META = {
   easypaisaTitle:''
 };
 
+/* ================= STUDENT REGISTRATION ID (BAN-xxx) =================
+   Internal student.id is a pure number (stored as a digit string, e.g. "102").
+   The display Registration ID is built on the fly: "BAN-" + padded number.
+   One continuous sequence for the whole academy - no class prefixes. */
+const REG_PREFIX = 'BAN';
+function isNumericId(v){ return /^\d+$/.test(String(v==null?'':v)); }
+function regId(s){
+  const id = (s && typeof s==='object') ? s.id : s;
+  if(!isNumericId(id)) return String(id==null?'':id);
+  return REG_PREFIX + '-' + String(parseInt(id,10)).padStart(3,'0');
+}
+function nextStudentNumber(db){
+  let max = 0;
+  (db.students||[]).forEach(s=>{ if(isNumericId(s.id)) max = Math.max(max, parseInt(s.id,10)); });
+  const n = Math.max(max+1, Number(db.nextStudentNo)||1);
+  return n;
+}
+/* "102", "BAN-102", "ban 102", "BAN102" -> student record id; also old IQR-001 style IDs (legacyId) */
+function resolveStudentId(input){
+  const raw = String(input==null?'':input).trim();
+  if(!raw) return null;
+  const m = raw.toUpperCase().match(/^(?:BAN)?[\s\-_]*(\d+)$/);
+  if(m){
+    const id = String(parseInt(m[1],10));
+    return DB.students.some(s=>s.id===id) ? id : null;
+  }
+  const up = raw.toUpperCase();
+  const hit = DB.students.find(s=>String(s.legacyId||'').toUpperCase()===up || String(s.id).toUpperCase()===up);
+  return hit ? hit.id : null;
+}
+/* Search helper used by every student search box */
+function matchesIdQuery(s, q){
+  q = String(q||'').trim().toLowerCase();
+  if(!q) return true;
+  const m = q.match(/^(?:ban)?[\s\-_]*(\d+)$/);
+  if(m) return String(parseInt(m[1],10)) === String(s.id);
+  if(q.indexOf('ban')===0) return regId(s).toLowerCase().includes(q);
+  return String(s.legacyId||'').toLowerCase()===q;
+}
+function remapKeys(obj, map){
+  if(!obj || typeof obj!=='object') return;
+  Object.keys(map).forEach(o=>{
+    if(Object.prototype.hasOwnProperty.call(obj,o)){ obj[map[o]] = obj[o]; delete obj[o]; }
+  });
+}
+/* One-time migration: IQR-029 / NOO-001 ... -> 1, 2, 3 ... (keeps fees, attendance, sabaq, test marks) */
+function migrateStudentIds(db){
+  if(!db || !Array.isArray(db.students)) return false;
+  const old = db.students.filter(s=>!isNumericId(s.id));
+  if(!old.length) return false;
+  const map = {};
+  let n = nextStudentNumber(db);
+  old.forEach(s=>{ const o = String(s.id); const nid = String(n++); map[o]=nid; s.legacyId = o; s.id = nid; });
+  db.nextStudentNo = n;
+  Object.keys(db.fees||{}).forEach(m=>remapKeys(db.fees[m], map));
+  Object.keys(db.attendance||{}).forEach(sec=>{
+    Object.keys(db.attendance[sec]||{}).forEach(d=>remapKeys(db.attendance[sec][d], map));
+  });
+  remapKeys(db.sabaq, map);
+  Object.keys(db.tests||{}).forEach(sec=>{
+    (Array.isArray(db.tests[sec])?db.tests[sec]:[]).forEach(t=>remapKeys(t.marks, map));
+  });
+  return true;
+}
+
 function loadDB(){
   let raw = localStorage.getItem(DB_KEY);
   if(raw){
@@ -3318,6 +3382,7 @@ function loadDB(){
       if(!db.teacherAttendance) db.teacherAttendance = {};
       if(!db.holidays) db.holidays = {};
       db.students.forEach(s=>{ if(s.joinMonth===undefined) s.joinMonth=null; if(s.photo===undefined) s.photo=''; if(s.gender===undefined) s.gender=''; if(!SECTION_META[s.section]) s.section = 'iqra'; });
+      if(migrateStudentIds(db)) localStorage.setItem(DB_KEY, JSON.stringify(db));
       return db;
     }catch(e){ /* fall through to reseed */ }
   }
@@ -3460,6 +3525,7 @@ function refreshAllUI(){
 
 function applyCloudData(cloudData){
   if(!cloudData) return;
+  const idsMigrated = migrateStudentIds(cloudData);
   // Preserve locally saved student & teacher photos if cloud record is missing them
   if(Array.isArray(cloudData.students) && Array.isArray(DB.students)){
     cloudData.students.forEach(cs=>{
@@ -3489,6 +3555,7 @@ function applyCloudData(cloudData){
   }
   localStorage.setItem(DB_KEY, JSON.stringify(DB));
   refreshAllUI();
+  if(idsMigrated) setTimeout(()=>saveDB(DB), 0); // push the new BAN numbering back to the cloud
 }
 
 function initCloudSync(){
@@ -4069,7 +4136,7 @@ function bwaFilteredStudents(){
   const sec = document.getElementById('bwaSectionFilter').value;
   return DB.students.filter(s=>s.active!==false)
     .filter(s=> !sec || s.section===sec)
-    .filter(s=> !q || s.name.toLowerCase().includes(q) || (s.father||'').toLowerCase().includes(q));
+    .filter(s=> !q || s.name.toLowerCase().includes(q) || (s.father||'').toLowerCase().includes(q) || matchesIdQuery(s, q));
 }
 function renderBulkWA(){
   bwaFillSectionFilter();
@@ -6093,8 +6160,8 @@ function renderStudents() {
     if (q && !(
       (s.name || '').toLowerCase().includes(q) ||
       (s.father || '').toLowerCase().includes(q) ||
-      (s.id || '').toLowerCase().includes(q) ||
-      (s.contact || '').includes(q)
+      matchesIdQuery(s, q) ||
+      (/^\d{6,}$/.test(q) && (s.contact || '').includes(q))
     )) return false;
     return true;
   });
@@ -6115,7 +6182,7 @@ function renderStudents() {
     return `
       <div class="student-card" onclick="event.target.closest('.dock-btn') ? null : openStudentDossier('${s.id}')" style="cursor:pointer;">
         <div class="card-header-row">
-          <span class="student-sr-badge">SR: #${idx + 1} | ${s.id}</span>
+          <span class="student-sr-badge">SR: #${idx + 1} | ${regId(s)}</span>
           <span class="status-pill active">${s.fisabilillah ? 'Fisabilillah' : 'Active'}</span>
         </div>
 
@@ -6161,7 +6228,7 @@ function renderStudents() {
   const tableRows = list.map(s => `
     <tr>
       <td>${s.photo ? `<img src="${s.photo}" style="width:34px;height:34px;border-radius:8px;object-fit:cover;">` : `<div style="width:34px;height:34px;border-radius:8px;background:var(--teal-soft);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">${(s.name||'?').charAt(0)}</div>`}</td>
-      <td><b>${s.id}</b></td>
+      <td><b>${regId(s)}</b></td>
       <td><a href="javascript:void(0)" onclick="openStudentDossier('${s.id}')" style="font-weight:600; text-decoration:none; color:var(--teal-deep);">${s.name}</a>${s.fisabilillah ? ' '+fisabilillahPill() : ''}</td>
       <td>${s.father||'-'}</td>
       <td><span class="pill section">${s.gender==='female'?'Female':s.gender==='male'?'Male':'-'}</span></td>
@@ -6395,7 +6462,7 @@ function printCertificate(){
 function printAdmissionForm(){
   const s = studentById(activeDossierId); if(!s) return;
   const rows = [
-    ['\u0633\u06cc\u0631\u06cc\u0644 \u0646\u0645\u0628\u0631 / Serial', '#'+profileSerial(s)+'  (ID: '+s.id+')'],
+    ['\u0633\u06cc\u0631\u06cc\u0644 \u0646\u0645\u0628\u0631 / Serial', '#'+profileSerial(s)+'  (ID: '+regId(s)+')'],
     ['\u0637\u0627\u0644\u0628 \u0639\u0644\u0645 \u06a9\u0627 \u0646\u0627\u0645', s.name],
     ['\u0648\u0627\u0644\u062f \u06a9\u0627 \u0646\u0627\u0645', s.father],
     ['\u062c\u0646\u0633', s.gender==='female'?'\u0645\u0624\u0646\u062b':'\u0645\u0630\u06a9\u0631'],
@@ -6529,9 +6596,9 @@ document.getElementById('studentForm').addEventListener('submit', e=>{
   if(id){
     Object.assign(studentById(id), data);
   } else {
-    const countInSection = DB.students.filter(s=>s.section===section).length + 1;
-    const newId = section.slice(0,3).toUpperCase()+'-'+String(countInSection).padStart(3,'0');
-    data.id = DB.students.some(s=>s.id===newId) ? newId+'-'+Date.now().toString().slice(-4) : newId;
+    const nextNo = nextStudentNumber(DB);
+    data.id = String(nextNo);          // internal numeric ID; shown as BAN-001, BAN-002 ...
+    DB.nextStudentNo = nextNo + 1;     // never re-use a number, even after a delete
     if(!data.joinMonth) data.joinMonth = monthKey(new Date());
     DB.students.push(data);
   }
@@ -6593,7 +6660,7 @@ function openIdCard(id){
 
   applyIdCardTextFit('idc_name', formatIdCardName(s.name));
   applyIdCardTextFit('idc_father', formatIdCardName(s.father));
-  if(document.getElementById('idc_id')) document.getElementById('idc_id').textContent = s.id || '-';
+  if(document.getElementById('idc_id')) document.getElementById('idc_id').textContent = regId(s) || '-';
   if(document.getElementById('idc_section_title')) {
     const secLabel = (SECTION_META[s.section] ? SECTION_META[s.section].label : (s.section||'NAZIMA'));
     document.getElementById('idc_section_title').textContent = secLabel.toUpperCase() + ' SECTION';
@@ -6614,7 +6681,7 @@ function openIdCard(id){
   const box = document.getElementById('idCardQr');
   box.innerHTML = '';
   new QRCode(box, {
-    text: s.id,
+    text: regId(s),
     width: 74,
     height: 74,
     colorDark: '#14161a',
@@ -6645,7 +6712,7 @@ function renderFees(){
   const q = document.getElementById('feeSearch').value.trim().toLowerCase();
   const list = DB.students.filter(s=>{
     if(secF && s.section!==secF) return false;
-    if(q && !(s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q))) return false;
+    if(q && !(s.name.toLowerCase().includes(q) || matchesIdQuery(s, q))) return false;
     if(!isEnrolled(s, currentMonth)) return false;
     return true;
   });
@@ -6664,7 +6731,7 @@ function renderFees(){
     const pct = rec.amount>0 ? Math.round((rec.paidAmount||0)/rec.amount*100) : 0;
     return `<tr>
       <td>${s.photo ? `<img src="${s.photo}" style="width:30px;height:30px;border-radius:7px;object-fit:cover;">` : ''}</td>
-      <td><b>${s.id}</b></td>
+      <td><b>${regId(s)}</b></td>
       <td>${s.name}${s.fisabilillah ? ' '+fisabilillahPill() : ''}</td>
       <td><span class="pill section">${SECTION_META[s.section].label}</span></td>
       <td>${fmtMoney(rec.amount)}</td>
@@ -6704,7 +6771,7 @@ document.getElementById('feeExportBtn').addEventListener('click', ()=>{
      const details = feeBreakdown(s.id, currentMonth);
      const rec = details.rec;
     const pct = rec.amount>0 ? Math.round((rec.paidAmount||0)/rec.amount*100) : 0;
-     lines.push([s.id, s.name, SECTION_META[s.section].label, rec.amount, rec.paidAmount||0, pct+'%', details.thisMonthDue, details.previousDue, details.totalDue, s.fisabilillah?'Fi Sabilillah':(feeDue(rec, s)<=0?'Paid':'Due')].map(csvEscape).join(','));
+     lines.push([regId(s), s.name, SECTION_META[s.section].label, rec.amount, rec.paidAmount||0, pct+'%', details.thisMonthDue, details.previousDue, details.totalDue, s.fisabilillah?'Fi Sabilillah':(feeDue(rec, s)<=0?'Paid':'Due')].map(csvEscape).join(','));
   });
   downloadCSV(lines.join('\n'), `fee_report_${secF||'all'}_${currentMonth}.csv`);
 });
@@ -6717,7 +6784,7 @@ function openPaymentModal(studentId, mKey){
   const due = details.thisMonthDue;
   document.getElementById('pf_student').value = studentId;
   document.getElementById('pf_month').value = mKey;
-  document.getElementById('pf_pay_name').value = s.name+' ('+s.id+')';
+  document.getElementById('pf_pay_name').value = s.name+' ('+regId(s)+')';
   document.getElementById('pf_monthLabel').value = monthLabel(mKey);
   document.getElementById('pf_due').value = `This month: ${fmtMoney(due)} · Previous: ${fmtMoney(details.previousDue)} · Total: ${fmtMoney(details.totalDue)}`;
   document.getElementById('pf_amount').value = details.totalDue;
@@ -6750,7 +6817,7 @@ function openReceipt(studentId, mKey){
   document.getElementById('rc_line').textContent = DB.meta.instituteLine || DB.meta.instituteSub;
   document.getElementById('rc_no').textContent = 'Receipt #'+mKey.replace('-','')+'-'+studentId;
   document.getElementById('rc_name').textContent = s.name;
-  document.getElementById('rc_id').textContent = s.id;
+  document.getElementById('rc_id').textContent = regId(s);
   document.getElementById('rc_section').textContent = SECTION_META[s.section].label;
   document.getElementById('rc_month').textContent = monthLabel(mKey);
   document.getElementById('rc_fee').textContent = fmtMoney(rec.amount);
@@ -6769,7 +6836,7 @@ document.getElementById('receiptWhatsAppBtn').onclick = ()=>{
   const s = studentById(studentId);
   const details = feeBreakdown(studentId, mKey);
   const rec = details.rec;
-  const msg = `${DB.meta.instituteName}\nFees Receipt\n\nTalib-e-Ilm: ${s.name} (${s.id})\nSection: ${SECTION_META[s.section].label}\nMahina: ${monthLabel(mKey)}\nMaasi Fee: Rs. ${rec.amount||0}\nWasool Shuda (is dafa): Rs. ${rec.lastPaidAmount||rec.paidAmount||0}\nZariya: ${rec.method||'-'}\nTareekh: ${rec.paidDate||todayISO()}\nKul Jama Shuda (is mahine): Rs. ${rec.paidAmount||0}\nIs Mahine ka Baqi: ${s.fisabilillah?'فی سبیل اللہ':('Rs. '+details.thisMonthDue)}\nPichle Mahinon ka Baqi: ${s.fisabilillah?'فی سبیل اللہ':('Rs. '+details.previousDue)}\nKul Bakaya: ${s.fisabilillah?'فی سبیل اللہ':(details.totalDue>0?('Rs. '+details.totalDue):'Nil - Poori Fees Ada Shuda')}\n\nShukriya!\n- ${DB.meta.instituteName}`;
+  const msg = `${DB.meta.instituteName}\nFees Receipt\n\nTalib-e-Ilm: ${s.name} (${regId(s)})\nSection: ${SECTION_META[s.section].label}\nMahina: ${monthLabel(mKey)}\nMaasi Fee: Rs. ${rec.amount||0}\nWasool Shuda (is dafa): Rs. ${rec.lastPaidAmount||rec.paidAmount||0}\nZariya: ${rec.method||'-'}\nTareekh: ${rec.paidDate||todayISO()}\nKul Jama Shuda (is mahine): Rs. ${rec.paidAmount||0}\nIs Mahine ka Baqi: ${s.fisabilillah?'فی سبیل اللہ':('Rs. '+details.thisMonthDue)}\nPichle Mahinon ka Baqi: ${s.fisabilillah?'فی سبیل اللہ':('Rs. '+details.previousDue)}\nKul Bakaya: ${s.fisabilillah?'فی سبیل اللہ':(details.totalDue>0?('Rs. '+details.totalDue):'Nil - Poori Fees Ada Shuda')}\n\nShukriya!\n- ${DB.meta.instituteName}`;
   openWhatsApp(s.contact, msg);
 };
 
@@ -6777,10 +6844,11 @@ document.getElementById('receiptWhatsAppBtn').onclick = ()=>{
 let html5QrCode = null;
 function showScanResult(studentId){
   const box = document.getElementById('scanResultBox');
-  const s = studentById(studentId);
+  const rid = resolveStudentId(studentId);
+  const s = rid ? studentById(rid) : null;
   if(!s){
     box.className = 'scan-result empty';
-    box.innerHTML = `<div class="icon">&#10060;</div><div>ID "<b>${studentId}</b>" ka koi record nahi mila.</div>`;
+    box.innerHTML = `<div class="icon">&#10060;</div><div>ID "<b>${String(studentId).replace(/</g,'&lt;')}</b>" ka koi record nahi mila.</div>`;
     return;
   }
   const photoHTML = s.photo ? `<img src="${s.photo}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;margin-bottom:4px;">` : '';
@@ -7017,7 +7085,7 @@ function renderAttendance(){
     const status = dayRec[s.id] || (holInfo ? 'H' : 'unmarked');
     if(status==='P') present++; else if(status==='A') absent++; else if(status==='L') leave++; else if(status==='H') holiday++;
     return `<tr>
-      <td><b>${s.id}</b></td><td>${s.name}</td><td>${s.father||'-'}</td>
+      <td><b>${regId(s)}</b></td><td>${s.name}</td><td>${s.father||'-'}</td>
       <td class="no-print" style="white-space:nowrap;">
         <button class="btn sm ${status==='P'?'green':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','P')">&#10003; Present</button>
         <button class="btn sm ${status==='A'?'danger':'ghost'}" onclick="setAttendance('${sec}','${date}','${s.id}','A')">&#10007; Absent</button>
@@ -7111,7 +7179,7 @@ function renderAttendanceReport(){
     }).join('');
     return `<tr>
       <td class="dg-name">${r.student.name}</td>
-      <td class="dg-id">${r.student.id}</td>
+      <td class="dg-id">${regId(r.student)}</td>
       ${dayCells}
       <td class="dg-sum P">${r.present}</td>
       <td class="dg-sum A">${r.absent}</td>
@@ -7171,7 +7239,7 @@ function renderFeeStatus(){
   const remN = payers.length - paidN;
 
   const shown = info.filter(x=>{
-    if(q && !x.s.name.toLowerCase().includes(q)) return false;
+    if(q && !(x.s.name.toLowerCase().includes(q) || matchesIdQuery(x.s, q))) return false;
     if(statF==='remaining') return !x.f.exempt && x.f.due>0;
     if(statF==='paid') return x.f.exempt || x.f.due<=0;
     return true;
@@ -7226,7 +7294,7 @@ function renderSabaq(){
   if(!document.getElementById('sabaqSectionFilter').value) document.getElementById('sabaqSectionFilter').value = allowedSectionKeys()[0] || SECTION_KEYS[0];
   const sec = document.getElementById('sabaqSectionFilter').value;
   const q = document.getElementById('sabaqSearch').value.trim().toLowerCase();
-  const list = DB.students.filter(s=>s.section===sec && (!q || s.name.toLowerCase().includes(q)));
+  const list = DB.students.filter(s=>s.section===sec && (!q || s.name.toLowerCase().includes(q) || matchesIdQuery(s, q)));
   document.getElementById('sabaqMonthTag').textContent = monthLabel(currentMonth);
 
   const yadOpt = v=>`<option value="yad" ${v==='yad'?'selected':''}>Yaad</option><option value="nahi" ${v==='nahi'?'selected':''}>Nahi</option>`;
@@ -7416,6 +7484,7 @@ document.getElementById('importFile').addEventListener('change', e=>{
       if(!data.tests) data.tests = {};
       if(!data.holidays) data.holidays = {};
       data.students.forEach(s=>{ if(s.gender===undefined) s.gender=''; if(s.joinMonth===undefined) s.joinMonth=null; if(s.photo===undefined) s.photo=''; });
+      migrateStudentIds(data);
       DB = data;
       saveDB(DB);
       renderBrand();
@@ -7670,7 +7739,7 @@ function printAllFeeSlips(){
   var q = document.getElementById('feeSearch').value.trim().toLowerCase();
   var list = DB.students.filter(function(s){
     if(secF && s.section !== secF) return false;
-    if(q && !(s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q))) return false;
+    if(q && !(s.name.toLowerCase().includes(q) || matchesIdQuery(s, q))) return false;
     if(!isEnrolled(s, currentMonth)) return false;
     return true;
   });
